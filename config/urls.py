@@ -26,6 +26,6 @@ if settings.DEBUG:
             ),
         ]
     )
-admin.site.site_header = "Blueprint Django-Ateliware"
+admin.site.site_header = "SOS RS Caronas"
 admin.site.index_title = "Recursos disponíveis"
-admin.site.site_title = "Ateliware - Django Blueprint"
+admin.site.site_title = "SOS RS Caronas"
