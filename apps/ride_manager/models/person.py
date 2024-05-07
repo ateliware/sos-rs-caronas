@@ -4,10 +4,11 @@ from uuid import uuid4
 from django.core.exceptions import ValidationError
 from django.db import models
 
+from apps.address_manager.models.base_address import BaseAddress
 from apps.core.models import BaseModel, CustomUser
 from apps.core.utils.cpf_validator import CpfValidator
 from apps.core.utils.regex_utils import get_only_numbers
-from apps.address_manager.models.base_address import BaseAddress
+
 
 def upload_path(instance, filename):
     return os.path.join(
@@ -16,7 +17,8 @@ def upload_path(instance, filename):
         filename,
     )
 
-class Person(BaseModel):
+
+class Person(BaseModel, BaseAddress):
     class Meta:
         verbose_name = "Pessoa"
         verbose_name_plural = "Pessoas"
@@ -59,9 +61,8 @@ class Person(BaseModel):
         blank=True,
     )
     cnh_number = models.CharField(
-        max_length=11,
+        max_length=15,
         verbose_name="Número da CNH",
-        unique=True,
         null=True,
         blank=True,
     )
@@ -86,14 +87,14 @@ class Person(BaseModel):
         verbose_name="Verificado",
         default=False,
     )
-    
+
     def save(self, *args, **kwargs):
         self.cpf = get_only_numbers(self.cpf)
         cpf_is_valid = CpfValidator().validate_cpf(self.cpf)
 
         if not cpf_is_valid:
             raise ValidationError({"cpf": "CPF inválido."})
-        
+
         return super().save(*args, **kwargs)
 
     def __str__(self):
