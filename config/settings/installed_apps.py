@@ -9,6 +9,7 @@ INSTALLED_APPS = [
     "apps.core",
     "apps.address_manager",
     "apps.term_manager",
+    "apps.ride_manager",
     # 3rd apps
     "rest_framework",
     "rest_framework_simplejwt",
