@@ -1,11 +1,10 @@
-from django.test import TestCase
-
 from apps.core.admin import CustomUserAdmin
 from apps.core.models import CustomUser
+from apps.core.tests.base_test import BaseTest
 from apps.core.tests.factories import CustomUserFactory
 
 
-class CustomUserAdminTest(TestCase):
+class CustomUserAdminTest(BaseTest):
     def setUp(self) -> None:
         super().setUp()
         self.user = CustomUserFactory()
@@ -20,13 +19,8 @@ class CustomUserAdminTest(TestCase):
             "is_staff",
         ]
 
-        # When
-        result = self.admin.list_display
-
-        # Then
-        for item in expected_list_display:
-            with self.subTest(item=item):
-                self.assertIn(item, result)
+        # When/Then
+        self.execute_admin_tests(expected_list_display, "list_display")
 
     def test_list_filter(self):
         # Given
@@ -34,13 +28,8 @@ class CustomUserAdminTest(TestCase):
             "is_staff",
         ]
 
-        # When
-        result = self.admin.list_filter
-
-        # Then
-        for item in expected_list_filter:
-            with self.subTest(item=item):
-                self.assertIn(item, result)
+        # When/Then
+        self.execute_admin_tests(expected_list_filter, "list_filter")
 
     def test_fieldsets(self):
         # Given
@@ -96,13 +85,8 @@ class CustomUserAdminTest(TestCase):
             "last_name",
         ]
 
-        # When
-        result = self.admin.search_fields
-
-        # Then
-        for item in expected_search_fields:
-            with self.subTest(item=item):
-                self.assertIn(item, result)
+        # When/Then
+        self.execute_admin_tests(expected_search_fields, "search_fields")
 
     def test_ordering(self):
         # Given
@@ -112,10 +96,5 @@ class CustomUserAdminTest(TestCase):
             "email",
         ]
 
-        # When
-        result = self.admin.ordering
-
-        # Then
-        for item in expected_ordering:
-            with self.subTest(item=item):
-                self.assertIn(item, result)
+        # When/Then
+        self.execute_admin_tests(expected_ordering, "ordering")

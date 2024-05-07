@@ -18,13 +18,8 @@ class CityAdminTest(BaseTest):
             "is_active",
         ]
 
-        # When
-        result = self.admin.list_display
-
-        # Then
-        for item in expected_list_display:
-            with self.subTest(item=item):
-                self.assertIn(item, result)
+        # When/Then
+        self.execute_admin_tests(expected_list_display, "list_display")
 
     def test_fields(self):
         # Given
@@ -37,13 +32,8 @@ class CityAdminTest(BaseTest):
             "is_active",
         ]
 
-        # When
-        result = self.admin.fields
-
-        # Then
-        for item in expected_fields:
-            with self.subTest(item=item):
-                self.assertIn(item, result)
+        # When/Then
+        self.execute_admin_tests(expected_fields, "fields")
 
     def test_search_fields(self):
         # Given
@@ -52,13 +42,8 @@ class CityAdminTest(BaseTest):
             "state__name",
         ]
 
-        # When
-        result = self.admin.search_fields
-
-        # Then
-        for item in expected_search_fields:
-            with self.subTest(item=item):
-                self.assertIn(item, result)
+        # When/Then
+        self.execute_admin_tests(expected_search_fields, "search_fields")
 
     def test_ordering(self):
         # Given
@@ -67,11 +52,8 @@ class CityAdminTest(BaseTest):
             "name",
         ]
 
-        # When
-        result = self.admin.ordering
-
-        # Then
-        self.assertEqual(expected_ordering, result)
+        # When/Then
+        self.execute_admin_tests(expected_ordering, "ordering")
 
     def test_list_filter(self):
         # Given
@@ -79,13 +61,8 @@ class CityAdminTest(BaseTest):
             "is_active",
         ]
 
-        # When
-        result = self.admin.list_filter
-
-        # Then
-        for item in expected_list_filter:
-            with self.subTest(item=item):
-                self.assertIn(item, result)
+        # When/Then
+        self.execute_admin_tests(expected_list_filter, "list_filter")
 
     def test_readonly_fields(self):
         # Given
@@ -95,10 +72,5 @@ class CityAdminTest(BaseTest):
             "updated_at",
         ]
 
-        # When
-        result = self.admin.readonly_fields
-
-        # Then
-        for item in expected_readonly_fields:
-            with self.subTest(item=item):
-                self.assertIn(item, result)
+        # When/Then
+        self.execute_admin_tests(expected_readonly_fields, "readonly_fields")
