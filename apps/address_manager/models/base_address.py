@@ -14,24 +14,6 @@ class BaseAddress(models.Model):
     can be combinated with BaseGeolocation model to store geolocation information.
     """
 
-    street = models.CharField(
-        max_length=255,
-        verbose_name="Nome da Rua/Avenida",
-    )
-    number = models.CharField(
-        max_length=10,
-        verbose_name="Número",
-    )
-    complement = models.CharField(
-        max_length=255,
-        verbose_name="Complemento",
-        null=True,
-        blank=True,
-    )
-    neighborhood = models.CharField(
-        max_length=255,
-        verbose_name="Bairro",
-    )
     city = models.ForeignKey(
         City,
         on_delete=models.CASCADE,
