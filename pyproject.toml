@@ -1,0 +1,34 @@
+[tool.black]
+line-length = 80
+target-version = ['py37']
+exclude = '''
+/(
+    \.git
+  | \.mypy_cache
+  | \.tox
+  | venv
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | migrations
+)/
+'''
+
+[tool.isort]
+line_length = 80
+profile = "django"
+multi_line_output = 3
+skip = [
+    "migrations",
+    ".git",
+    ".mypy_cache",
+    ".tox",
+    "venv",
+    ".venv",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+]
