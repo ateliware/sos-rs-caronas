@@ -1,10 +1,15 @@
 from unittest.mock import Mock, patch
-from apps.core.tests.base_test import BaseTest
-from apps.ride_manager.services.validate_phone_service import ValidatePhoneService
 
-PATCH = 'apps.ride_manager.services.validate_phone_service.TwilioIntegration'
+from apps.core.tests.base_test import BaseTest
+from apps.ride_manager.services.validate_phone_service import (
+    ValidatePhoneService,
+)
+
+PATCH = "apps.ride_manager.services.validate_phone_service.TwilioIntegration"
+
+
 class TestValidatePhoneService(BaseTest):
-    
+
     @patch(PATCH, autospec=True)
     def test_send_code(self, mock_twilio_integration):
         # Given
@@ -20,8 +25,9 @@ class TestValidatePhoneService(BaseTest):
 
         # Assert
         assert response["status"] == "pending"
-        mock_twilio_integration_instance.send_code.assert_called_once_with(phone_number)
-
+        mock_twilio_integration_instance.send_code.assert_called_once_with(
+            phone_number
+        )
 
     @patch(PATCH, autospec=True)
     def test_is_code_valid(self, mock_twilio_integration):
@@ -44,4 +50,6 @@ class TestValidatePhoneService(BaseTest):
 
         # Assert
         assert response["status"] == "approved"
-        mock_twilio_integration_instance.is_code_valid.assert_called_once_with(phone_number, code, service_sid)
+        mock_twilio_integration_instance.is_code_valid.assert_called_once_with(
+            phone_number, code, service_sid
+        )

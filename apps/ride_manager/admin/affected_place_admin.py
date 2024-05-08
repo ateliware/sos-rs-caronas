@@ -17,7 +17,7 @@ class AffectedPlaceAdmin(admin.ModelAdmin):
         "address",
         "informations",
     ]
-            
+
     ordering = ["city"]
     search_fields = ["city__name"]
     list_filter = ["city"]

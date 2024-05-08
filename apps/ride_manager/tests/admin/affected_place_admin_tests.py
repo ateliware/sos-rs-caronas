@@ -1,4 +1,3 @@
-import pytest
 from django.contrib.admin import AdminSite
 
 from apps.core.tests.base_test import BaseTest
@@ -26,25 +25,18 @@ class AffectedAdminTest(BaseTest):
         # When/Then
         self.execute_admin_tests(expected_list_display, "list_display")
 
-    def test_fieldsets(self):
+    def test_fields(self):
         # Given
-        expected_fieldsets = [
-            (
-                "Informações Básicas",
-                {
-                    "fields": [
-                        "city",
-                        "main_person",
-                        "main_contact",
-                        "address",
-                        "informations",
-                    ]
-                },
-            ),
+        expected_fields = [
+            "city",
+            "main_person",
+            "main_contact",
+            "address",
+            "informations",
         ]
 
         # When/Then
-        self.execute_admin_tests(expected_fieldsets, "fieldsets")
+        self.execute_admin_tests(expected_fields, "fields")
 
     def test_ordering(self):
         # Given
