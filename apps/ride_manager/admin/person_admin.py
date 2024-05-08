@@ -9,7 +9,9 @@ class PersonAdmin(admin.ModelAdmin):
         "name",
         "phone",
         "birth_date",
-        "is_verified",
+        "cnh_is_verified",
+        "document_is_verified",
+        "profile_is_verified",
         "is_active",
     ]
     fieldsets = [
@@ -59,7 +61,9 @@ class PersonAdmin(admin.ModelAdmin):
             "Status",
             {
                 "fields": [
-                    "is_verified",
+                    "cnh_is_verified",
+                    "document_is_verified",
+                    "profile_is_verified",
                     "is_active",
                 ]
             },
@@ -70,7 +74,9 @@ class PersonAdmin(admin.ModelAdmin):
         "phone",
     ]
     list_filter = [
-        "is_verified",
+        "profile_is_verified",
+        "document_is_verified",
+        "cnh_is_verified",
         "is_active",
     ]
     ordering = [
