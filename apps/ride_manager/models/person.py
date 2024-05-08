@@ -46,10 +46,14 @@ class Person(BaseModel, BaseAddress):
     emergency_phone = models.CharField(
         max_length=16,
         verbose_name="Telefone de emergência",
+        null=True,
+        blank=True,
     )
     emergency_contact = models.CharField(
         max_length=255,
         verbose_name="Contato de emergência",
+        null=True,
+        blank=True,
     )
     birth_date = models.DateField(
         verbose_name="Data de nascimento",
@@ -72,6 +76,10 @@ class Person(BaseModel, BaseAddress):
         null=True,
         blank=True,
     )
+    cnh_is_verified = models.BooleanField(
+        verbose_name="CNH verificada",
+        default=False,
+    )
     cpf = models.CharField(
         max_length=11,
         verbose_name="CPF",
@@ -83,8 +91,12 @@ class Person(BaseModel, BaseAddress):
         null=True,
         blank=True,
     )
-    is_verified = models.BooleanField(
-        verbose_name="Verificado",
+    document_is_verified = models.BooleanField(
+        verbose_name="Documento verificado",
+        default=False,
+    )
+    profile_is_verified = models.BooleanField(
+        verbose_name="Perfil verificado",
         default=False,
     )
 
