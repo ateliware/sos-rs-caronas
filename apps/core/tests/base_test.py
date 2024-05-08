@@ -3,6 +3,12 @@ from django.test import TestCase
 from faker import Faker
 from rest_framework.test import APIClient, override_settings
 
+from apps.core.utils.regex_utils import get_only_numbers
+
+fake = Faker("pt_BR")
+
+FAKE_CPF = get_only_numbers(fake.cpf())
+
 
 @override_settings(
     DEFAULT_FILE_STORAGE="django.core.files.storage.memory.InMemoryStorage"
@@ -12,12 +18,12 @@ class BaseTest(TestCase):
         self.user = self.create_test_user()
         self.auth_client = self.create_authenticated_client()
         self.unauth_client = APIClient()
-        self.fake = Faker("pt_BR")
+        self.fake = fake
 
-    def create_test_user(self, email="test@email.com", password="testpassword"):
+    def create_test_user(self, cpf=FAKE_CPF, password="testpassword"):
         user_model = get_user_model()
         return user_model.objects.create_user(
-            email=email,
+            cpf=cpf,
             password=password,
         )
 
