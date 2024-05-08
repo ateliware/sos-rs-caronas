@@ -20,7 +20,6 @@ class PersonModelTests(BaseTest):
             "avatar",
             "cnh_number",
             "cnh_picture",
-            "cpf",
             "document_picture",
             "city",
             "zip_code",
@@ -93,17 +92,6 @@ class PersonModelTests(BaseTest):
                 # Then
                 with self.assertRaises(Exception):
                     Person.objects.create(**person_data)
-
-    def test_person_create_raise_exception_when_invalid_cpf(self):
-        # Given
-        person_data = PersonFactory.person_data()
-        person_data["user"] = self.user
-        person_data["city"] = CityFactory()
-        person_data["cpf"] = "12345678901"
-
-        # When/Then
-        with self.assertRaises(ValidationError):
-            Person.objects.create(**person_data)
 
     def test_person_create_raise_exception_when_invalid_zip_code_format(self):
         # Given
