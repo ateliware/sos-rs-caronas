@@ -2,17 +2,26 @@ import pytest
 
 from apps.core.tests.base_test import BaseTest
 from apps.ride_manager.models.affected_place import AffectedPlace
-from apps.ride_manager.tests.factories.affected_place_factory import AffectedPlaceFactory
+from apps.ride_manager.tests.factories.affected_place_factory import (
+    AffectedPlaceFactory,
+)
+
 
 class AffectedPlaceModelTests(BaseTest):
     def test_create_affected_place_model_instance(self):
         # Given
-        expected_attrs = ["city", "main_person", "main_contact", "address", "informations"]
+        expected_attrs = [
+            "city",
+            "main_person",
+            "main_contact",
+            "address",
+            "informations",
+        ]
 
         # When
         affected_place = AffectedPlaceFactory()
         db_affected_place = AffectedPlace.objects.get(pk=affected_place.pk)
-        expected_db_affected_place_str = f"{db_affected_place.city.name} | {db_affected_place.main_person} | {db_affected_place.main_contact}"
+        expected_db_affected_place_str = f"{db_affected_place.description}"
 
         # Then
         self.assertIsInstance(affected_place, AffectedPlace)
@@ -37,7 +46,9 @@ class AffectedPlaceModelTests(BaseTest):
         self.assertEqual(meta.verbose_name, expected_verbose_name)
         self.assertEqual(meta.verbose_name_plural, expected_verbose_name_plural)
 
-    def test_affected_place_create_raise_exception_when_missing_required_fields(self):
+    def test_affected_place_create_raise_exception_when_missing_required_fields(
+        self,
+    ):
         # Given
         test_cases = ["city", "main_person", "main_contact"]
 

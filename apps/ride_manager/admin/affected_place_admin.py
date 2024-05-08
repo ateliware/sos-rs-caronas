@@ -10,20 +10,15 @@ class AffectedPlaceAdmin(admin.ModelAdmin):
         "main_person",
         "main_contact",
     ]
-    fieldsets = [
-        (
-            "Informações Básicas",
-            {
-                "fields": [
-                    "city",
-                    "main_person",
-                    "main_contact",
-                    "address",
-                    "informations",
-                ]
-            },
-        ),
+    fields = [
+        "city",
+        "main_person",
+        "main_contact",
+        "address",
+        "informations",
     ]
+            
     ordering = ["city"]
     search_fields = ["city__name"]
     list_filter = ["city"]
+    readonly_fields = ["uuid", "created_at", "updated_at"]

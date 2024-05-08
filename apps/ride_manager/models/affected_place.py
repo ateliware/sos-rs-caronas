@@ -1,8 +1,10 @@
-
 from uuid import uuid4
-from apps.core.models.base_model import BaseModel
-from apps.address_manager.models.city import City
+
 from django.db import models
+
+from apps.address_manager.models.city import City
+from apps.core.models.base_model import BaseModel
+
 
 class AffectedPlace(BaseModel):
     class Meta:
@@ -15,7 +17,11 @@ class AffectedPlace(BaseModel):
         primary_key=True,
         editable=False,
         unique=True,
-    )    
+    )
+    description = models.CharField(
+        verbose_name="Descrição",
+        max_length=255,
+    )
     informations = models.TextField(
         verbose_name="Informações Básicas",
     )
@@ -37,5 +43,4 @@ class AffectedPlace(BaseModel):
     )
 
     def __str__(self):
-        return self.city.name
-    
+        return self.description

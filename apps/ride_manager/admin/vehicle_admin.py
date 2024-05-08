@@ -19,10 +19,7 @@ class VehicleAdmin(admin.ModelAdmin):
         "is_verified",
         "is_active",
     ]
-    ordering = [
-        "model",
-        "plate"
-    ]
+    ordering = ["model", "plate"]
     readonly_fields = [
         "uuid",
         "person",
