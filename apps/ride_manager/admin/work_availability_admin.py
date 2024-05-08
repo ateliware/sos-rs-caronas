@@ -30,4 +30,15 @@ class WorkAvailabilityAdmin(admin.ModelAdmin):
     ordering = ["person"]
     search_fields = ["person__name"]
     list_filter = ["origin", "destination", "date", "work_shift", "status"]
-    readonly_fields = ["id", "created_at", "updated_at"]
+    readonly_fields = [
+        "id",
+        "person",
+        "origin",
+        "destination",
+        "any_destination",
+        "date",
+        "work_shift",
+        "status",
+        "created_at",
+        "updated_at",
+    ]

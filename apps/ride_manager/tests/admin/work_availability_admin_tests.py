@@ -62,6 +62,17 @@ class WorkAvailabilityAdminTest(BaseTest):
         self.execute_admin_tests(expected_list_filter, "list_filter")
 
     def test_readonly_fields(self):
-        expected_readonly_fields = ["id", "created_at", "updated_at"]
+        expected_readonly_fields = [
+            "id",
+            "person",
+            "origin",
+            "destination",
+            "any_destination",
+            "date",
+            "work_shift",
+            "status",
+            "created_at",
+            "updated_at",
+        ]
 
         self.execute_admin_tests(expected_readonly_fields, "readonly_fields")
