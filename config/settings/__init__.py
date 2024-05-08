@@ -7,6 +7,7 @@ from .environments import (
 )
 from .i18n import LANGUAGE_CODE, TIME_ZONE, USE_I18N, USE_TZ
 from .installed_apps import INSTALLED_APPS
+from .jazzmin_settings import JAZZMIN_SETTINGS
 from .middleware import MIDDLEWARE
 from .rest_framework import REST_FRAMEWORK
 from .security import (
@@ -19,4 +20,4 @@ from .security import (
 )
 from .simple_jwt import SIMPLE_JWT
 from .spectacular_settings import SPECTACULAR_SETTINGS
-from .static import STATIC_URL, TEMPLATES
+from .static import STATIC_URL, STATICFILES_DIRS, TEMPLATES
