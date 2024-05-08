@@ -17,8 +17,12 @@ class AffectedPlaceAdmin(admin.ModelAdmin):
         "address",
         "informations",
     ]
-            
+
     ordering = ["city"]
     search_fields = ["city__name"]
     list_filter = ["city"]
-    readonly_fields = ["uuid", "created_at", "updated_at"]
+    readonly_fields = [
+        "uuid",
+        "created_at",
+        "updated_at",
+    ]
