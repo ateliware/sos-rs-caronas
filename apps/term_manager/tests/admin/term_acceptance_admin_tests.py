@@ -20,13 +20,8 @@ class TermAcceptanceAdminTest(BaseTest):
             "created_at",
         ]
 
-        # When
-        result = self.admin.list_display
-
-        # Then
-        for item in expected_list_display:
-            with self.subTest(item=item):
-                self.assertIn(item, result)
+        # When/Then
+        self.execute_admin_tests(expected_list_display, "list_display")
 
     def test_fields(self):
         # Given
@@ -40,13 +35,8 @@ class TermAcceptanceAdminTest(BaseTest):
             "is_active",
         ]
 
-        # When
-        result = self.admin.fields
-
-        # Then
-        for item in expected_fields:
-            with self.subTest(item=item):
-                self.assertIn(item, result)
+        # When/Then
+        self.execute_admin_tests(expected_fields, "fields")
 
     def test_search_fields(self):
         # Given
@@ -55,13 +45,8 @@ class TermAcceptanceAdminTest(BaseTest):
             "user__first_name",
         ]
 
-        # When
-        result = self.admin.search_fields
-
-        # Then
-        for item in expected_search_fields:
-            with self.subTest(item=item):
-                self.assertIn(item, result)
+        # When/Then
+        self.execute_admin_tests(expected_search_fields, "search_fields")
 
     def test_ordering(self):
         # Given
@@ -69,11 +54,8 @@ class TermAcceptanceAdminTest(BaseTest):
             "-id",
         ]
 
-        # When
-        result = self.admin.ordering
-
-        # Then
-        self.assertEqual(expected_ordering, result)
+        # When/Then
+        self.execute_admin_tests(expected_ordering, "ordering")
 
     def test_readonly_fields(self):
         # Given
@@ -84,10 +66,5 @@ class TermAcceptanceAdminTest(BaseTest):
             "updated_at",
         ]
 
-        # When
-        result = self.admin.readonly_fields
-
-        # Then
-        for item in expected_readonly_fields:
-            with self.subTest(item=item):
-                self.assertIn(item, result)
+        # When/Then
+        self.execute_admin_tests(expected_readonly_fields, "readonly_fields")

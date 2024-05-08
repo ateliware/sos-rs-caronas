@@ -32,3 +32,12 @@ class BaseTest(TestCase):
             hasattr(obj, attr),
             f"{obj.__class__.__name__} does not have attribute {attr}",
         )
+
+    def execute_admin_tests(self, expected_list: list, test_attr: str):
+        # When
+        result = getattr(self.admin, test_attr)
+
+        # Then
+        for item in expected_list:
+            with self.subTest(item=item):
+                self.assertIn(item, result)
