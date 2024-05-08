@@ -12,7 +12,6 @@ class CustomUserAdmin(BaseUserAdmin):
         "cpf",
         "first_name",
         "last_name",
-        "email",
         "is_staff",
     ]
     list_filter = ["is_staff"]
@@ -22,7 +21,6 @@ class CustomUserAdmin(BaseUserAdmin):
             {
                 "fields": [
                     "cpf",
-                    "email",
                     "password",
                 ]
             },

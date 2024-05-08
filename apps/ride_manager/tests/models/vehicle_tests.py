@@ -1,14 +1,22 @@
 import pytest
 
+from apps.core.tests.base_test import BaseTest
 from apps.ride_manager.models import Vehicle
 from apps.ride_manager.tests.factories import VehicleFactory
-from apps.core.tests.base_test import BaseTest
 
 
 class VehicleModelTests(BaseTest):
     def test_create_vehicle_model_instance(self):
         # Given
-        expected_attrs = ["model", "person", "color", "plate", "plate_picture", "vehicle_picture", "is_verified"]
+        expected_attrs = [
+            "model",
+            "person",
+            "color",
+            "plate",
+            "plate_picture",
+            "vehicle_picture",
+            "is_verified",
+        ]
 
         # When
         vehicle = VehicleFactory()
@@ -39,7 +47,15 @@ class VehicleModelTests(BaseTest):
 
     def test_vehicle_create_raise_exception_when_missing_required_fields(self):
         # Given
-        required_fields = ["model", "person", "color", "plate", "plate_picture", "vehicle_picture", "is_verified"]
+        required_fields = [
+            "model",
+            "person",
+            "color",
+            "plate",
+            "plate_picture",
+            "vehicle_picture",
+            "is_verified",
+        ]
 
         for field_name in required_fields:
             # When

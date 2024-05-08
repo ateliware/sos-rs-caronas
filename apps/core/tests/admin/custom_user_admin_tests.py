@@ -16,7 +16,6 @@ class CustomUserAdminTest(BaseTest):
             "cpf",
             "first_name",
             "last_name",
-            "email",
             "is_staff",
         ]
 
@@ -34,7 +33,7 @@ class CustomUserAdminTest(BaseTest):
 
     def test_fieldsets(self):
         # Given
-        expected_access_fieldsets = ["cpf", "email", "password"]
+        expected_access_fieldsets = ["cpf", "password"]
         expected_personal_info_fieldsets = ["first_name", "last_name"]
         expected_permissions_fieldsets = [
             "is_staff",
