@@ -8,19 +8,22 @@ from apps.ride_manager.models.affected_place import AffectedPlace
 from apps.ride_manager.models.person import Person
 from apps.ride_manager.models.vehicle import Vehicle
 
+
+class ShiftChoices(models.TextChoices):
+    MORNING = "MORNING", "Manhã"
+    AFTERNOON = "AFTERNOON", "Tarde"
+
+
+class StatusChoices(models.TextChoices):
+    OPEN = "Open", "Aberta"
+    IN_PROGRESS = "IN_PROGRESS", "Em Andamento"
+    FINISHED = "FINISHED", "Concluída"
+
+
 class Ride(BaseModel):
     class Meta:
-        verbose_name = "Viagem"
-        verbose_name_plural = "Viagens"
-
-    class ShiftChoices(models.TextChoices):
-        MORNING = "MORNING", "Manhã"
-        AFTERNOON = "AFTERNOON", "Tarde"
-
-    class StatusChoices(models.TextChoices):
-        OPEN = "Open", "Aberta"
-        IN_PROGRESS = "IN_PROGRESS", "Em Andamento"
-        FINISHED = "FINISHED", "Concluída"     
+        verbose_name = "Carona"
+        verbose_name_plural = "Caronas"
 
     uuid = models.UUIDField(
         verbose_name="UUID",
@@ -29,12 +32,13 @@ class Ride(BaseModel):
         editable=False,
         unique=True,
     )
-    date = models.DateTimeField(
+    date = models.DateField(
         verbose_name="Data da Viagem",
     )
-    work_shift = models.TextChoices(
-        verbose_name="Turno",
+    work_shift = models.CharField(
+        max_length=15,
         choices=ShiftChoices.choices,
+        verbose_name="Turno",
     )
     origin = models.ForeignKey(
         City,
@@ -59,15 +63,19 @@ class Ride(BaseModel):
     notes = models.TextField(
         verbose_name="Observações",
     )
-    status = models.TextChoices(
-        verbose_name="Status",
+    status = models.CharField(
+        max_length=11,
         choices=StatusChoices.choices,
-        default=StatusChoices.OPEN,
+        verbose_name="Status",
     )
 
     def save(self, *args, **kwargs):
-        is_shift_choice_valid = self.work_shift in dict(self.ShiftChoices.choices).keys()
-        is_status_choice_valid = self.status in dict(self.StatusChoices.choices).keys()
+        is_shift_choice_valid = (
+            self.work_shift in dict(ShiftChoices.choices).keys()
+        )
+        is_status_choice_valid = (
+            self.status in dict(StatusChoices.choices).keys()
+        )
 
         if not is_shift_choice_valid:
             raise ValueError("Turno inválido")
