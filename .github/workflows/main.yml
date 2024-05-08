@@ -21,9 +21,12 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Run tests and calculate coverage
+      - name: Run tests
         run: |
-          coverage run --source='.' --omit='*/migrations/*,*/tests/*' manage.py test
+          pytest --cov-report term-missing --cov-report html
+      
+      - name: Check coverage
+        run: |
           COVERAGE_PERCENTAGE=$(coverage report --fail-under=90 | grep TOTAL | awk '{print $4}')
           echo "Coverage: $COVERAGE_PERCENTAGE"
           if [ $(echo "$COVERAGE_PERCENTAGE > 90" | bc -l) -eq 1 ]; then
