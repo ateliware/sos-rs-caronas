@@ -19,7 +19,6 @@ class PersonFactory(factory.django.DjangoModelFactory):
     cnh_picture = fake.file_name()
     document_picture = fake.file_name()
     cnh_number = fake.numerify("###########")
-    cpf = fake.cpf()
     city = factory.SubFactory(CityFactory)
     zip_code = fake.numerify("#####-###")
 
@@ -35,7 +34,6 @@ class PersonFactory(factory.django.DjangoModelFactory):
             "cnh_picture": fake.file_name(),
             "document_picture": fake.file_name(),
             "cnh_number": fake.numerify("###########"),
-            "cpf": fake.cpf(),
             "zip_code": fake.numerify("#####-###"),
         }
 

@@ -13,9 +13,9 @@ class CustomUserAdminTest(BaseTest):
     def test_list_display(self):
         # Given
         expected_list_display = [
+            "cpf",
             "first_name",
             "last_name",
-            "email",
             "is_staff",
         ]
 
@@ -33,7 +33,7 @@ class CustomUserAdminTest(BaseTest):
 
     def test_fieldsets(self):
         # Given
-        expected_access_fieldsets = ["email", "password"]
+        expected_access_fieldsets = ["cpf", "password"]
         expected_personal_info_fieldsets = ["first_name", "last_name"]
         expected_permissions_fieldsets = [
             "is_staff",
@@ -63,7 +63,7 @@ class CustomUserAdminTest(BaseTest):
     def test_add_fieldsets(self):
         # Given
         expected_add_fieldsets = [
-            "email",
+            "cpf",
             "password_1",
             "password_2",
         ]
@@ -80,7 +80,7 @@ class CustomUserAdminTest(BaseTest):
     def test_search_fields(self):
         # Given
         expected_search_fields = [
-            "email",
+            "cpf",
             "first_name",
             "last_name",
         ]
@@ -93,7 +93,7 @@ class CustomUserAdminTest(BaseTest):
         expected_ordering = [
             "first_name",
             "last_name",
-            "email",
+            "cpf",
         ]
 
         # When/Then

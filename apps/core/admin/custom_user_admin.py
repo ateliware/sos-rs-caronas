@@ -9,7 +9,7 @@ class CustomUserAdmin(BaseUserAdmin):
     form = CustomUserChangeForm
     add_form = CustomUserCreationForm
     list_display = [
-        "email",
+        "cpf",
         "first_name",
         "last_name",
         "is_staff",
@@ -20,7 +20,7 @@ class CustomUserAdmin(BaseUserAdmin):
             "Dados de acesso",
             {
                 "fields": [
-                    "email",
+                    "cpf",
                     "password",
                 ]
             },
@@ -51,7 +51,7 @@ class CustomUserAdmin(BaseUserAdmin):
             {
                 "classes": ["wide"],
                 "fields": [
-                    "email",
+                    "cpf",
                     "password_1",
                     "password_2",
                 ],
@@ -59,14 +59,14 @@ class CustomUserAdmin(BaseUserAdmin):
         ),
     ]
     search_fields = [
-        "email",
+        "cpf",
         "first_name",
         "last_name",
     ]
     ordering = [
         "first_name",
         "last_name",
-        "email",
+        "cpf",
     ]
     filter_horizontal = []
 

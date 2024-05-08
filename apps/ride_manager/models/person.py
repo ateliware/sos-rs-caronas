@@ -80,11 +80,6 @@ class Person(BaseModel, BaseAddress):
         verbose_name="CNH verificada",
         default=False,
     )
-    cpf = models.CharField(
-        max_length=11,
-        verbose_name="CPF",
-        unique=True,
-    )
     document_picture = models.ImageField(
         upload_to=upload_path,
         verbose_name="Imagem do documento",
@@ -99,15 +94,6 @@ class Person(BaseModel, BaseAddress):
         verbose_name="Perfil verificado",
         default=False,
     )
-
-    def save(self, *args, **kwargs):
-        self.cpf = get_only_numbers(self.cpf)
-        cpf_is_valid = CpfValidator().validate_cpf(self.cpf)
-
-        if not cpf_is_valid:
-            raise ValidationError({"cpf": "CPF inválido."})
-
-        return super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name

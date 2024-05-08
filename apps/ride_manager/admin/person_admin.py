@@ -5,6 +5,11 @@ from apps.ride_manager.models import Person
 
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
+    def cpf(self, obj):
+        return obj.user.cpf
+
+    cpf.short_description = "CPF"
+
     list_display = [
         "name",
         "phone",

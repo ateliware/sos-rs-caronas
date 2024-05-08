@@ -15,6 +15,7 @@ class CustomUserModelTests(BaseTest):
             "first_name",
             "last_name",
             "email",
+            "cpf",
             "is_staff",
             "is_active",
             "is_superuser",
@@ -35,11 +36,11 @@ class CustomUserModelTests(BaseTest):
                 db_user_attr = getattr(db_user, attr)
                 self.assertEqual(user_attr, db_user_attr)
 
-    def test_create_custom_user_model_instance_if_email_already_exists(self):
+    def test_create_custom_user_model_instance_if_cpf_already_exists(self):
         # Given
         user = CustomUserFactory()
         new_user_data = CustomUserFactory.custom_user_data()
-        new_user_data["email"] = user.email
+        new_user_data["cpf"] = user.cpf
         expected_error = "duplicate key value violates unique constraint"
 
         # When

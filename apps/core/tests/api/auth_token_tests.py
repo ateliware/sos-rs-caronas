@@ -4,17 +4,19 @@ from faker import Faker
 from rest_framework import status
 from rest_framework.test import APITestCase
 
+from apps.core.utils.regex_utils import get_only_numbers
+
 fake = Faker("pt_BR")
 
 
 class AuthTokenTest(APITestCase):
     def setUp(self) -> None:
         super().setUp()
-        self.email = fake.email()
+        self.cpf = get_only_numbers(fake.cpf())
         self.password = fake.password()
         self.user_model = get_user_model()
         self.user = self.user_model.objects.create_user(
-            email=self.email,
+            cpf=self.cpf,
             password=self.password,
         )
 
@@ -29,7 +31,7 @@ class AuthTokenTest(APITestCase):
     def test_auth_token_returns_400_when_missing_required_fields(self):
         # Given
         url = reverse("token_obtain_pair")
-        expected_required_fields = ["email", "password"]
+        expected_required_fields = ["cpf", "password"]
 
         # When
         response = self.client.post(url)
@@ -44,7 +46,7 @@ class AuthTokenTest(APITestCase):
         # Given
         url = reverse("token_obtain_pair")
         payload = {
-            "email": self.email,
+            "cpf": self.cpf,
             "password": fake.password(),
         }
         expected_message = "Usuário e/ou senha incorreto(s)"
@@ -61,7 +63,7 @@ class AuthTokenTest(APITestCase):
         # Given
         url = reverse("token_obtain_pair")
         payload = {
-            "email": self.email,
+            "cpf": self.cpf,
             "password": self.password,
         }
         expected_keys = ["refresh", "access"]

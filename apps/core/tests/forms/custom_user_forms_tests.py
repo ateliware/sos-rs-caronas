@@ -3,6 +3,7 @@ from django.test import TestCase
 from faker import Faker
 
 from apps.core.forms.custom_user_forms import CustomUserCreationForm
+from apps.core.utils.regex_utils import get_only_numbers
 
 fake = Faker("pt_BR")
 
@@ -14,7 +15,7 @@ class CustomUserFormsTest(TestCase):
         self.form_data = {
             "first_name": fake.first_name(),
             "last_name": fake.last_name(),
-            "email": fake.email(),
+            "cpf": get_only_numbers(fake.cpf()),
             "is_staff": True,
             "password_1": self.fake_password,
             "password_2": self.fake_password,
@@ -29,18 +30,18 @@ class CustomUserFormsTest(TestCase):
         # Then
         self.assertTrue(form.is_valid())
 
-    def test_custom_user_creation_form_with_invalid_email(self):
+    def test_custom_user_creation_form_with_invalid_cpf(self):
         # Given
         form_data = self.form_data
-        form_data["email"] = "Invalid E-mail"
-        expected_error = ["Insira um endereço de email válido."]
+        form_data["cpf"] = "00000000000"
+        expected_error = ["CPF digitado é inválido"]
 
         # When
         form = CustomUserCreationForm(data=form_data)
 
         # Then
         self.assertFalse(form.is_valid())
-        self.assertEqual(form.errors["email"], expected_error)
+        self.assertEqual(form.errors["cpf"], expected_error)
 
     def test_custom_user_creation_form_with_passwords_not_matching(self):
         # Given
