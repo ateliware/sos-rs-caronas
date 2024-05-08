@@ -23,7 +23,7 @@ jobs:
 
       - name: Run tests and calculate coverage
         run: |
-          coverage run --source='.' manage.py test
+          coverage run --source='.' --omit='*/migrations/*,*/tests/*' manage.py test
           COVERAGE_PERCENTAGE=$(coverage report --fail-under=90 | grep TOTAL | awk '{print $4}')
           echo "Coverage: $COVERAGE_PERCENTAGE"
           if [ $(echo "$COVERAGE_PERCENTAGE > 90" | bc -l) -eq 1 ]; then
