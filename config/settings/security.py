@@ -1,7 +1,7 @@
 from decouple import config
 
-SECRET_KEY = config("SECRET_KEY")
-DEBUG = config("DEBUG")
+SECRET_KEY = config("SECRET_KEY", default="-")
+DEBUG = config("DEBUG", default=False, cast=bool)
 ALLOWED_HOSTS = ["*"]
 AUTH_PASSWORD_VALIDATORS = [
     {
