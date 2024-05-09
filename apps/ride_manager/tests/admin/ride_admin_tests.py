@@ -2,7 +2,7 @@ import pytest
 from django.contrib.admin import AdminSite
 
 from apps.core.tests.base_test import BaseTest
-from apps.ride_manager.admin import RideAdmin
+from apps.ride_manager.admin import PassengerInlineAdmin, RideAdmin
 from apps.ride_manager.models.ride import Ride
 
 
@@ -89,3 +89,17 @@ class RideAdminTest(BaseTest):
 
         # When/Then
         self.execute_admin_tests(expected_readonly_fields, "readonly_fields")
+
+    def test_ride_has_inlines(self):
+        # Given
+        expected_inlines = [
+            PassengerInlineAdmin,
+        ]
+
+        # When
+        result = self.admin.inlines
+
+        # Then
+        for item in expected_inlines:
+            with self.subTest(item=item):
+                self.assertIn(item, result)
