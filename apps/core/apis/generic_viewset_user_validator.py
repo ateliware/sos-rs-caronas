@@ -19,11 +19,11 @@ class GenericUserViewSet(ModelViewSet):
 
         queryset = model.objects.none()
         if user:
-            queryset = model.objects.filter(user=user).order_by("-created_at")
+            queryset = model.objects.filter(person=user).order_by("-created_at")
         return queryset
 
     def perform_create(self, serializer):
-        user = self.request.user
-        if user:
-            return serializer.save(user=user)
+        person = self.request.user
+        if person:
+            return serializer.save(person=person)
         raise ValidationError("Missing Authenticated User.")
