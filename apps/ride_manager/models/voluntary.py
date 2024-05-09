@@ -5,17 +5,17 @@ from apps.address_manager.models.city import City
 from apps.core.models import BaseModel
 from apps.core.utils.choices_validator import validate_choice
 from apps.ride_manager.enums import (
-    WorkAvailabilityStatusChoices,
+    VoluntaryAvailabilityStatusChoices,
     WorkShiftChoices,
 )
 from apps.ride_manager.models.affected_place import AffectedPlace
 from apps.ride_manager.models.person import Person
 
 
-class WorkAvailability(BaseModel):
+class Voluntary(BaseModel):
     class Meta:
-        verbose_name = "Disponibilidade de trabalho"
-        verbose_name_plural = "Disponibilidades de trabalho"
+        verbose_name = "Voluntário"
+        verbose_name_plural = "Voluntários"
 
     person = models.ForeignKey(
         Person,
@@ -50,8 +50,8 @@ class WorkAvailability(BaseModel):
     status = models.CharField(
         max_length=255,
         verbose_name="Status",
-        choices=WorkAvailabilityStatusChoices.choices,
-        default=WorkAvailabilityStatusChoices.OPEN,
+        choices=VoluntaryAvailabilityStatusChoices.choices,
+        default=VoluntaryAvailabilityStatusChoices.OPEN,
     )
 
     def save(self, *args, **kwargs):
@@ -59,7 +59,7 @@ class WorkAvailability(BaseModel):
         if not work_shift_is_valid:
             raise ValidationError({"work_shift": "Turno de trabalho inválido"})
         status_is_valid = validate_choice(
-            self.status, WorkAvailabilityStatusChoices
+            self.status, VoluntaryAvailabilityStatusChoices
         )
         if not status_is_valid:
             raise ValidationError({"status": "Status inválido"})

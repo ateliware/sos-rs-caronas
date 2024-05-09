@@ -1,15 +1,14 @@
 from apps.core.tests.base_test import BaseTest
-from apps.ride_manager.admin.work_availability_admin import (
-    WorkAvailabilityAdmin,
-)
-from apps.ride_manager.models.work_availability import WorkAvailability
+from apps.ride_manager.admin.voluntary_admin import VoluntaryAdmin
+from apps.ride_manager.models.voluntary import Voluntary
+from apps.ride_manager.tests.factories.voluntary_factory import VoluntaryFactory
 
 
-class WorkAvailabilityAdminTest(BaseTest):
+class VoluntaryAdminTest(BaseTest):
     def setUp(self):
         super().setUp()
-        self.work_availability = WorkAvailability()
-        self.admin = WorkAvailabilityAdmin(WorkAvailability, None)
+        self.voluntary = VoluntaryFactory()
+        self.admin = VoluntaryAdmin(Voluntary, None)
 
     def test_list_display(self):
         expected_list_display = [

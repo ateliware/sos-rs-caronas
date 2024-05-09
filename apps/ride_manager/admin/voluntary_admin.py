@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from apps.ride_manager.models import WorkAvailability
+from apps.ride_manager.models import Voluntary
 
 
-@admin.register(WorkAvailability)
-class WorkAvailabilityAdmin(admin.ModelAdmin):
+@admin.register(Voluntary)
+class VoluntaryAdmin(admin.ModelAdmin):
     list_display = [
         "person",
         "origin",
@@ -29,7 +29,13 @@ class WorkAvailabilityAdmin(admin.ModelAdmin):
 
     ordering = ["person"]
     search_fields = ["person__name"]
-    list_filter = ["origin", "destination", "date", "work_shift", "status"]
+    list_filter = [
+        "origin",
+        "destination",
+        "date",
+        "work_shift",
+        "status",
+    ]
     readonly_fields = [
         "id",
         "person",
