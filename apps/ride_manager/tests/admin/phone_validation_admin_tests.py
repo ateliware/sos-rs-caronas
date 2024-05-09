@@ -1,11 +1,9 @@
-from apps.ride_manager.admin.phone_validation_admin import (
-    PhoneValidationAdmin,
-)
+from apps.core.tests.base_test import BaseTest
+from apps.ride_manager.admin.phone_validation_admin import PhoneValidationAdmin
 from apps.ride_manager.models.phone_validation import PhoneValidation
 from apps.ride_manager.tests.factories.phone_validation_factory import (
     PhoneValidationFactory,
 )
-from apps.core.tests.base_test import BaseTest
 
 
 class RecoveryPasswordValidatorAdminTest(BaseTest):
