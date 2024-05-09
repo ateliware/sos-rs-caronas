@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from apps.ride_manager.admin.passenger_admin import PassengerInlineAdmin
 from apps.ride_manager.models.ride import Ride
 
 
@@ -47,4 +48,8 @@ class RideAdmin(admin.ModelAdmin):
         "status",
         "created_at",
         "updated_at",
+    ]
+
+    inlines = [
+        PassengerInlineAdmin,
     ]
