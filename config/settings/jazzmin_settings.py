@@ -9,6 +9,8 @@ JAZZMIN_SETTINGS = {
         "ride_manager.Voluntary": "fas fa-hard-hat",
         "ride_manager.Ride": "fas fa-car-side",
         "ride_manager.Invite": "fas fa-inbox",
+        "ride_manager.Passenger": "fas fa-user-friends",
+        "ride_manager.PhoneValidation": "fas fa-phone",
         "address_manager.City": "fas fa-city",
         "address_manager.State": "fas fa-flag",
         "term_manager.Term": "fas fa-file-alt",
