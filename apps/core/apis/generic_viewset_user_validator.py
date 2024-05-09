@@ -1,6 +1,10 @@
+import logging
+
 from django.core.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
+
+from apps.ride_manager.models.person import Person
 
 
 class GenericUserViewSet(ModelViewSet):
@@ -15,15 +19,27 @@ class GenericUserViewSet(ModelViewSet):
 
     def get_queryset(self):
         model = self.queryset.model
-        user = self.request.user
+        person = self.get_person()
 
         queryset = model.objects.none()
-        if user:
-            queryset = model.objects.filter(user=user).order_by("-created_at")
+        if person:
+            queryset = model.objects.filter(person=person).order_by(
+                "-created_at"
+            )
         return queryset
 
     def perform_create(self, serializer):
-        user = self.request.user
-        if user:
-            return serializer.save(user=user)
+        person = self.get_person()        
+        if person:
+            return serializer.save(person=person)
         raise ValidationError("Missing Authenticated User.")
+
+    def get_person(self):
+        person = None
+        try:
+            person = Person.objects.get(user=self.request.user)
+        except Person.DoesNotExist:
+            logging.error(
+                "Authenticated client is not a valid registered user."
+            )
+        return person
