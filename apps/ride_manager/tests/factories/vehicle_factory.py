@@ -16,5 +16,21 @@ class VehicleFactory(factory.django.DjangoModelFactory):
     is_verified = fake.boolean()
     person = factory.SubFactory(PersonFactory)
 
+    @staticmethod
+    def vehicle_data() -> dict:
+        return {
+            "model": fake.name(),
+            "color": fake.color_name(),
+            "plate": fake.license_plate(),
+            "plate_picture": factory.django.ImageField(
+                filename="plate_picture.jpg"
+            ),
+            "vehicle_picture": factory.django.ImageField(
+                filename="vehicle_picture.jpg"
+            ),
+            "is_verified": fake.boolean(),
+            "person": PersonFactory.person_data(),
+        }
+
     class Meta:
         model = Vehicle
