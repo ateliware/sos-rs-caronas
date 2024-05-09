@@ -19,3 +19,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 CORS_ORIGIN_ALLOW_ALL = True
 AUTH_USER_MODEL = "core.CustomUser"
+CORS_ALLOW_HEADERS = [
+    "access-control-allow-origin", 
+    "content-type", 
+    "authorization",
+]
