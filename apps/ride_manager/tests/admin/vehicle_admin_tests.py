@@ -4,7 +4,7 @@ from django.contrib.admin import AdminSite
 from apps.core.tests.base_test import BaseTest
 from apps.ride_manager.admin import VehicleAdmin
 from apps.ride_manager.models import Vehicle
-from apps.ride_manager.tests.factories import VehicleFactory
+from apps.ride_manager.tests.factories.vehicle_factory import VehicleFactory
 
 
 class VehicleAdminTest(BaseTest):

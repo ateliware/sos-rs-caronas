@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("address_manager", "0001_initial"),
-        ("ride_manager", "0003_affectedplace"),
+        ("ride_manager", "0004_ride"),
     ]
 
     operations = [
