@@ -1,8 +1,8 @@
+from apps.core.tests.base_test import BaseTest
 from apps.ride_manager.models import PhoneValidation
 from apps.ride_manager.tests.factories.phone_validation_factory import (
     PhoneValidationFactory,
 )
-from apps.core.tests.base_test import BaseTest
 
 
 class PhoneValidationTests(BaseTest):
