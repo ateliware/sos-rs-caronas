@@ -19,8 +19,6 @@ class CityViewSetTest(BaseTest):
             "id",
             "name",
             "state",
-            "created_at",
-            "updated_at",
             "is_active",
         ]
         city_data["state_code"] = state.code
@@ -124,8 +122,6 @@ class CityViewSetTest(BaseTest):
             "id",
             "name",
             "state",
-            "created_at",
-            "updated_at",
             "is_active",
         ]
         city_data["state_code"] = city.state.code
@@ -246,13 +242,10 @@ class CityViewSetTest(BaseTest):
         url = BASE_TEST_ENDPOINT
         city_1 = CityFactory()
         city_2 = CityFactory()
-        expected_main_keys = ["count", "next", "previous", "results"]
-        expected_results_keys = [
+        expected_keys = [
             "id",
             "name",
             "state",
-            "created_at",
-            "updated_at",
             "is_active",
         ]
         cities_names = [city_1.name, city_2.name]
@@ -267,13 +260,9 @@ class CityViewSetTest(BaseTest):
         # Then
         response_data = response.json()
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(list(response_data.keys()), expected_main_keys)
-        self.assertEqual(response_data["count"], 2)
-        self.assertEqual(response_data["next"], None)
-        self.assertEqual(response_data["previous"], None)
 
-        for result in response_data["results"]:
-            self.assertEqual(list(result.keys()), expected_results_keys)
+        for result in response_data:
+            self.assertEqual(list(result.keys()), expected_keys)
             self.assertIn(result["name"], cities_names)
             self.assertIn(result["state"], states)
 
@@ -285,8 +274,6 @@ class CityViewSetTest(BaseTest):
             "id",
             "name",
             "state",
-            "created_at",
-            "updated_at",
             "is_active",
         ]
         expected_state = NestedStateSerializer(city.state).data

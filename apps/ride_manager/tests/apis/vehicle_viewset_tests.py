@@ -15,13 +15,7 @@ class VehicleViewsetTestCase(BaseTest):
 
     def test_list_vehicles(self):
         # Given
-        expected_main_keys = [
-            "count",
-            "next",
-            "previous",
-            "results",
-        ]
-        expected_result_keys = [
+        expected_keys = [
             "uuid",
             "model",
             "color",
@@ -37,19 +31,14 @@ class VehicleViewsetTestCase(BaseTest):
 
         # Then
         response_data = response.json()
-        response_vehicle = response_data["results"][0]
-        response_main_keys = list(response_data.keys())
+        response_vehicle = response_data[0]
         self.assertEqual(response.status_code, 200)
 
-        for item in expected_main_keys:
-            with self.subTest(item=item):
-                self.assertIn(item, response_main_keys)
-
-        for item in expected_result_keys:
+        for item in expected_keys:
             with self.subTest(item=item):
                 self.assertIn(item, list(response_vehicle.keys()))
 
-        self.assertEqual(response_data["count"], 1)
+        self.assertEqual(len(response_data), 1)
 
     def test_create_vehicle(self):
         # Given

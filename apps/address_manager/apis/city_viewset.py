@@ -1,6 +1,6 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
@@ -16,7 +16,7 @@ from apps.address_manager.serializers.city_serializer import (
 class CityViewSet(ModelViewSet):
     queryset = City.objects.all().order_by("pk")
     serializer_class = CitySerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def create(self, request):
         city_name = request.data.get("name")

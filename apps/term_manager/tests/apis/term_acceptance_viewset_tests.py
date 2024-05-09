@@ -17,13 +17,7 @@ class TermAcceptanceViewSetTests(BaseTest):
         # Given
         acceptance_term = TermAcceptanceFactory(user=self.user)
         url = BASE_TEST_ENDPOINT
-        expected_main_keys = [
-            "count",
-            "next",
-            "previous",
-            "results",
-        ]
-        expected_result_keys = [
+        expected_keys = [
             "id",
             "term",
             "hashed_term",
@@ -35,15 +29,10 @@ class TermAcceptanceViewSetTests(BaseTest):
 
         # Then
         response_data = response.json()
-        response_acceptance_term = response_data["results"][0]
-        response_main_keys = list(response_data.keys())
+        response_acceptance_term = response_data[0]
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        for item in expected_main_keys:
-            with self.subTest(item=item):
-                self.assertIn(item, response_main_keys)
-
-        for item in expected_result_keys:
+        for item in expected_keys:
             with self.subTest(item=item):
                 self.assertIn(item, list(response_acceptance_term.keys()))
 
@@ -60,7 +49,7 @@ class TermAcceptanceViewSetTests(BaseTest):
         # Then
         response_data = response.json()
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response_data["count"], 0)
+        self.assertEqual(len(response_data), 0)
 
     def test_create_acceptance_term(self):
         # Given
