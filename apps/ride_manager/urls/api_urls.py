@@ -2,11 +2,10 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 
 from apps.ride_manager.apis import (
+    PersonRegisterViewSet,
     ValidatePhoneCheckCodeApiView,
     ValidatePhoneSendCodeApiView,
-    PersonRegisterViewSet,
 )
-
 
 router = DefaultRouter()
 urlpatterns = [
