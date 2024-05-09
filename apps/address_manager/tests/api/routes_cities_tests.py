@@ -7,7 +7,7 @@ class CityRoutesTest(TestCase):
     def test_cities_list_url_resolves(self):
         # Given
         url = reverse("cities-list")
-        expected_url = "/api/cities/"
+        expected_url = "/api/v1/cities/"
 
         # Then
         self.assertEqual(url, expected_url)
@@ -15,7 +15,7 @@ class CityRoutesTest(TestCase):
     def test_cities_detail_url_resolves(self):
         # Given
         url = reverse("cities-detail", args=[1])
-        expected_url = "/api/cities/1/"
+        expected_url = "/api/v1/cities/1/"
 
         # Then
         self.assertEqual(url, expected_url)

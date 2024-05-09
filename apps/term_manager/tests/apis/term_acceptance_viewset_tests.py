@@ -7,7 +7,7 @@ from apps.term_manager.tests.factories.term_acceptance_factory import (
 )
 from apps.term_manager.tests.factories.term_factory import TermFactory
 
-BASE_TEST_ENDPOINT = "/api/acceptance-terms/"
+BASE_TEST_ENDPOINT = "/api/v1/acceptance-terms/"
 
 
 class TermAcceptanceViewSetTests(BaseTest):
