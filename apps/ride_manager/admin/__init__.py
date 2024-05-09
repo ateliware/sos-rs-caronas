@@ -1,5 +1,4 @@
 from .affected_place_admin import AffectedPlaceAdmin
-from .invite_admin import InviteAdmin
 from .passenger_admin import PassengerInlineAdmin
 from .person_admin import PersonAdmin
 from .ride_admin import RideAdmin
