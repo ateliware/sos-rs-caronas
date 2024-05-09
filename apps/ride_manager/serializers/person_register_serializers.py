@@ -70,3 +70,8 @@ class PersonModelSerializer(serializers.ModelSerializer):
         write_only_fields = [
             "user",
         ]
+
+    def to_representation(self, data):
+        response_data = super().to_representation(data)
+        response_data.pop("user", None)
+        return response_data
