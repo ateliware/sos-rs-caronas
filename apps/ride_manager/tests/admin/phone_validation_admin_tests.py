@@ -44,13 +44,8 @@ class RecoveryPasswordValidatorAdminTest(BaseTest):
             "is_active",
         ]
 
-        # When
-        result = self.admin.fields
-
-        # Then
-        for item in expected_fields:
-            with self.subTest(item=item):
-                self.assertIn(item, result)
+        # When/Then
+        self.execute_admin_tests(expected_fields, "fields")
 
     def test_readonly_fields(self):
         # Given
@@ -63,13 +58,8 @@ class RecoveryPasswordValidatorAdminTest(BaseTest):
             "is_active",
         ]
 
-        # When
-        result = self.admin.readonly_fields
-
-        # Then
-        for item in expected_readonly_fields:
-            with self.subTest(item=item):
-                self.assertIn(item, result)
+        # When/Then
+        self.execute_admin_tests(expected_readonly_fields, "readonly_fields")
 
     def test_ordering(self):
         # Given
@@ -77,10 +67,5 @@ class RecoveryPasswordValidatorAdminTest(BaseTest):
             "-created_at",
         ]
 
-        # When
-        result = self.admin.ordering
-
-        # Then
-        for item in expected_ordering:
-            with self.subTest(item=item):
-                self.assertIn(item, result)
+        # When/Then
+        self.execute_admin_tests(expected_ordering, "ordering")
