@@ -1,7 +1,6 @@
 from rest_framework import status
 
 from apps.core.tests.base_test import BaseTest
-from apps.core.tests.factories.custom_user_factory import CustomUserFactory
 from apps.term_manager.tests.factories.term_acceptance_factory import (
     TermAcceptanceFactory,
 )
