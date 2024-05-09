@@ -6,7 +6,6 @@ from rest_framework.viewsets import ViewSet
 
 from apps.core.serializers.standard_response_serializer import (
     StandardResponseSerializer,
-    StandardResponseSerializerError,
 )
 from apps.ride_manager.serializers.person_register_serializers import (
     PersonModelSerializer,

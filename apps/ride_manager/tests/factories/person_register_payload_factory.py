@@ -1,9 +1,9 @@
 from faker import Faker
 
-from apps.client_manager.tests.factories.valid_base64_image_factory import (
+from apps.core.utils.regex_utils import get_only_numbers
+from apps.ride_manager.tests.factories.valid_base64_image_factory import (
     valid_base64_image,
 )
-from apps.core.utils.regex_utils import get_only_numbers
 
 fake = Faker("pt_BR")
 

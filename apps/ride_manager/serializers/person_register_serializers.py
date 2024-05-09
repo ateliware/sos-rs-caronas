@@ -67,3 +67,6 @@ class PersonModelSerializer(serializers.ModelSerializer):
         read_only_fields = [
             "uuid",
         ]
+        write_only_fields = [
+            "user",
+        ]

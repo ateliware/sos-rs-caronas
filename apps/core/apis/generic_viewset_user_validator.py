@@ -29,7 +29,7 @@ class GenericUserViewSet(ModelViewSet):
         return queryset
 
     def perform_create(self, serializer):
-        person = self.get_person()        
+        person = self.get_person()
         if person:
             return serializer.save(person=person)
         raise ValidationError("Missing Authenticated User.")
