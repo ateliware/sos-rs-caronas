@@ -1,10 +1,14 @@
 import json
+from uuid import uuid4
 
 from django.core.management.base import BaseCommand
 from django.db import transaction
 from faker import Faker
 
 from apps.address_manager.models import City, State
+from apps.core.models import CustomUser
+from apps.core.utils.regex_utils import get_only_numbers
+from apps.ride_manager.models import Person, PhoneValidation
 from apps.term_manager.enums import TermTypeChoices
 from apps.term_manager.models import Term
 
@@ -19,6 +23,8 @@ class Command(BaseCommand):
             self.seed_states()
             self.seed_cities()
             self.seed_terms()
+            self.seed_phone_validations()
+            self.seed_persons()
 
             self.stdout.write(self.style.SUCCESS("Database has been seeded"))
 
@@ -59,3 +65,32 @@ class Command(BaseCommand):
             Term.objects.create(**term)
 
         self.stdout.write(self.style.SUCCESS("Terms data has been seeded"))
+
+    def seed_phone_validations(self) -> None:
+        PhoneValidation.objects.create(
+            integration_sid=str(uuid4()),
+            phone=fake.numerify("(##) #####-####"),
+            is_active=True,
+        )
+        self.stdout.write(
+            self.style.SUCCESS("Phone validations data has been seeded")
+        )
+
+    def seed_persons(self) -> None:
+        for _ in range(10):
+            user = CustomUser.objects.create_user(
+                cpf=get_only_numbers(fake.cpf()),
+                password="123456",
+            )
+            cities = City.objects.all()
+
+            Person.objects.create(
+                user=user,
+                name=fake.name(),
+                phone=fake.numerify("(##) #####-####"),
+                emergency_phone=fake.numerify("(##) #####-####"),
+                emergency_contact=fake.name(),
+                birth_date=fake.date_of_birth(),
+                city=fake.random_element(cities),
+            )
+        self.stdout.write(self.style.SUCCESS("Persons data has been seeded"))
