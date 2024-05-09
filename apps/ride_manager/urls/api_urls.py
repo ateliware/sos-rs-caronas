@@ -5,9 +5,15 @@ from apps.ride_manager.apis import (
     PersonRegisterViewSet,
     ValidatePhoneCheckCodeApiView,
     ValidatePhoneSendCodeApiView,
+    VehicleViewset,
 )
 
 router = DefaultRouter()
+
+router.register(
+    r"vehicles", VehicleViewset, basename="vehicles"
+)
+
 urlpatterns = [
     path(
         "validate_phone/send_code/",
