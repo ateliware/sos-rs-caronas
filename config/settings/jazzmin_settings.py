@@ -5,6 +5,8 @@ JAZZMIN_SETTINGS = {
         "core.CustomGroup": "fas fa-users",
         "ride_manager.Person": "fas fa-user",
         "ride_manager.Vehicle": "fas fa-car",
+        "ride_manager.AffectedPlace": "fas fa-map-marker-alt",
+        "ride_manager.WorkAvailability": "fas fa-truck",
         "address_manager.City": "fas fa-city",
         "address_manager.State": "fas fa-flag",
         "term_manager.Term": "fas fa-file-alt",

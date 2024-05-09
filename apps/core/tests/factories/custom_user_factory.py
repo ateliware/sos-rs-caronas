@@ -14,7 +14,7 @@ class CustomUserFactory(factory.django.DjangoModelFactory):
     first_name = fake.first_name()
     last_name = fake.last_name()
     email = fake.email()
-    cpf = get_only_numbers(fake.cpf())
+    cpf = factory.lazy_attribute(lambda x: get_only_numbers(fake.cpf()))
     is_staff = False
     is_active = True
     is_superuser = False

@@ -2,7 +2,7 @@ import pytest
 
 from apps.core.tests.base_test import BaseTest
 from apps.ride_manager.models import Vehicle
-from apps.ride_manager.tests.factories import VehicleFactory
+from apps.ride_manager.tests.factories.vehicle_factory import VehicleFactory
 
 
 class VehicleModelTests(BaseTest):
