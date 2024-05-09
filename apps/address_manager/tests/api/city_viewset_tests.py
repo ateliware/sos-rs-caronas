@@ -6,7 +6,7 @@ from apps.address_manager.serializers.state_serializer import (
 from apps.address_manager.tests.factories import CityFactory, StateFactory
 from apps.core.tests.base_test import BaseTest
 
-BASE_TEST_ENDPOINT = "/api/cities/"
+BASE_TEST_ENDPOINT = "/api/v1/cities/"
 
 
 class CityViewSetTest(BaseTest):

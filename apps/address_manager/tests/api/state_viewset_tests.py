@@ -3,7 +3,7 @@ from rest_framework import status
 from apps.address_manager.tests.factories import StateFactory
 from apps.core.tests.base_test import BaseTest
 
-BASE_TEST_ENDPOINT = "/api/states/"
+BASE_TEST_ENDPOINT = "/api/v1/states/"
 
 
 class StateViewSetTest(BaseTest):

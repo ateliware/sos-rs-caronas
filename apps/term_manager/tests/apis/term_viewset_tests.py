@@ -5,7 +5,7 @@ from apps.core.tests.base_test import BaseTest
 from apps.term_manager.models.term import Term
 from apps.term_manager.tests.factories.term_factory import TermFactory
 
-BASE_TEST_ENDPOINT = "/api/terms/"
+BASE_TEST_ENDPOINT = "/api/v1/terms/"
 PAGE_SIZE = int(config("REST_PAGE_SIZE", default=20))
 
 
