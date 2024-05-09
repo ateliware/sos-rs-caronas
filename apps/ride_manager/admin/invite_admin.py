@@ -20,7 +20,9 @@ class InviteAdmin(admin.ModelAdmin):
         "is_active",
     ]
 
-    ordering = ["-ride__date"]
+    ordering = [
+        "-ride__date",
+    ]
     search_fields = [
         "ride__destination",
         "ride__driver__name",
