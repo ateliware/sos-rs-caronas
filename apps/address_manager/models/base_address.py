@@ -22,13 +22,16 @@ class BaseAddress(models.Model):
     zip_code = models.CharField(
         max_length=9,
         verbose_name="CEP",
+        null=True,
+        blank=True,
     )
 
     def save(self, *args, **kwargs):
-        zip_code_is_valid = zip_code_format_validator(self.zip_code)
+        if self.zip_code:
+            zip_code_is_valid = zip_code_format_validator(self.zip_code)
 
-        if not zip_code_is_valid:
-            raise ValidationError({"zip_code": "CEP inválido."})
+            if not zip_code_is_valid:
+                raise ValidationError({"zip_code": "CEP inválido."})
 
         super().save(*args, **kwargs)
 
