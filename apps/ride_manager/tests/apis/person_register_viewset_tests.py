@@ -111,7 +111,6 @@ class PersonRegisterViewSetTests(BaseTest):
         )
 
         # Then
-        response_data = response.json()
         self.assertEqual(
             response.status_code, status.HTTP_500_INTERNAL_SERVER_ERROR
         )
