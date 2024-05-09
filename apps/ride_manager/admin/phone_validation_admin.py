@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.client_manager.models.phone_validation import PhoneValidation
+from apps.ride_manager.models.phone_validation import PhoneValidation
 
 
 @admin.register(PhoneValidation)
