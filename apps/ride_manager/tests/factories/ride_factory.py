@@ -3,11 +3,11 @@ from faker import Faker
 
 from apps.address_manager.tests.factories.city_factory import CityFactory
 from apps.ride_manager.models.ride import Ride, ShiftChoices, StatusChoices
-from apps.ride_manager.tests.factories import (
+from apps.ride_manager.tests.factories.affected_place_factory import (
     AffectedPlaceFactory,
-    PersonFactory,
-    VehicleFactory,
 )
+from apps.ride_manager.tests.factories.person_factory import PersonFactory
+from apps.ride_manager.tests.factories.vehicle_factory import VehicleFactory
 
 fake = Faker("pt_BR")
 

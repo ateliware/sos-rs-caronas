@@ -2,7 +2,7 @@ import pytest
 
 from apps.core.tests.base_test import BaseTest
 from apps.ride_manager.models.ride import Ride
-from apps.ride_manager.tests.factories import RideFactory
+from apps.ride_manager.tests.factories.ride_factory import RideFactory
 from apps.ride_manager.tests.factories.person_factory import PersonFactory
 
 
