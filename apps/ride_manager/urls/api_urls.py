@@ -7,12 +7,12 @@ from apps.ride_manager.apis import (
     ValidatePhoneCheckCodeApiView,
     ValidatePhoneSendCodeApiView,
     VehicleViewset,
+    VoluntarySearchViewSet,
 )
 
 router = DefaultRouter()
 
 router.register(r"vehicles", VehicleViewset, basename="vehicles")
-
 router.register(r"rides", RideViewset, basename="rides")
 
 urlpatterns = [
@@ -30,6 +30,11 @@ urlpatterns = [
         "person/register/",
         PersonRegisterViewSet.as_view({"post": "create"}),
         name="person_register",
+    ),
+    path(
+        "voluntaries/search/",
+        VoluntarySearchViewSet.as_view({"get": "list"}),
+        name="voluntary_search",
     ),
 ]
 

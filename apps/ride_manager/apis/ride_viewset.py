@@ -2,8 +2,8 @@ from django.core.exceptions import ValidationError
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response
-from apps.core.apis.generic_viewset_user_validator import GenericUserViewSet
 
+from apps.core.apis.generic_viewset_user_validator import GenericUserViewSet
 from apps.ride_manager.models.ride import Ride
 from apps.ride_manager.serializers.ride_input_serializer import (
     RideInputSerializer,

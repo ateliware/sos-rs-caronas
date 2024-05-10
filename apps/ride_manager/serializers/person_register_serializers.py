@@ -1,6 +1,9 @@
+from datetime import date
+
 from rest_framework import serializers
 
 from apps.core.serializers.base_64_serializer import Base64FileField
+from apps.core.utils.age_calculator import get_age
 from apps.ride_manager.models.person import Person
 
 
@@ -76,4 +79,30 @@ class PersonModelSerializer(serializers.ModelSerializer):
     def to_representation(self, data):
         response_data = super().to_representation(data)
         response_data.pop("user", None)
+        return response_data
+
+
+class PersonSimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Person
+        fields = [
+            "uuid",
+            "name",
+            "phone",
+            "city",
+            "age",
+        ]
+        read_only_fields = [
+            "uuid",
+            "name",
+            "phone",
+            "city",
+            "age",
+        ]
+
+    def to_representation(self, instance):
+        response_data = super().to_representation(instance)
+        today = date.today()
+        age = get_age(instance.birth_date, today)
+        response_data["age"] = age
         return response_data
