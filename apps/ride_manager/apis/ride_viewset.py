@@ -3,19 +3,19 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from apps.core.apis.generic_viewset_user_validator import GenericUserViewSet
 
+from apps.core.apis.generic_viewset_user_validator import GenericUserViewSet
 from apps.ride_manager.models.passenger import Passenger
 from apps.ride_manager.models.person import Person
 from apps.ride_manager.models.ride import Ride
+from apps.ride_manager.serializers.passenger_serializer import (
+    PassengerSerializer,
+)
 from apps.ride_manager.serializers.ride_input_serializer import (
     RideInputSerializer,
 )
 from apps.ride_manager.serializers.ride_output_serializer import (
     RideOutputSerializer,
-)
-from apps.ride_manager.serializers.passenger_serializer import (
-    PassengerSerializer,
 )
 
 

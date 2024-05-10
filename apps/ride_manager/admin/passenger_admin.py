@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from apps.ride_manager.models.passenger import Passenger
 
+
 class PassengerInlineAdmin(admin.TabularInline):
     model = Passenger
     extra = 1

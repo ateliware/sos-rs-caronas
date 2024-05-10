@@ -1,6 +1,7 @@
 from rest_framework import status
 
 from apps.core.tests.base_test import BaseTest
+from apps.ride_manager.tests.factories.passenger_factory import PassengerFactory
 from apps.ride_manager.tests.factories.person_factory import PersonFactory
 from apps.ride_manager.tests.factories.ride_factory import RideFactory
 
@@ -113,3 +114,16 @@ class RideViewsetTests(BaseTest):
         # Then
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.json()), 0)
+
+    def test_get_passengers(self):
+        # Given
+        passenger = PassengerFactory(ride=self.ride)
+        url = f"{self.url}{self.ride.uuid}/passengers/"
+
+        # When
+        response = self.auth_client.get(url)
+
+        # Then
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.json()), 1)
+        self.assertEqual(response.json()[0]["uuid"], str(passenger.uuid))
