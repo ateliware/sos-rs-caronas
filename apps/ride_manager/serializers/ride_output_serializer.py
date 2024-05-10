@@ -5,7 +5,7 @@ from apps.ride_manager.models.ride import Ride
 from apps.ride_manager.serializers.affected_place_serializer import (
     AffectedPlaceSerializer,
 )
-from apps.ride_manager.serializers.vehicle_serializer import VehicleSerializer
+from apps.ride_manager.serializers.vehicle_serializers import VehicleSerializer
 
 
 class RideOutputSerializer(serializers.ModelSerializer):
@@ -23,8 +23,8 @@ class RideOutputSerializer(serializers.ModelSerializer):
             "origin",
             "destination",
             "vehicle",
-            "quantity_of_passengers",
             "whatsapp_group_link",
+            "quantity_of_passengers",
             "notes",
             "status",
             "created_at",

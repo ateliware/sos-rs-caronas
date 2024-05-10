@@ -29,10 +29,12 @@ class VehicleFactory(factory.django.DjangoModelFactory):
             "color": fake.color_name(),
             "plate": fake.license_plate(),
             "plate_picture": ContentFile(
-                base64.b64decode(valid_base64_image()), name="plate_picture.jpg"
+                base64.b64decode(valid_base64_image()),
+                name="plate_picture.jpg",
             ),
             "vehicle_picture": ContentFile(
-                base64.b64decode(valid_base64_image()), name="plate_picture.jpg"
+                base64.b64decode(valid_base64_image()),
+                name="plate_picture.jpg",
             ),
             "is_verified": fake.boolean(),
         }

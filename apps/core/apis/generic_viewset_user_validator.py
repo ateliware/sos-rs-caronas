@@ -34,7 +34,7 @@ class GenericUserViewSet(ModelViewSet):
             return serializer.save(person=person)
         raise ValidationError("Missing Authenticated User.")
 
-    def get_person(self):
+    def get_person(self) -> Person:
         person = None
         try:
             person = Person.objects.get(user=self.request.user)
