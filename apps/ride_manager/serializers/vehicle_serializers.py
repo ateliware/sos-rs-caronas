@@ -29,5 +29,7 @@ class VehicleRegisterSerializer(serializers.Serializer):
     plate = serializers.CharField(max_length=7, required=True)
     plate_picture = Base64FileField(default_filename="plate_picture.jpg")
     vehicle_picture = Base64FileField(default_filename="vehicle_picture.jpg")
-    cnh_picture = Base64FileField(default_filename="cnh_picture.jpg", required=False)
+    cnh_picture = Base64FileField(
+        default_filename="cnh_picture.jpg", required=False
+    )
     cnh_number = serializers.CharField(max_length=15, required=False)
