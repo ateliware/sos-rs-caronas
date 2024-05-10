@@ -3,4 +3,4 @@ from .validate_phone_seralizers import (
     ValidatePhoneSendCodeRequestSerializer,
     ValidatePhoneSendCodeResponseOKSerializer,
 )
-from .vehicle_serializer import VehicleSerializer
+from .vehicle_serializers import VehicleSerializer

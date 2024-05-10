@@ -60,7 +60,9 @@ class PersonModelSerializer(serializers.ModelSerializer):
             "avatar",
             "cnh_number",
             "cnh_picture",
+            "cnh_is_verified",
             "document_picture",
+            "document_is_verified",
             "city",
             "zip_code",
         ]
