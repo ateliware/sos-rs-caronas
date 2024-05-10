@@ -3,19 +3,17 @@ from rest_framework.routers import DefaultRouter
 
 from apps.ride_manager.apis import (
     PersonRegisterViewSet,
+    RideViewset,
     ValidatePhoneCheckCodeApiView,
     ValidatePhoneSendCodeApiView,
     VehicleViewset,
-    RideViewset,
 )
 
 router = DefaultRouter()
 
 router.register(r"vehicles", VehicleViewset, basename="vehicles")
 
-router.register(
-    r"rides", RideViewset, basename="rides"
-)
+router.register(r"rides", RideViewset, basename="rides")
 
 urlpatterns = [
     path(

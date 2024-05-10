@@ -20,6 +20,7 @@ class RideFactory(factory.django.DjangoModelFactory):
     destination = factory.SubFactory(AffectedPlaceFactory)
     driver = factory.SubFactory(PersonFactory)
     vehicle = factory.SubFactory(VehicleFactory)
+    quantity_of_passengers = fake.random_int()
     notes = fake.text()
     status = fake.random_element(StatusChoices.values)
     is_active = fake.boolean()
@@ -30,10 +31,11 @@ class RideFactory(factory.django.DjangoModelFactory):
             "uuid": fake.uuid4(),
             "date": fake.date(),
             "work_shift": fake.random_element(ShiftChoices.values),
-            "origin": CityFactory.city_data(),
-            "destination": AffectedPlaceFactory.affected_place_data(),
-            "driver": PersonFactory.person_data(),
-            "vehicle": VehicleFactory.vehicle_data(),
+            "origin": CityFactory().pk,
+            "destination": AffectedPlaceFactory().pk,
+            "vehicle": VehicleFactory().pk,
+            "driver": PersonFactory().pk,
+            "quantity_of_passengers": fake.random_int(),
             "notes": fake.text(),
             "status": fake.random_element(StatusChoices.values),
             "is_active": fake.boolean(),

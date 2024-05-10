@@ -15,7 +15,7 @@ class ShiftChoices(models.TextChoices):
 
 
 class StatusChoices(models.TextChoices):
-    OPEN = "Open", "Aberta"
+    OPEN = "OPEN", "Aberta"
     IN_PROGRESS = "IN_PROGRESS", "Em Andamento"
     FINISHED = "FINISHED", "Concluída"
 
@@ -60,8 +60,13 @@ class Ride(BaseModel):
         on_delete=models.PROTECT,
         verbose_name="Veículo",
     )
+    quantity_of_passengers = models.PositiveIntegerField(
+        verbose_name="Vagas Disponíveis", default=4
+    )
     notes = models.TextField(
         verbose_name="Observações",
+        null=True,
+        blank=True,
     )
     status = models.CharField(
         max_length=11,
