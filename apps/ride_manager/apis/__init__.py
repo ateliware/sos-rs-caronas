@@ -1,3 +1,4 @@
+from .affected_place_viewset import AffectedPlaceViewSet
 from .person_register_viewset import PersonRegisterViewSet
 from .ride_viewset import RideViewset
 from .validate_phone_check_code import ValidatePhoneCheckCodeApiView
