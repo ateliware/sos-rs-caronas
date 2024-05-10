@@ -1,10 +1,16 @@
 from django.core.exceptions import ValidationError
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.response import Response
-from apps.core.apis.generic_viewset_user_validator import GenericUserViewSet
 
+from apps.core.apis.generic_viewset_user_validator import GenericUserViewSet
+from apps.ride_manager.models.passenger import Passenger
+from apps.ride_manager.models.person import Person
 from apps.ride_manager.models.ride import Ride
+from apps.ride_manager.serializers.passenger_serializer import (
+    PassengerSerializer,
+)
 from apps.ride_manager.serializers.ride_input_serializer import (
     RideInputSerializer,
 )
@@ -59,3 +65,31 @@ class RideViewset(GenericUserViewSet):
             serializer.data,
             status=status.HTTP_201_CREATED,
         )
+
+    @action(detail=True, methods=["get"], url_path="passengers")
+    def get_passengers(self, request, pk=None):
+        """
+        From a given ride uuid, received as query param
+        retrieves all passengers associated with it, serialize them,
+        and then return the list of passengers.
+        """
+        try:
+            ride = self.get_object()
+            passengers = Passenger.objects.filter(ride=ride)
+            serializer = PassengerSerializer(passengers, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Ride.DoesNotExist:
+            return Response(
+                [{"message": "Carona não encontrada"}],
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+    def get_person(self):
+        person = None
+        try:
+            person = Person.objects.get(user=self.request.user)
+        except Person.DoesNotExist:
+            logging.error(
+                "Authenticated client is not a valid registered user."
+            )
+        return person
