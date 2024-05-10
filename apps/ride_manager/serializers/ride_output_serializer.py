@@ -24,7 +24,7 @@ class RideOutputSerializer(serializers.ModelSerializer):
             "destination",
             "vehicle",
             "quantity_of_passengers",
-            "whatspp_group_link",
+            "whatsapp_group_link",
             "notes",
             "status",
             "created_at",

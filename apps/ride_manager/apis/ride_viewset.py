@@ -1,12 +1,9 @@
-import logging
-
 from django.core.exceptions import ValidationError
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
+from apps.core.apis.generic_viewset_user_validator import GenericUserViewSet
 
 from apps.ride_manager.models.passenger import Passenger
 from apps.ride_manager.models.person import Person
@@ -22,10 +19,9 @@ from apps.ride_manager.serializers.passenger_serializer import (
 )
 
 
-class RideViewset(ModelViewSet):
+class RideViewset(GenericUserViewSet):
     queryset = Ride.objects.all()
     serializer_class = RideOutputSerializer
-    permission_classes = [IsAuthenticated]
     http_method_names = ["get", "post"]
 
     def get_queryset(self):
