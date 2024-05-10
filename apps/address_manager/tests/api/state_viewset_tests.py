@@ -14,13 +14,10 @@ class StateViewSetTest(BaseTest):
     def test_list_states(self):
         # Given
         url = BASE_TEST_ENDPOINT
-        expected_main_keys = ["count", "next", "previous", "results"]
-        expected_results_keys = [
+        expected_keys = [
             "id",
             "name",
             "code",
-            "created_at",
-            "updated_at",
             "is_active",
         ]
 
@@ -30,13 +27,9 @@ class StateViewSetTest(BaseTest):
         # Then
         response_data = response.json()
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(list(response_data.keys()), expected_main_keys)
-        self.assertEqual(response_data["count"], 1)
-        self.assertEqual(response_data["next"], None)
-        self.assertEqual(response_data["previous"], None)
 
-        for result in response_data["results"]:
-            self.assertEqual(list(result.keys()), expected_results_keys)
+        for result in response_data:
+            self.assertEqual(list(result.keys()), expected_keys)
             self.assertEqual(result["name"], self.state.name)
             self.assertEqual(result["code"], self.state.code)
 
@@ -44,12 +37,10 @@ class StateViewSetTest(BaseTest):
         # Given
         url = BASE_TEST_ENDPOINT
         state_data = StateFactory.state_data()
-        expected_main_keys = [
+        expected_keys = [
             "id",
             "name",
             "code",
-            "created_at",
-            "updated_at",
             "is_active",
         ]
 
@@ -62,7 +53,7 @@ class StateViewSetTest(BaseTest):
         # Then
         response_data = response.json()
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(list(response_data.keys()), expected_main_keys)
+        self.assertEqual(list(response_data.keys()), expected_keys)
         self.assertEqual(response_data["name"], state_data["name"])
         self.assertEqual(response_data["code"], state_data["code"])
 
@@ -76,9 +67,9 @@ class StateViewSetTest(BaseTest):
 
         # Then
         response_data = response.json()
-        response_state = response_data["results"][0]
+        response_state = response_data[0]
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response_data["results"]), 1)
+        self.assertEqual(len(response_data), 1)
         self.assertEqual(response_state["id"], expected_id)
 
     def test_filter_states_when_passed_partial_name(self):
@@ -92,9 +83,9 @@ class StateViewSetTest(BaseTest):
 
         # Then
         response_data = response.json()
-        response_state = response_data["results"][0]
+        response_state = response_data[0]
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response_data["results"]), expected_results_qtt)
+        self.assertEqual(len(response_data), expected_results_qtt)
         self.assertEqual(response_state["id"], other_state.id)
 
     def test_retrieve_state(self):
@@ -105,8 +96,6 @@ class StateViewSetTest(BaseTest):
             "id",
             "name",
             "code",
-            "created_at",
-            "updated_at",
             "is_active",
         ]
 
@@ -128,8 +117,6 @@ class StateViewSetTest(BaseTest):
             "id",
             "name",
             "code",
-            "created_at",
-            "updated_at",
             "is_active",
         ]
 
@@ -156,8 +143,6 @@ class StateViewSetTest(BaseTest):
             "id",
             "name",
             "code",
-            "created_at",
-            "updated_at",
             "is_active",
         ]
 

@@ -10,6 +10,7 @@ class TermAcceptanceViewSet(ModelViewSet):
     serializer_class = TermAcceptanceSerializer
     http_method_names = ["get", "post"]
     permission_classes = [IsAuthenticated]
+    queryset = TermAcceptance.objects.all()
 
     def get_queryset(self):
         user = self.request.user
