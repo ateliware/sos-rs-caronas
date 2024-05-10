@@ -3,3 +3,4 @@ from .ride_viewset import RideViewset
 from .validate_phone_check_code import ValidatePhoneCheckCodeApiView
 from .validate_phone_send_code import ValidatePhoneSendCodeApiView
 from .vehicle_viewset import VehicleViewset
+from .ride_search_viewset import RideSearchViewSet

@@ -9,7 +9,7 @@ from apps.ride_manager.serializers.vehicle_serializers import VehicleSerializer
 
 
 class RideOutputSerializer(serializers.ModelSerializer):
-
+    qtt_passengers = serializers.IntegerField()
     origin = CitySerializer()
     destination = AffectedPlaceSerializer()
     vehicle = VehicleSerializer()
@@ -28,4 +28,5 @@ class RideOutputSerializer(serializers.ModelSerializer):
             "notes",
             "status",
             "created_at",
+            "qtt_passengers",
         ]

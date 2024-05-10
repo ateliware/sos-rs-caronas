@@ -7,6 +7,7 @@ from apps.ride_manager.apis import (
     ValidatePhoneCheckCodeApiView,
     ValidatePhoneSendCodeApiView,
     VehicleViewset,
+    RideSearchViewSet,
 )
 
 router = DefaultRouter()
@@ -31,6 +32,11 @@ urlpatterns = [
         PersonRegisterViewSet.as_view({"post": "create"}),
         name="person_register",
     ),
+    path(
+        "rides/search/",
+        RideSearchViewSet.as_view({"get": "list"}),
+        name="rides_search",
+    )
 ]
 
 urlpatterns += router.urls
