@@ -68,6 +68,11 @@ class Ride(BaseModel):
         choices=StatusChoices.choices,
         verbose_name="Status",
     )
+    whatspp_group_link = models.URLField(
+        verbose_name="Link do Grupo de WhatsApp",
+        blank=True,
+        null=True,
+    )
 
     def save(self, *args, **kwargs):
         is_shift_choice_valid = (

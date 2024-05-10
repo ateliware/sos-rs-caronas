@@ -5,12 +5,17 @@ from apps.ride_manager.apis import (
     validate_phone_check_code,
     validate_phone_send_code,
     vehicle_viewset,
+    ride_viewset
 )
 
 router = DefaultRouter()
 
 router.register(
     r"vehicles", vehicle_viewset.VehicleViewset, basename="vehicles"
+)
+
+router.register(
+    r"rides", ride_viewset.RideViewset, basename="rides"
 )
 
 urlpatterns = [
