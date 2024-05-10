@@ -7,13 +7,14 @@ from apps.ride_manager.apis import (
     ValidatePhoneCheckCodeApiView,
     ValidatePhoneSendCodeApiView,
     VehicleViewset,
+    VoluntaryViewset,
 )
 
 router = DefaultRouter()
 
-router.register(r"vehicles", VehicleViewset, basename="vehicles")
-
 router.register(r"rides", RideViewset, basename="rides")
+router.register(r"vehicles", VehicleViewset, basename="vehicles")
+router.register(r"voluntaries", VoluntaryViewset, basename="voluntaries")
 
 urlpatterns = [
     path(
