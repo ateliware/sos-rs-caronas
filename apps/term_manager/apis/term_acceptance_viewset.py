@@ -1,13 +1,30 @@
-from apps.core.apis.generic_viewset_user_validator import GenericUserViewSet
+from django.forms import ValidationError
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.viewsets import ModelViewSet
+
 from apps.term_manager.models import TermAcceptance
 from apps.term_manager.serializers import TermAcceptanceSerializer
 
 
-class TermAcceptanceViewSet(GenericUserViewSet):
+class TermAcceptanceViewSet(ModelViewSet):
     serializer_class = TermAcceptanceSerializer
-    queryset = TermAcceptance.objects.all()
     http_method_names = ["get", "post"]
+    permission_classes = [IsAuthenticated]
+    queryset = TermAcceptance.objects.all()
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.order_by("-created_at")
+        user = self.request.user
+
+        if not user:
+            return TermAcceptance.objects.none()
+
+        queryset = TermAcceptance.objects.filter(user=user).order_by(
+            "-created_at"
+        )
+        return queryset
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        if user:
+            return serializer.save(user=user)
+        raise ValidationError("Missing Authenticated User.")

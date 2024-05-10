@@ -38,7 +38,12 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "zip_code",
-                    models.CharField(max_length=9, verbose_name="CEP"),
+                    models.CharField(
+                        max_length=9,
+                        verbose_name="CEP",
+                        blank=True,
+                        null=True,
+                    ),
                 ),
                 (
                     "uuid",

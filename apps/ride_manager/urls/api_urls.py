@@ -2,30 +2,36 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 
 from apps.ride_manager.apis import (
-    validate_phone_check_code,
-    validate_phone_send_code,
-    vehicle_viewset,
-    ride_viewset
+    PersonRegisterViewSet,
+    ValidatePhoneCheckCodeApiView,
+    ValidatePhoneSendCodeApiView,
+    VehicleViewset,
+    RideViewset,
 )
 
 router = DefaultRouter()
 
-router.register(
-    r"vehicles", vehicle_viewset.VehicleViewset, basename="vehicles"
-)
+router.register(r"vehicles", VehicleViewset, basename="vehicles")
 
 router.register(
-    r"rides", ride_viewset.RideViewset, basename="rides"
+    r"rides", RideViewset, basename="rides"
 )
 
 urlpatterns = [
     path(
         "validate_phone/send_code/",
-        validate_phone_send_code.ValidatePhoneSendCodeApiView.as_view(),
+        ValidatePhoneSendCodeApiView.as_view(),
+        name="validate_phone_send_code",
     ),
     path(
         "validate_phone/check_code/",
-        validate_phone_check_code.ValidatePhoneCheckCodeApiView.as_view(),
+        ValidatePhoneCheckCodeApiView.as_view(),
+        name="validate_phone_check_code",
+    ),
+    path(
+        "person/register/",
+        PersonRegisterViewSet.as_view({"post": "create"}),
+        name="person_register",
     ),
 ]
 

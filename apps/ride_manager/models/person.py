@@ -1,13 +1,10 @@
 import os
 from uuid import uuid4
 
-from django.core.exceptions import ValidationError
 from django.db import models
 
 from apps.address_manager.models.base_address import BaseAddress
 from apps.core.models import BaseModel, CustomUser
-from apps.core.utils.cpf_validator import CpfValidator
-from apps.core.utils.regex_utils import get_only_numbers
 
 
 def upload_path(instance, filename):

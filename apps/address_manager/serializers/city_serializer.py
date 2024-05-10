@@ -8,8 +8,6 @@ from apps.address_manager.serializers.state_serializer import (
 
 class CitySerializer(serializers.ModelSerializer):
     state = NestedStateSerializer()
-    created_at = serializers.DateTimeField(format="%d/%m/%Y")
-    updated_at = serializers.DateTimeField(format="%d/%m/%Y")
 
     class Meta:
         model = City
@@ -17,14 +15,10 @@ class CitySerializer(serializers.ModelSerializer):
             "id",
             "name",
             "state",
-            "created_at",
-            "updated_at",
             "is_active",
         ]
         read_only_fields = [
             "id",
-            "created_at",
-            "updated_at",
         ]
 
 
