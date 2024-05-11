@@ -38,27 +38,25 @@
                 {% csrf_token %}
                 <!-- Username Field with Bootstrap class -->
                 <div class="form-group">
-                    <label for="id_username">Username:</label>
-                    <input type="text" name="username" id="id_username" class="form-control">
+                    <label for="id_username">CPF:</label>
+                    <input type="text" name="username" id="id_username" class="form-control" placeholder="CPF apenas digitos">
                 </div>
                 <!-- Password Field with Bootstrap class -->
                 <div class="form-group">
-                    <label for="id_password">Password:</label>
-                    <input type="password" name="password" id="id_password" class="form-control">
+                    <label for="id_password">Senha:</label>
+                    <input type="password" name="password" id="id_password" class="form-control" placeholder="Informe sua senha">
                 </div>
                 <!-- Display form-level errors -->
                 {% if form.non_field_errors %}
                 <div class="alert alert-danger">
-                    {% for error in form.non_field_errors %}
-                        {{ error }}
-                    {% endfor %}
+                    <span>Usuário ou senha incorretos!</span>
                 </div>
                 {% endif %}
                 <!-- Submit Button with Bootstrap class -->
                 <button type="submit" class="btn btn-primary btn-block">Login</button>
             </form>
             <!-- Registration link -->
-            <p class="text-center mt-3">Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+            <p class="text-center mt-3">Não possui uma conta?<a href="{% url 'register' %}"> Cadastre-se</a></p>
         </div>
     </div>
 

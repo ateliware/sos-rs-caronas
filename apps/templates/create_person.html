@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="container mt-5">
-        <h2 class="mb-4">Create a New Person</h2>
+        <h2 class="mb-4">Cadastro</h2>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
@@ -95,7 +95,8 @@
                 {% endif %}
             </div>
             <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a href="{% url 'home' %}" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 {% endblock %}

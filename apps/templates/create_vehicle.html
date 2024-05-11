@@ -1,35 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Person Form</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    <div class="container mt-5">
-        <h2 class="mb-4">Adicionar Veículo</h2>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
+{% extends "base.html" %}
 
-            <!-- Display form-wide errors -->
-            {% if form.errors %}
-                <div class="alert alert-danger">
-                    {% for error in form.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-            
-            <!-- Brand Field -->
+{% block title %}SosRs | Carona{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Adicionar Veículo</h2>
+    <!-- Muted text with padding bottom -->
+    <span class="text-muted pb-3 d-block">
+        <small>Primeiro precisamos cadastrar sua CNH e os dados do seu veículo.</small>
+    </span>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Display form-wide errors -->
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                {% for error in form.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- CNH Section -->
+        <div class="mb-4">
+            <h4>Dados da CNH</h4>
+            <!-- CNH number field -->
+            <div class="form-group">
+                <label for="cnh_number">Número da CNH</label>
+                <input type="text" class="form-control" id="cnh_number" name="cnh_number" required>
+                <!-- Display cnh_number field errors -->
+                {% if form.cnh_number.errors %}
+                    <small class="text-danger">{{ form.cnh_number.errors }}</small>
+                {% endif %}
+            </div>
+            <!-- CNH picture field -->
+            <div class="form-group">
+                <label for="cnh_picture">Foto da CNH</label>
+                <input type="file" class="form-control-file" id="cnh_picture" name="cnh_picture" required>
+                <!-- Display cnh_picture field errors -->
+                {% if form.cnh_picture.errors %}
+                    <small class="text-danger">{{ form.cnh_picture.errors }}</small>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Vehicle Section -->
+        <div>
+            <h4>Dados do Veículo</h4>
+            <!-- Model field -->
             <div class="form-group">
                 <label for="model">Modelo</label>
                 <input type="text" class="form-control" id="model" name="model" required>
                 <!-- Display model field errors -->
                 {% if form.model.errors %}
-                <small class="text-danger">{{ form.model.errors }}</small>
-            {% endif %}
+                    <small class="text-danger">{{ form.model.errors }}</small>
+                {% endif %}
+            </div>
             <!-- Color field -->
             <div class="form-group">
                 <label for="color">Cor</label>
@@ -57,7 +83,7 @@
                     <small class="text-danger">{{ form.plate_picture.errors }}</small>
                 {% endif %}
             </div>
-            <!-- vehicle picture -->
+            <!-- Vehicle picture field -->
             <div class="form-group">
                 <label for="vehicle_picture">Foto do Veículo</label>
                 <input type="file" class="form-control-file" id="vehicle_picture" name="vehicle_picture" required>
@@ -66,11 +92,10 @@
                     <small class="text-danger">{{ form.vehicle_picture.errors }}</small>
                 {% endif %}
             </div>
-            <!-- Submit button -->
-            <button type="submit" class="btn btn-primary">Adicionar Veículo</button>
-        </form>
-    </div>
-    <!-- Bootstrap JS (optional, for certain Bootstrap features) -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary">Adicionar Veículo</button>
+    </form>
+</div>
+{% endblock %}

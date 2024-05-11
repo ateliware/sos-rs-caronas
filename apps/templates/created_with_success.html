@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}SosRs|Carona - Cadastro de Caronas{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">
+        <i class="material-icons mr-2" style="font-size: 48px;">check_circle</i> <!-- White icon -->
+        Dados cadastrados!
+    </h1>
+    <p class="lead">Recebemos seus dados, estamos validando as informações do motorista e do veículo.</p>
+    <hr class="my-4">
+    <p>Assim que a validação for concluída, você receberá uma confirmação via SMS.</p>
+    <a class="btn btn-primary" href="{% url 'home' %}" role="button">
+        Voltar para o início
+    </a>
+</div>
+{% endblock %}
