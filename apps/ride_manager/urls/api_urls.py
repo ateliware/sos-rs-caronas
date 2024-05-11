@@ -42,7 +42,7 @@ urlpatterns = [
         "rides/search/",
         RideSearchViewSet.as_view({"get": "list"}),
         name="rides_search",
-    )
+    ),
 ]
 
 urlpatterns += router.urls

@@ -24,14 +24,13 @@ class RideSearchViewSet(ModelViewSet):
     serializer_class = RideOutputSerializer
 
     def get_queryset(self):
-        queryset = Ride.objects.all(
-        ).annotate(
+        queryset = Ride.objects.all().annotate(
             qtt_passengers=Count("passenger")
         )
         # ).filter(
         #     passenger__status=PassengerStatusChoices.ACCEPTED,
         # )
         return queryset
-    
+
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
