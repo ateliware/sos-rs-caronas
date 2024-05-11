@@ -66,4 +66,4 @@ class Voluntary(BaseModel):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.person} - {self.city} - {self.affected_place}"
+        return f"{self.person} - {self.date}"
