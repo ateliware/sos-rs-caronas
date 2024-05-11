@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}SosRs|Carona - Cadastro de Caronas{% endblock %}
+
+{% block content %}
+    <div class="container mt-1">
+        <h2>Validação do Telefone</h2>
+        <p>Por favor, insira seu número de telefone e o código de verificação enviado para seu telefone.</p>
+        
+         <!-- Alert Message -->
+         {% if message %}
+         <div class="alert alert-success" role="alert">
+             {{ message }}
+         </div>
+         {% endif %}
+ 
+         <!-- Phone Verification Form -->
+         <form method="post">
+             {% csrf_token %}
+             <div class="form-row align-items-center">
+                 <!-- Phone Number Input -->
+                 <div class="col-sm-8 mb-3">
+                     <label class="sr-only" for="phone">Numero do telefone</label>
+                     <input type="tel" class="form-control" id="phone" name="phone" placeholder="Ex: (54)9 99999-9999" required>
+                 </div>
+                 <!-- Send Button -->
+                 <div class="col-auto mb-3">
+                     <button type="submit" class="btn btn-primary">Enviar</button>
+                 </div>
+             </div>
+         </form>
+    </div>
+{% endblock %}

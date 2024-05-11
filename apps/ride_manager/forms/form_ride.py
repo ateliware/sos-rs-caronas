@@ -12,5 +12,5 @@ class RideForm(forms.ModelForm):
             "origin",
             "destination",
             "vehicle",
-            "quantity_of_passengers"
+            "quantity_of_passengers",
         ]

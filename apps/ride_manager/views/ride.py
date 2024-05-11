@@ -1,6 +1,7 @@
 import logging
-from django.shortcuts import redirect, render
+
 from django.db.models import Count
+from django.shortcuts import redirect, render
 
 from apps.address_manager.models.city import City
 from apps.ride_manager.forms.form_ride import RideForm
@@ -30,14 +31,10 @@ def create_ride(request):
 
     if request.method == "POST":
         form = RideForm(request.POST, request.FILES)
-        print(form.fields)
-        for field in form.fields:
-            print(f"{field}: {form.fields[field]} - {form.fields[field].widget}")
         if form.is_valid():
-            print(form.cleaned_data)
             ride = form.save(commit=False)
             ride.driver = get_person(request)
-            
+
             try:
                 ride.save()
             except Exception as e:
@@ -65,21 +62,24 @@ def create_ride(request):
         },
     )
 
+
 def my_rides(request):
     """
     List all rides that the logged user is the driver
     """
-    rides = Ride.objects.filter(
-        driver__user=request.user
-    ).order_by("-date")
+    rides = Ride.objects.filter(driver__user=request.user).order_by("-date")
     return render(request, "my_rides.html", {"rides": rides})
+
 
 def open_rides(request):
     """
     List all rides available for the logged in user
     """
-    rides = Ride.objects.filter(status="OPEN").annotate(num_passengers=Count('passenger'))
+    rides = Ride.objects.filter(status="OPEN").annotate(
+        num_passengers=Count("passenger")
+    )
     return render(request, "list_ride.html", {"rides": rides})
+
 
 def get_person(request) -> Person:
     person = None

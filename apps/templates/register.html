@@ -21,6 +21,10 @@
             <div class="form-group">
                 <label for="name">Nome Completo</label>
                 <input type="text" class="form-control" id="name" name="name" required>
+                <!-- Display Name field errors -->
+                {% if form.name.errors %}
+                    <small class="text-danger">{{ form.name.errors }}</small>
+                {% endif %}
             </div>
             <!-- Phone Field -->
             <div class="form-group">
@@ -40,23 +44,46 @@
                     <small class="text-danger">{{ form.cpf.errors }}</small>
                 {% endif %}
             </div>
-            <!-- State field -->
+            <!-- Birth Date Field -->
             <div class="form-group">
-                <label for="state">Estado:</label>
-                <input type="text" class="form-control" id="state" name="state" required>
-                <!-- Display State field errors -->
-                {% if form.state.errors %}
-                    <small class="text-danger">{{ form.state.errors }}</small>
+                <label for="birth_date">Data de Nascimento:</label>
+                <input type="date" class="form-control" id="birth_date" name="birth_date" required>
+                <!-- Display Birth Date field errors -->
+                {% if form.birth_date.errors %}
+                    <small class="text-danger">{{ form.birth_date.errors }}</small>
                 {% endif %}
             </div>
+            <!-- State field -->
+            <div class="form-group row">
+                <label for="state" class="col-sm-2 col-form-label">Estado</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="state" name="state" required>
+                        <option value="">Selecione um estado</option>
+                        {% for state in states %}
+                            <option value="{{ state.id }}">{{ state }}</option>
+                        {% endfor %}
+                    </select>
+                    <!-- Display state field errors -->
+                    {% if form.state.errors %}
+                        <small class="text-danger">{{ form.state.errors }}</small>
+                    {% endif %}
+                </div>
+            </div>
             <!-- City field -->
-            <div class="form-group">
-                <label for="city">Cidade:</label>
-                <input type="text" class="form-control" id="city" name="city" required>
-                <!-- Display City field errors -->
-                {% if form.city.errors %}
-                    <small class="text-danger">{{ form.city.errors }}</small>
-                {% endif %}
+            <div class="form-group row">
+                <label for="city" class="col-sm-2 col-form-label">Cidade</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="city" name="city" required>
+                        <option value="">Selecione uma cidade</option>
+                        {% for city in cities %}
+                            <option value="{{ city.id }}">{{ city }}</option>
+                        {% endfor %}
+                    </select>
+                    <!-- Display city field errors -->
+                    {% if form.city.errors %}
+                        <small class="text-danger">{{ form.city.errors }}</small>
+                    {% endif %}
+                </div>
             </div>
             <!-- Emergency Contact Field -->
             <div class="form-group">
@@ -76,15 +103,6 @@
                     <small class="text-danger">{{ form.emergency_phone.errors }}</small>
                 {% endif %}
             </div>
-            <!-- Birth Date Field -->
-            <div class="form-group">
-                <label for="birth_date">Data de Nascimento:</label>
-                <input type="date" class="form-control" id="birth_date" name="birth_date" required>
-                <!-- Display Birth Date field errors -->
-                {% if form.birth_date.errors %}
-                    <small class="text-danger">{{ form.birth_date.errors }}</small>
-                {% endif %}
-            </div>
             <!-- Picture of a dcoument-->
             <div class="form-group">
                 <label for="document_picture">Foto do documento:</label>
@@ -94,9 +112,46 @@
                     <small class="text-danger">{{ form.document_picture.errors }}</small>
                 {% endif %}
             </div>
+            <!--password field-->
+            <div class="form-group row">
+                <label for="password" class="col-sm-2 col-form-label">Senha</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" id="password" name="password" required>
+                    <!-- Display password field errors -->
+                    {% if form.password.errors %}
+                        <small class="text-danger">{{ form.password.errors }}</small>
+                    {% endif %}
+                </div>
+            </div>
+            <!--password confirmation field-->
+            <div class="form-group row">
+                <label for="password_confirmation" class="col-sm-2 col-form-label">Confirmação de Senha</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+                    <!-- Display password_confirmation field errors -->
+                    {% if form.password_confirmation.errors %}
+                        <small class="text-danger">{{ form.password_confirmation.errors }}</small>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- Error Message for Password Mismatch -->
+            <div id="passwordError" class="text-danger mb-3" style="display: none;">As senhas informadas não conferem!</div>
             <!-- Submit Button -->
             <button type="submit" class="btn btn-primary">Salvar</button>
             <a href="{% url 'home' %}" class="btn btn-secondary">Cancelar</a>
         </form>
-    </div>
+    </div>    
+    <script>
+        function validatePassword() {
+            var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('password_confirmation').value;
+
+            if (password !== confirmPassword) {
+                document.getElementById('passwordError').style.display = 'block';
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 {% endblock %}
