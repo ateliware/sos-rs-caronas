@@ -8,13 +8,14 @@ from apps.ride_manager.apis import (
     ValidatePhoneCheckCodeApiView,
     ValidatePhoneSendCodeApiView,
     VehicleViewset,
+    VoluntaryViewset,
 )
 
 router = DefaultRouter()
 
-router.register(r"vehicles", VehicleViewset, basename="vehicles")
-
 router.register(r"rides", RideViewset, basename="rides")
+router.register(r"vehicles", VehicleViewset, basename="vehicles")
+router.register(r"voluntaries", VoluntaryViewset, basename="voluntaries")
 
 router.register(
     r"affected_places", AffectedPlaceViewSet, basename="affected_places"
