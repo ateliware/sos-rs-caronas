@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}SosRs|Carona{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="mb-4">Create a New Person</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Display form-wide errors -->
+            {% if form.errors %}
+            <div class="alert alert-danger">
+                {% for error in form.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Name Field -->
+            <div class="form-group">
+                <label for="name">Nome Completo</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <!-- Phone Field -->
+            <div class="form-group">
+                <label for="phone">Telefone</label>
+                <input type="text" class="form-control" id="phone" name="phone" required>
+                <!-- Display Phone field errors -->
+                {% if form.phone.errors %}
+                    <small class="text-danger">{{ form.phone.errors }}</small>
+                {% endif %}
+            </div>
+            <!-- CPF field -->
+            <div class="form-group">
+                <label for="cpf">CPF:</label>
+                <input type="text" class="form-control" id="cpf" name="cpf" required>
+                <!-- Display CPF field errors -->
+                {% if form.cpf.errors %}
+                    <small class="text-danger">{{ form.cpf.errors }}</small>
+                {% endif %}
+            </div>
+            <!-- State field -->
+            <div class="form-group">
+                <label for="state">Estado:</label>
+                <input type="text" class="form-control" id="state" name="state" required>
+                <!-- Display State field errors -->
+                {% if form.state.errors %}
+                    <small class="text-danger">{{ form.state.errors }}</small>
+                {% endif %}
+            </div>
+            <!-- City field -->
+            <div class="form-group">
+                <label for="city">Cidade:</label>
+                <input type="text" class="form-control" id="city" name="city" required>
+                <!-- Display City field errors -->
+                {% if form.city.errors %}
+                    <small class="text-danger">{{ form.city.errors }}</small>
+                {% endif %}
+            </div>
+            <!-- Emergency Contact Field -->
+            <div class="form-group">
+                <label for="emergency_contact">Contato de Emergência:</label>
+                <input type="text" class="form-control" id="emergency_contact" name="emergency_contact">
+                <!-- Display Emergency Contact field errors -->
+                {% if form.emergency_contact.errors %}
+                    <small class="text-danger">{{ form.emergency_contact.errors }}</small>
+                {% endif %}
+            </div>
+            <!-- Emergency Contact Field -->
+            <div class="form-group">
+                <label for="emergency_phone">Telefone de Emergência:</label>
+                <input type="text" class="form-control" id="emergency_phone" name="emergency_phone">
+                <!-- Display Emergency Phone field errors -->
+                {% if form.emergency_phone.errors %}
+                    <small class="text-danger">{{ form.emergency_phone.errors }}</small>
+                {% endif %}
+            </div>
+            <!-- Birth Date Field -->
+            <div class="form-group">
+                <label for="birth_date">Data de Nascimento:</label>
+                <input type="date" class="form-control" id="birth_date" name="birth_date" required>
+                <!-- Display Birth Date field errors -->
+                {% if form.birth_date.errors %}
+                    <small class="text-danger">{{ form.birth_date.errors }}</small>
+                {% endif %}
+            </div>
+            <!-- Picture of a dcoument-->
+            <div class="form-group">
+                <label for="document_picture">Foto do documento:</label>
+                <input type="file" class="form-control-file" id="document_picture" name="document_picture">
+                <!-- Display Document Picture field errors -->
+                {% if form.document_picture.errors %}
+                    <small class="text-danger">{{ form.document_picture.errors }}</small>
+                {% endif %}
+            </div>
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}SosRs|Carona - Cadastro de Caronas{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <!-- Page Title -->
+    <h2 class="mb-4 text-center">Adicionar carona</h2>
+
+    <div class="row">
+        <!-- Vehicle Information Card -->
+        <div class="col-lg-12 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Icon and Car Information -->
+                    <div class="d-flex align-items-center">
+                        <i class="material-icons mr-3" style="font-size: 36px;">directions_car</i>
+                        <div>
+                            <h5 class="card-title">{{ vehicle.model }} - {{ vehicle.color }}</h5>
+                            <p class="card-text">{{ vehicle.plate }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Section -->
+        <div class="col-lg-12">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- Display form-wide errors -->
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        {% for error in form.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <!-- date field -->
+                <div class="form-group row">
+                    <label for="date" class="col-sm-2 col-form-label">Data</label>
+                    <div class="col-sm-10">
+                        <input type="date" class="form-control" id="date" name="date" required>
+                        <!-- Display date field errors -->
+                        {% if form.date.errors %}
+                            <small class="text-danger">{{ form.date.errors }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- work shift opitons field -->
+                <div class="form-group row">
+                    <label for="work_shift" class="col-sm-2 col-form-label">Turno de Trabalho</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="work_shift" name="work_shift" required>
+                            <option value="MORNING">Manhã</option>
+                            <option value="AFTERNOON">Tarde</option>
+                        </select>
+                        <!-- Display work_shift field errors -->
+                        {% if form.work_shift.errors %}
+                            <small class="text-danger">{{ form.work_shift.errors }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- origin list field -->
+                <div class="form-group row">
+                    <label for="origin" class="col-sm-2 col-form-label">Origem</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="origin" name="origin" required>
+                            <option value="">Selecione a origem</option>
+                            {% for city in cities %}
+                                <option value="{{ city.id }}">{{ city }}</option>
+                            {% endfor %}
+                        </select>
+                        <!-- Display origin field errors -->
+                        {% if form.origin.errors %}
+                            <small class="text-danger">{{ form.origin.errors }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- Destination Field -->
+                <div class="form-group row">
+                    <label for="destination" class="col-sm-2 col-form-label">Destino</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="destination" name="destination" required>
+                            <option value="">Selecione o destino</option>
+                            {% for affected_place in affected_places %}
+                                <option value="{{ affected_place.id }}">{{ affected_place.city }}</option>
+                            {% endfor %}
+                        </select>
+                        <!-- Display destination field errors -->
+                        {% if form.destination.errors %}
+                            <small class="text-danger">{{ form.destination.errors }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- vehicle field -->
+                <input type="hidden" id="vehicle" name="vehicle" value="{{ vehicle.id }}">
+                <!-- quantity of passengers fields -->
+                <div class="form-group row">
+                    <label for="passengers" class="col-sm-2 col-form-label">Quantidade de Passageiros</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" id="passengers" name="passengers" required>
+                        <!-- Display passengers field errors -->
+                        {% if form.passengers.errors %}
+                            <small class="text-danger">{{ form.passengers.errors }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- notes field -->
+                <div class="form-group row">
+                    <label for="notes" class="col-sm-2 col-form-label">Observações</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+                        <!-- Display notes field errors -->
+                        {% if form.notes.errors %}
+                            <small class="text-danger">{{ form.notes.errors }}</small>
+                        {% endif %}
+                    </div>
+
+                <!-- Submit Button -->
+                <div class="form-group row">
+                    <div class="col-sm-10 offset-sm-2">
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

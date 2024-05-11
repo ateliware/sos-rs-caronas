@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}SosRs|Carona{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Oferte uma Carona!</h1>
+    {% comment %} <p class="lead">This is the home page of my Django website.</p> {% endcomment %}
+    <hr class="my-4">
+    <p>Cadastre seu veículo, agende uma viagem e deixe outros volutátios lhe encontrarem.</p>
+    <a class="btn btn-primary btn-lg" href="{% url 'create_ride' %}" role="button">Iniciar</a>
+</div>
+<div class="card w-100">
+    <div class="card-body">
+      <h5 class="card-title">Minhas Caronas</h5>
+      <p class="card-text">Encontre carona para os lugares afetados para atuar como voluntário</p>
+      <a href="#" class="btn btn-primary">Procurar Carona</a>
+    </div>
+  </div>
+{% endblock %}

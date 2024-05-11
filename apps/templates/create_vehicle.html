@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Person Form</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Adicionar Veículo</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Display form-wide errors -->
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <!-- Brand Field -->
+            <div class="form-group">
+                <label for="model">Modelo</label>
+                <input type="text" class="form-control" id="model" name="model" required>
+                <!-- Display model field errors -->
+                {% if form.model.errors %}
+                <small class="text-danger">{{ form.model.errors }}</small>
+            {% endif %}
+            <!-- Color field -->
+            <div class="form-group">
+                <label for="color">Cor</label>
+                <input type="text" class="form-control" id="color" name="color" required>
+                <!-- Display color field errors -->
+                {% if form.color.errors %}
+                    <small class="text-danger">{{ form.color.errors }}</small>
+                {% endif %}
+            </div>
+            <!-- Plate field -->
+            <div class="form-group">
+                <label for="plate">Placa</label>
+                <input type="text" class="form-control" id="plate" name="plate" required>
+                <!-- Display plate field errors -->
+                {% if form.plate.errors %}
+                    <small class="text-danger">{{ form.plate.errors }}</small>
+                {% endif %}
+            </div>
+            <!-- Plate picture field -->
+            <div class="form-group">
+                <label for="plate_picture">Foto da Placa</label>
+                <input type="file" class="form-control-file" id="plate_picture" name="plate_picture" required>
+                <!-- Display plate_picture field errors -->
+                {% if form.plate_picture.errors %}
+                    <small class="text-danger">{{ form.plate_picture.errors }}</small>
+                {% endif %}
+            </div>
+            <!-- vehicle picture -->
+            <div class="form-group">
+                <label for="vehicle_picture">Foto do Veículo</label>
+                <input type="file" class="form-control-file" id="vehicle_picture" name="vehicle_picture" required>
+                <!-- Display vehicle_picture field errors -->
+                {% if form.vehicle_picture.errors %}
+                    <small class="text-danger">{{ form.vehicle_picture.errors }}</small>
+                {% endif %}
+            </div>
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary">Adicionar Veículo</button>
+        </form>
+    </div>
+    <!-- Bootstrap JS (optional, for certain Bootstrap features) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
