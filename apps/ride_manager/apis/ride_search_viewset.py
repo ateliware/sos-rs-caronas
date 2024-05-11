@@ -1,10 +1,5 @@
-from datetime import date
-
 from django.db.models import Count, Q
-from drf_spectacular.utils import extend_schema
-from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from apps.ride_manager.apis.filters.ride_filter import RideFilter

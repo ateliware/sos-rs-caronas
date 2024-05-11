@@ -13,7 +13,6 @@ fake = Faker("pt_BR")
 
 
 class RideFactory(factory.django.DjangoModelFactory):
-    uuid = fake.uuid4()
     date = fake.date()
     work_shift = fake.random_element(ShiftChoices.values)
     origin = factory.SubFactory(CityFactory)

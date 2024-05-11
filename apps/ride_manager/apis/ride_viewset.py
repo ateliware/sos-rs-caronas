@@ -13,10 +13,8 @@ from apps.ride_manager.models.ride import Ride
 from apps.ride_manager.serializers.passenger_serializer import (
     PassengerSerializer,
 )
-from apps.ride_manager.serializers.ride_input_serializer import (
+from apps.ride_manager.serializers.ride_serializers import (
     RideInputSerializer,
-)
-from apps.ride_manager.serializers.ride_output_serializer import (
     RideOutputSerializer,
 )
 
