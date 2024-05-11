@@ -4,12 +4,12 @@ from rest_framework.routers import DefaultRouter
 from apps.ride_manager.apis import (
     AffectedPlaceViewSet,
     PersonRegisterViewSet,
+    RideSearchViewSet,
     RideViewset,
     ValidatePhoneCheckCodeApiView,
     ValidatePhoneSendCodeApiView,
     VehicleViewset,
     VoluntaryViewset,
-    RideSearchViewSet,
 )
 
 router = DefaultRouter()

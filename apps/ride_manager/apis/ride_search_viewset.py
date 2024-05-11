@@ -1,6 +1,6 @@
 from datetime import date
 
-from django.db.models import Count
+from django.db.models import Count, Q
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -12,25 +12,20 @@ from apps.ride_manager.models.passenger import (
     StatusChoices as PassengerStatusChoices,
 )
 from apps.ride_manager.models.ride import Ride
-from apps.ride_manager.serializers.ride_output_serializer import (
-    RideOutputSerializer,
-)
+from apps.ride_manager.serializers.ride_serializers import RideSearchSerializer
 
 
 class RideSearchViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     http_method_names = ["get"]
     filterset_class = RideFilter
-    serializer_class = RideOutputSerializer
+    serializer_class = RideSearchSerializer
 
     def get_queryset(self):
         queryset = Ride.objects.all().annotate(
-            qtt_passengers=Count("passenger")
+            confirmed_passengers=Count(
+                "passenger",
+                filter=Q(passenger__status=PassengerStatusChoices.ACCEPTED),
+            )
         )
-        # ).filter(
-        #     passenger__status=PassengerStatusChoices.ACCEPTED,
-        # )
         return queryset
-
-    def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
