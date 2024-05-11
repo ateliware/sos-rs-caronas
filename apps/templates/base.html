@@ -9,9 +9,10 @@
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS for additional styling -->
-    <style>
+    <style>        
         body {
-            padding-top: 70px; /* Ensure content doesn't go behind the fixed navbar */
+            padding-top: 60px; /* Ensure content doesn't go behind the fixed navbar */            
+            font-family: Arial, sans-serif;
         }
         .navbar {
             background-color: #007bff; /* Navbar background color (Bootstrap primary) */
@@ -20,28 +21,46 @@
             color: #fff; /* Navbar brand (logo) text color */
         }
         .navbar-nav .nav-item .nav-link {
-            color: #fff; /* Navbar link text color */
+            color: #fff; /* Navbar link text color */ner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
+        /* Media query for larger screens */
+        @media (min-width: 768px) {
+            .main-content {                
+                background-color: #ffffff; /* Optional: Set a background color for the main content */
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                margin: 0 auto; /* Center the div horizontally */
+            }
+        }       
     </style>
 </head>
 <body>
-    {% if user.is_authenticated %}
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">SosRS | Caronas</a>
-            <button class="btn" type="button">
-                <a href="{% url 'logout' %}" style="text-decoration: none; color: white;">
-                    <span class="me-2"><i class="material-icons" style="color: white;">exit_to_app</i></span>
-                </a>
-            </button>
-        </div>
-    </nav>
-    {% endif %}
+    <div class="row">
+        {% if user.is_authenticated %}
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'home' %}">SosRS | Caronas</a>
+                <button class="btn" type="button">
+                    <a href="{% url 'logout' %}" style="text-decoration: none; color: white;">
+                        <span class="me-2"><i class="material-icons" style="color: white;">exit_to_app</i></span>
+                    </a>
+                </button>
+            </div>
+        </nav>
+        {% endif %}
 
-    <div class="container mt-3">        
-        {% block content %}
-        {% endblock %}
+        <div class="container mt-3">
+            <div class="main-content">    
+                {% block content %}
+                <!-- The main content of the application will be displayed here -->
+                {% endblock %}
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap JS (optional, for Bootstrap components) -->

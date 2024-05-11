@@ -5,6 +5,15 @@
 {% block content %}
     <div class="container mt-5">
         <h2 class="mb-4">Minhas Caronas</h2>
+        {% if not rides %}
+        <div class="jumbotron">
+            <h1 class="display-4">Oferte uma Carona!</h1>
+            {% comment %} <p class="lead">This is the home page of my Django website.</p> {% endcomment %}
+            <hr class="my-4">
+            <p>Você ainda não possui caronas ofertadas.</p>
+            <a class="btn btn-primary btn-lg" href="{% url 'create_ride' %}" role="button">Iniciar</a>
+        </div>
+        {% endif %}
         <div class="row">
             {% for ride in rides %}
             <div class="col-md-4 mb-4">

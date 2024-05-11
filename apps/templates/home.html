@@ -4,8 +4,8 @@
 
 {% block content %}
   <div class="jumbotron">
-      <h1 class="display-4">Oferte uma Carona!</h1>
-      {% comment %} <p class="lead">This is the home page of my Django website.</p> {% endcomment %}
+      <h1 class="display-4">{{ request.user.get_full_name }}</h1>
+      <p class="lead">Que bom te ter aqui :) Que tal oferecer uma carona?</p>
       <hr class="my-4">
       <p>Cadastre seu veículo, agende uma viagem e deixe outros volutátios lhe encontrarem.</p>
       <a class="btn btn-primary btn-lg" href="{% url 'create_ride' %}" role="button">Iniciar</a>
