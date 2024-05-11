@@ -25,6 +25,7 @@
     </style>
 </head>
 <body>
+    {% if user.is_authenticated %}
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
@@ -36,13 +37,9 @@
             </button>
         </div>
     </nav>
+    {% endif %}
 
-    <!-- Main Content -->
-    <div class="container mt-3">
-        {% comment %} <nav class="nav nav-pills nav-fill">
-            <a class="nav-item nav-link" href="#">Caronas</a>
-            <a class="nav-item nav-link" href="#">Voluntariado</a>
-        </nav> {% endcomment %}
+    <div class="container mt-3">        
         {% block content %}
         {% endblock %}
     </div>
