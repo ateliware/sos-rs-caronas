@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}SosRs|Carona - Minhas Caronas{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="mb-4">Minhas Caronas</h2>
+        <div class="row">
+            {% for ride in rides %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">{{ ride.origin }} para {{ ride.destination }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Data:</strong> {{ ride.date }}</p>
+                        <p><strong>Turno:</strong> {{ ride.work_shift }}</p>
+                        <p><strong>Passageiros:</strong> {{ ride.quantity_of_passengers }}</p>
+                        {% if user.is_authenticated %}
+                            {% if user == ride.driver__user %}
+                                <span class="driver-indicator">
+                                    <i class="material-icons">directions_car</i> Driver
+                                </span>
+                            {% else %}
+                                <span class="passenger-indicator">
+                                    <i class="material-icons">person</i> Passenger
+                                </span>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary btn-sm"><i class="material-icons">edit</i></a>
+                        <a href="#" class="btn btn-danger btn-sm"><i class="material-icons">delete</i></a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

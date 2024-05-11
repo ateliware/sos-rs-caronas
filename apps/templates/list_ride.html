@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}SosRs|Carona - Encontre Caronas{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="mb-4">Encontrar Carona</h2>
+        <div class="row">
+            {% for ride in rides %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title"> <i class="material-icons">directions_car</i> {{ ride.origin }} para {{ ride.destination }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Motorista:</strong> {{ ride.driver }}</p>
+                        <p><strong>Data:</strong> {{ ride.date }}</p>
+                        <p><strong>Saída:</strong> {{ ride.work_shift }}</p>
+                        <p><strong>Ofertado:</strong> {{ ride.quantity_of_passengers }}</p>
+                        <p>
+                            <strong>Passageiros:</strong> {{ ride.num_passengers }} 
+                            <a href="#" class="btn btn-info btn-sm"><i class="material-icons">person</i></a>
+                        </p>                
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary btn-block">Solicitar Carona </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

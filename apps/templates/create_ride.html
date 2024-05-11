@@ -85,7 +85,7 @@
                         <select class="form-control" id="destination" name="destination" required>
                             <option value="">Selecione o destino</option>
                             {% for affected_place in affected_places %}
-                                <option value="{{ affected_place.id }}">{{ affected_place.city }}</option>
+                                <option value="{{ affected_place.pk }}">{{ affected_place.city }}</option>
                             {% endfor %}
                         </select>
                         <!-- Display destination field errors -->
@@ -95,15 +95,15 @@
                     </div>
                 </div>
                 <!-- vehicle field -->
-                <input type="hidden" id="vehicle" name="vehicle" value="{{ vehicle.id }}">
+                <input type="hidden" id="vehicle" name="vehicle" value="{{ vehicle.pk }}">
                 <!-- quantity of passengers fields -->
                 <div class="form-group row">
-                    <label for="passengers" class="col-sm-2 col-form-label">Quantidade de Passageiros</label>
+                    <label for="quantity_of_passengers" class="col-sm-2 col-form-label">Quantidade de Passageiros</label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" id="passengers" name="passengers" required>
-                        <!-- Display passengers field errors -->
-                        {% if form.passengers.errors %}
-                            <small class="text-danger">{{ form.passengers.errors }}</small>
+                        <input type="number" class="form-control" id="quantity_of_passengers" name="quantity_of_passengers" required>
+                        <!-- Display quantity_of_passengers field errors -->
+                        {% if form.quantity_of_passengers.errors %}
+                            <small class="text-danger">{{ form.quantity_of_passengers.errors }}</small>
                         {% endif %}
                     </div>
                 </div>
