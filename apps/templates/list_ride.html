@@ -2,32 +2,42 @@
 
 {% block title %}SosRs|Carona - Encontre Caronas{% endblock %}
 
+<!-- define a jenja boolean variable-->
+
 {% block content %}
-    <div class="container mt-5">
+    <div class="container mt-2">
         <h2 class="mb-4">Encontrar Carona</h2>
         <div class="row">
-            {% for ride in rides %}
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title"> <i class="material-icons">directions_car</i> {{ ride.origin }} para {{ ride.destination }}</h5>
+                {% for ride in rides %}                
+                    {% if ride.driver.user != user %}
+                        <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="card-title"> De {{ ride.origin }} para <strong>{{ ride.destination }}</strong></h6>
+                            </div>
+                            <div class="card-body">       
+                                <p><strong>Motorista:</strong> {{ ride.driver }}</p>
+                                <p><strong>Data:</strong> {{ ride.date }} </p>
+                                <p><strong>Saída:</strong> {{ ride.work_shift }}</p>
+                                <p>
+                                    <strong>Ofertado:</strong> {{ ride.quantity_of_passengers }} |
+                                    <strong>Passageiros:</strong> {{ ride.num_passengers }}
+                                </p>                
+                            </div>
+                            <div class="card-footer">
+                                <a href="{% url 'ride_detail' ride.pk %}" class="btn btn-primary btn-block">Ver detalhes da Carona</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <p><strong>Motorista:</strong> {{ ride.driver }}</p>
-                        <p><strong>Data:</strong> {{ ride.date }}</p>
-                        <p><strong>Saída:</strong> {{ ride.work_shift }}</p>
-                        <p><strong>Ofertado:</strong> {{ ride.quantity_of_passengers }}</p>
-                        <p>
-                            <strong>Passageiros:</strong> {{ ride.num_passengers }} 
-                            <a href="#" class="btn btn-info btn-sm"><i class="material-icons">person</i></a>
-                        </p>                
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary btn-block">Solicitar Carona </a>
-                    </div>
-                </div>
+                    {% endif %}
+                {% endfor %}
             </div>
-            {% endfor %}
+        {% if not rides %}
+        <div class="jumbotron">
+            <h1 class="display-4">:`(</h1>
+            <hr class="my-4">
+            <p class="lead">Ainda não há caronas ofertadas.</p>                
         </div>
+        {% endif %}
     </div>
 {% endblock %}

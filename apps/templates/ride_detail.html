@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}SosRs|Carona - Detalhes da Carona{% endblock %}
+
+{% block content %}
+    <div class="container mt-2">
+        <div class="card w-100">
+            <div class="card-body">
+                <h5 class="card-title">Dados da Carona</h5>                
+                <hr />                
+                <p>
+                    <span>Origem: {{ ride.origin }}</span> <br>
+                    <span>Destino: {{ ride.destination }}</span> <br>
+                    <span>Data: {{ ride.date }}</span> <br>
+                    <span>Turno: {{ ride.work_shift }}</span> <br>
+                    <span>Passageiros: {{ ride.quantity_of_passengers }}</span> <br>
+                </p>
+                <hr />
+                {% if not is_driver %}
+                <h6 class="card-subtitle mb-2 text-muted">Dados do Veículo</h6>
+                <p>
+                    <span>{{ ride.vehicle.model }} | {{ ride.vehicle.color }}</span> <br>
+                    <span> Placa: {{ ride.vehicle.plate }}</span> <br>
+                </p>
+                <hr />
+                <h6 class="card-subtitle mb-2 text-muted">Dados do Morotista</h6>
+                <p>
+                    <span>{{ ride.driver }}</span> <br>
+                    <span>{{ ride.driver.phone }}</span> <br>                    
+                </p>
+                <hr />
+                {% endif %}
+                <h6 class="card-subtitle mb-2 text-muted">Passageiros</h6>
+                <div class="row">
+                    {% if not passengers %}
+                        <div class="col-md-12">
+                            <div class="alert alert-info">Nenhum passageiro cadastrado até o momento.</div>
+                        </div>
+                    {% endif %}
+                    {% for passenger in passengers %}
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <span>
+                                        {% if passenger.status == "ACCEPTED" %}
+                                            <i class="material-icons text-success">check</i>
+                                        {% elif passenger.status == "REJECTED" %}
+                                            <i class="material-icons text-danger">close</i>
+                                        {% else %}
+                                            <i class="material-icons text-warning">hourglass_empty</i>
+                                        {% endif %}
+                                    </span> 
+                                    <span>{{ passenger.person.name }}</span> <br>
+                                    <span>{{ passenger.person.birth_date }}</span> <br>
+                                    <span>{{ passenger.person.phone }}</span> <br>
+                                    {% if is_driver and passenger.status == "PENDING" %}
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <a href="#" class="btn btn-success flex-grow-1 me-2">Aceitar</a>
+                                            <a href="#" class="btn btn-danger flex-grow-1">Negar</a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if not is_driver %}   
+                    <a href="{% url 'list_rides' %}" class="btn btn-primary btn-block">Solicitar ao motorista entrar</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock  %}

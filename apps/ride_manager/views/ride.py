@@ -2,15 +2,17 @@ import logging
 
 from django.db.models import Count
 from django.shortcuts import redirect, render
+from django.contrib.auth.decorators import login_required
 
 from apps.address_manager.models.city import City
 from apps.ride_manager.forms.form_ride import RideForm
 from apps.ride_manager.models.affected_place import AffectedPlace
+from apps.ride_manager.models.passenger import Passenger
 from apps.ride_manager.models.person import Person
 from apps.ride_manager.models.ride import Ride
 from apps.ride_manager.models.vehicle import Vehicle
 
-
+@login_required(login_url="/login/")
 def create_ride(request):
     """
     First we get the logged in user, then we check if the user has a vehicle verified.
@@ -62,24 +64,50 @@ def create_ride(request):
         },
     )
 
-
+@login_required(login_url="/login/")
 def my_rides(request):
     """
     List all rides that the logged user is the driver
     """
     rides = Ride.objects.filter(driver__user=request.user).order_by("-date")
-    return render(request, "my_rides.html", {"rides": rides})
 
+    context = {"rides": rides}
+    return render(request, "my_rides.html", context)
 
+@login_required(login_url="/login/")
 def open_rides(request):
     """
     List all rides available for the logged in user
     """
-    rides = Ride.objects.filter(status="OPEN").annotate(
-        num_passengers=Count("passenger")
-    )
-    return render(request, "list_ride.html", {"rides": rides})
+    if request.user.is_anonymous:
+        rides = Ride.objects.filter(status="OPEN").annotate(
+            num_passengers=Count("passenger")
+        )
+    else:
+        rides = Ride.objects.filter(status="OPEN").exclude(
+            driver__user=request.user
+        ).annotate(num_passengers=Count("passenger"))
 
+    context = {"rides": rides}
+    return render(request, "list_ride.html", context)
+
+@login_required(login_url="/login/")
+def ride_detail(request, ride_id):
+    """
+    Show the details of a ride
+    """
+    
+    ride = Ride.objects.get(uuid=ride_id)
+
+    is_driver = False
+    if request.user == ride.driver.user:
+        is_driver = True
+        passengers = Passenger.objects.filter(ride__uuid=ride_id)
+    else:
+        passengers = Passenger.objects.filter(ride__uuid=ride_id, status="ACCEPTED")
+    
+    context = {"ride": ride, "passengers": passengers, "is_driver": is_driver}
+    return render(request, "ride_detail.html", context)
 
 def get_person(request) -> Person:
     person = None
