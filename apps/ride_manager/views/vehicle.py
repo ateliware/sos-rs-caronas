@@ -26,7 +26,7 @@ def create_vehicle(request):
                     logging.error(f"Error saving person data: {e}")
                     return render(
                         request,
-                        "create_vehicle.html",
+                        "ride/create_vehicle.html",
                         {
                             "form": form,
                             "error": "Erro ao salvar dados do usuário.",
@@ -41,7 +41,7 @@ def create_vehicle(request):
                     logging.error(f"Error saving vehicle data: {e}")
                     return render(
                         request,
-                        "create_vehicle.html",
+                        "ride/create_vehicle.html",
                         {
                             "form": form,
                             "error": "Erro ao salvar dados do veículo.",
@@ -54,11 +54,11 @@ def create_vehicle(request):
 
     else:
         form = VehicleForm()
-    return render(request, "create_vehicle.html", {"form": form})
+    return render(request, "ride/create_vehicle.html", {"form": form})
 
 @login_required(login_url="/login/")
 def created_with_success(request):
-    return render(request, "created_with_success.html")
+    return render(request, "ride/vehicle_created_with_success.html")
 
 
 def get_person(request) -> Person:

@@ -43,7 +43,7 @@ def create_ride(request):
                 logging.error(f"Error saving ride data: {e}")
                 return render(
                     request,
-                    "create_ride.html",
+                    "ride/create_ride.html",
                     {"form": form, "error": "Erro ao salvar dados da carona."},
                 )
             return redirect("home")
@@ -54,7 +54,7 @@ def create_ride(request):
 
     return render(
         request,
-        "create_ride.html",
+        "ride/create_ride.html",
         {
             "form": form,
             "vehicle": vehicle,
@@ -72,7 +72,7 @@ def my_rides(request):
     rides = Ride.objects.filter(driver__user=request.user).order_by("-date")
 
     context = {"rides": rides}
-    return render(request, "my_rides.html", context)
+    return render(request, "ride/my_rides.html", context)
 
 @login_required(login_url="/login/")
 def open_rides(request):
@@ -89,7 +89,7 @@ def open_rides(request):
         ).annotate(num_passengers=Count("passenger"))
 
     context = {"rides": rides}
-    return render(request, "list_ride.html", context)
+    return render(request, "ride/list_ride.html", context)
 
 @login_required(login_url="/login/")
 def ride_detail(request, ride_id):
@@ -107,7 +107,7 @@ def ride_detail(request, ride_id):
         passengers = Passenger.objects.filter(ride__uuid=ride_id, status="ACCEPTED")
     
     context = {"ride": ride, "passengers": passengers, "is_driver": is_driver}
-    return render(request, "ride_detail.html", context)
+    return render(request, "ride/ride_detail.html", context)
 
 def get_person(request) -> Person:
     person = None
