@@ -12,38 +12,34 @@
         </div>
         {% if not rides %}
         <div class="jumbotron">
-            <h1 class="display-4">Oferte uma Carona!</h1>
-            {% comment %} <p class="lead">This is the home page of my Django website.</p> {% endcomment %}
+            <h1 class="display-5">Oferte uma Carona!</h1>
             <hr class="my-4">
             <p>Você ainda não possui caronas ofertadas.</p>
-            <a class="btn btn-primary btn-lg" href="{% url 'create_ride' %}" role="button">Iniciar</a>
+            <a class="btn btn-outline-primary btn-lg" href="{% url 'create_ride' %}" role="button">Vamos lá</a>
         </div>
         {% endif %}
-        <div class="row">
+        
+        <!-- Ride Cards -->
+        <div class="row justify-content-center">
             {% for ride in rides %}
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title">{{ ride.origin }} para {{ ride.destination }}</h5>
-                    </div>
-                    <div class="card-body">
-                        <span class="badge bg-success">{{ ride.status }}</span> <br />
-                        <!--show a badge informing if there is passegenr waiting confirmation-->
-                        {% if ride.has_passenger_waiting_confirmation %}
-                            <span class="badge bg-warning">Há passageiros aguardando confirmação</span>
-                        {% endif %}
-                        <p>
-                            <strong>Data:</strong> {{ ride.date }} <br />
-                            <strong>Turno:</strong> {{ ride.work_shift }} <br />
-                            <strong>Vagas:</strong> {{ ride.quantity_of_passengers }}
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="{% url 'ride_detail' ride.pk %}" class="btn btn-primary btn-block"><i class="material-icons">search</i>Ver detalhes da Carona</a>
-                        {% comment %} <a href="#" class="btn btn-danger btn-block"><i class="material-icons">delete</i> Cancelar Carona </a> {% endcomment %}
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <p>
+                                {% if ride.has_passenger_waiting_confirmation %}
+                                    <span class="badge bg-warning">Há passageiros aguardando confirmação</span>
+                                {% endif %}
+                            </p>
+                            <h5 class="card-title"><i class="fas fa-car"></i> {{ ride.destination }} <span class="badge bg-success">{{ ride.status }}</span> </h5>
+                            <p class="card-text"><i class="fas fa-user"></i> {{ ride.driver }}</p>
+                            <p class="card-text"><i class="fas fa-map-marker-alt"></i> Saindo de {{ ride.origin }}</p>
+                            <p class="card-text"><i class="far fa-calendar-alt"></i> {{ ride.date }} | {{ ride.work_shift }}</p>
+                            <p class="card-text"><i class="fas fa-users"></i> {{ ride.quantity_of_passengers }} vagas | {{ ride.num_passengers }} confirmados</p>
+                           
+                            <a href="{% url 'ride_detail' ride.pk %}" class="btn btn-outline-primary"><i class="fas fa-info-circle"></i> Ver Detalhes </a>
+                        </div>
                     </div>
                 </div>
-            </div>
             {% endfor %}
         </div>
     </div>

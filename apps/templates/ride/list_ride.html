@@ -12,25 +12,36 @@
             </a>
             <h4 class="mb-4">Encontrar Carona</h4>
         </div>
-        <div class="row">
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="origin">Origem</label>
+                <input type="text" class="form-control" id="origin">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="destination">Destino</label>
+                <input type="text" class="form-control" id="destination">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="date">Data</label>
+                <input type="date" class="form-control" id="date">
+            </div>
+            <div class="form-group col-md-3 align-self-end">
+                <button type="submit" class="btn btn-outline-primary btn-block">Buscar</button>
+            </div>
+        </div>
+            <!-- Ride Cards -->
+            <div class="row justify-content-center">
             {% for ride in rides %}                
                 {% if ride.driver.user != user %}
-                    <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h6 class="card-title"> De {{ ride.origin }} para <strong>{{ ride.destination }}</strong></h6>
-                        </div>
-                        <div class="card-body">       
-                            <p><strong>Motorista:</strong> {{ ride.driver }}</p>
-                            <p><strong>Data:</strong> {{ ride.date }} </p>
-                            <p><strong>Saída:</strong> {{ ride.work_shift }}</p>
-                            <p>
-                                <strong>Ofertado:</strong> {{ ride.quantity_of_passengers }} |
-                                <strong>Passageiros:</strong> {{ ride.num_passengers }}
-                            </p>                
-                        </div>
-                        <div class="card-footer">
-                            <a href="{% url 'ride_detail' ride.pk %}" class="btn btn-primary btn-block">Ver detalhes da Carona</a>
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-car"></i> {{ ride.destination }}</h5>
+                            <p class="card-text"><i class="fas fa-user"></i> {{ ride.driver }}</p>
+                            <p class="card-text"><i class="fas fa-map-marker-alt"></i> Saindo de {{ ride.origin }}</p>
+                            <p class="card-text"><i class="far fa-calendar-alt"></i> {{ ride.date }} | {{ ride.work_shift }}</p>
+                            <p class="card-text"><i class="fas fa-users"></i> {{ ride.quantity_of_passengers }} vagas | {{ ride.num_passengers }} confirmados</p>
+                            <a href="{% url 'ride_detail' ride.pk %}" class="btn btn-outline-primary"><i class="fas fa-info-circle"></i> Ver Detalhes </a>
                         </div>
                     </div>
                 </div>
@@ -39,7 +50,7 @@
         </div>
         {% if not rides %}
         <div class="jumbotron">
-            <h1 class="display-4">:`(</h1>
+            <h4 class="display-4">:`(</h4>
             <hr class="my-4">
             <p class="lead">Ainda não há caronas ofertadas.</p>                
         </div>

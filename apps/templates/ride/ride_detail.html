@@ -76,8 +76,8 @@
                                     
                                     {% if is_driver and passenger.status == "PENDING" %}
                                         <div class="d-flex justify-content-between align-items-center mt-3">
-                                            <a href="{% url 'ride_passenger_confirmation' ride.pk passenger.pk%}" class="btn btn-success flex-grow-1 me-2">Aceitar</a>
-                                            <a href="#" class="btn btn-danger flex-grow-1">Negar</a>
+                                            <a href="{% url 'ride_passenger_confirmation' ride.pk passenger.pk%}" class="btn btn-outline-primary flex-grow-1 me-2">Aceitar</a>
+                                            <a href="#" class="btn btn-outline-danger flex-grow-1">Negar</a>
                                         </div>
                                     {% endif %}
                                     

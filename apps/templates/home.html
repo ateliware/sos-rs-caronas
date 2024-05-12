@@ -4,24 +4,24 @@
 
 {% block content %}
   <div class="jumbotron">
-      <h1 class="display-4">{{ request.user.get_full_name }}</h1>
-      <p class="lead">Que bom te ter aqui :) Que tal oferecer uma carona?</p>
+      <h1 class="display-5">Olá {{ request.user }}</h1>
+      <p class="lead">Que bom te ter aqui :) </p>
       <hr class="my-4">
       <p>Cadastre seu veículo, agende uma viagem e deixe outros volutátios lhe encontrarem.</p>
-      <a class="btn btn-primary btn-lg" href="{% url 'create_ride' %}" role="button">Iniciar</a>
+      <a class="btn btn-outline-primary btn-lg" href="{% url 'create_ride' %}" role="button">Vamos lá</a>
   </div>
   <div class="card w-100">
       <div class="card-body">
-        <h5 class="card-title"><i class="material-icons">search</i> Buscar Carona</h5>
+        <h5 class="card-title"> Buscar Carona</h5>
         <p class="card-text">Encontre carona para os lugares afetados para atuar como voluntário</p>
-        <a href="{% url 'list_rides' %}" class="btn btn-primary">Buscar Caronas</a>
+        <a href="{% url 'list_rides' %}" class="btn btn-outline-primary btn-lg">Buscar Caronas</a>
       </div>
   </div>
   <div class="card w-100">
       <div class="card-body">
-        <h5 class="card-title"><i class="material-icons">directions_car</i> Minhas Caronas</h5>
+        <h5 class="card-title"> Minhas Caronas</h5>
         <p class="card-text">Acompanhe as caronas que você ofereceu</p>
-        <a href="{% url 'my_rides' %}" class="btn btn-primary">Ir para minhas Caronas</a>
+        <a href="{% url 'my_rides' %}" class="btn btn-outline-primary btn-lg">Ir para minhas Caronas</a>
       </div>
   </div>
 {% endblock %}

@@ -6,26 +6,16 @@
     <title>{% block title %}My Website{% endblock %}</title>
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS for additional styling -->
+    <!-- Custom CSS -->
     <style>        
         body {
             padding-top: 60px; /* Ensure content doesn't go behind the fixed navbar */            
             font-family: Arial, sans-serif;
         }
-        .navbar {
-            background-color: #007bff; /* Navbar background color (Bootstrap primary) */
-        }
-        .navbar-brand {
-            color: #fff; /* Navbar brand (logo) text color */
-        }
-        .navbar-nav .nav-item .nav-link {
-            color: #fff; /* Navbar link text color */ner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+        
         /* Media query for larger screens */
         @media (min-width: 768px) {
             .main-content {                
@@ -35,7 +25,59 @@
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
                 margin: 0 auto; /* Center the div horizontally */
             }
-        }       
+        }
+
+        .navbar {
+            background-color: #152583;
+        }
+        .navbar-brand {
+            color: #fff;
+            font-weight: bold;
+        }
+        .navbar-nav .nav-link {
+            color: #fff;
+        }
+        .jumbotron {
+            background-color: rgba(0,123,255,.25);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            max-width: 1200px; /* Adjust the maximum width */
+            margin: 0 auto; /* Center the jumbotron */
+            border-radius: 10px;
+        }
+
+        .card {
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            margin-bottom: 8px;
+        }
+
+        .btn-primary {
+            border-radius: 0;
+        }
+
+        .container-fluid {
+            max-width: 1200px;
+        }
+
+        .bg-light {
+            background-color: #f8f9fa !important;
+        }
+
+        .btn-outline-primary {
+            {% comment %} background-color: #152583; {% endcomment %}
+            color: #152583;
+            border-color: #152583;
+        }
     </style>
 </head>
 <body>
@@ -54,7 +96,7 @@
         </nav>
         {% endif %}
 
-        <div class="container mt-3">
+        <div class="container bg-light mt-1">
             <div class="main-content">    
                 {% block content %}
                 <!-- The main content of the application will be displayed here -->
