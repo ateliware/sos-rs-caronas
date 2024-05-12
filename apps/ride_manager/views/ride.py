@@ -69,7 +69,12 @@ def my_rides(request):
     """
     List all rides that the logged user is the driver
     """
-    rides = Ride.objects.filter(driver__user=request.user).order_by("-date")
+    rides = Ride.objects.filter(driver__user=request.user).annotate(
+        num_passengers=Count("passenger")
+    )
+    for ride in rides:
+        passengers = Passenger.objects.filter(ride=ride, status="PENDING")        # add to dict ride the information if there is a passenger waiting for confirmation        ride["has_passenger_waiting_confirmation"] = False
+        ride.has_passenger_waiting_confirmation = True if passengers.exists() else False
 
     context = {"rides": rides}
     return render(request, "ride/my_rides.html", context)
@@ -92,22 +97,82 @@ def open_rides(request):
     return render(request, "ride/list_ride.html", context)
 
 @login_required(login_url="/login/")
-def ride_detail(request, ride_id):
+def ride_detail(request, ride_id, message=""):
     """
     Show the details of a ride
     """
-    
     ride = Ride.objects.get(uuid=ride_id)
 
     is_driver = False
+    is_waiting_confirmation = False
     if request.user == ride.driver.user:
-        is_driver = True
-        passengers = Passenger.objects.filter(ride__uuid=ride_id)
-    else:
-        passengers = Passenger.objects.filter(ride__uuid=ride_id, status="ACCEPTED")
+        is_driver = True    
+    passengers = Passenger.objects.filter(ride__uuid=ride_id).order_by("status")
     
-    context = {"ride": ride, "passengers": passengers, "is_driver": is_driver}
+    # check if the logged in user is in the passengers list
+    for passenger in passengers:
+        if passenger.person.user == request.user:
+            is_waiting_confirmation = True
+            break
+
+    context = {
+        "ride": ride, 
+        "passengers": passengers, 
+        "is_driver": is_driver,
+        "is_waiting_confirmation": is_waiting_confirmation,
+        "message": message
+    }
     return render(request, "ride/ride_detail.html", context)
+
+@login_required(login_url="/login/")
+def ride_passenger_confirmation(request, ride_id, passenger_id):
+    """
+    Confirm or deny a passenger in a ride,
+    verifying the availability of passenger seats, in the case of confirmation.
+    This information is in the ride object, quantity_of_passengers attribute.
+    It is necessary check if the logged in user is the driver
+    """
+
+    ride = Ride.objects.get(uuid=ride_id)
+    # checking if the logged in user is the driver
+    if request.user != ride.driver.user:
+        return redirect("home")
+
+    confirmed_passengers = Passenger.objects.filter(ride=ride, status="CONFIRMED").count()
+    if confirmed_passengers == ride.quantity_of_passengers:
+        message = "Infelizmente não há mais vagas disponíveis para esta carona."
+    else:
+        passenger = Passenger.objects.get(pk=passenger_id)
+        passenger.status = "ACCEPTED"
+        passenger.save()
+        message = "Passageiro confirmado com sucesso."
+
+    return ride_detail(request, ride_id=ride_id, message=message)
+    
+@login_required(login_url="/login/")
+def ride_solicitation(request, ride_id):
+    """
+    Request to join a ride
+    It is necessary to check if is it possblie to join the ride
+    respecting the quantity of passengers available
+    """
+
+    ride = Ride.objects.get(uuid=ride_id)
+    if ride.status != "OPEN":
+        message = "Ops, a carona não está mais disponível :("
+        return ride_detail(request, ride_id=ride_id, message=message)
+        
+    confirmed_passengers = Passenger.objects.filter(ride=ride, status="CONFIRMED").count()
+    if confirmed_passengers == ride.quantity_of_passengers:
+        message = "Ops, a carona já atingiu sua capacidade :("
+        return ride_detail(request, ride_id=ride_id, message=message)
+    
+    person = get_person(request)
+    Passenger.objects.create(
+        ride_id=ride_id, person=person, is_driver=False, status="PENDING"
+    )
+    message = "Solicitação enviada com sucesso. Aguarde a confirmação do motosrista."
+    return ride_detail(request, ride_id=ride_id, message=message)
 
 def get_person(request) -> Person:
     person = None
