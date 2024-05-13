@@ -13,6 +13,7 @@
         {% if not rides %}
         <div class="jumbotron">
             <h1 class="display-5">Oferte uma Carona!</h1>
+            {% comment %} <p class="lead">This is the home page of my Django website.</p> {% endcomment %}
             <hr class="my-4">
             <p>Você ainda não possui caronas ofertadas.</p>
             <a class="btn btn-outline-primary btn-lg" href="{% url 'create_ride' %}" role="button">Vamos lá</a>
@@ -30,11 +31,19 @@
                                     <span class="badge bg-warning">Há passageiros aguardando confirmação</span>
                                 {% endif %}
                             </p>
-                            <h5 class="card-title"><i class="fas fa-car"></i> {{ ride.destination }} <span class="badge bg-success">{{ ride.status }}</span> </h5>
-                            <p class="card-text"><i class="fas fa-user"></i> {{ ride.driver }}</p>
+                            <h5 class="card-title">
+                                <i class="fas fa-car"></i> 
+                                {{ ride.destination }}
+                                <span class="badge badge-primary float-right">ABERTA</span>
+                            </h5>
+                            {% if ride.driver.user == user %}
+                                <p class="card-text text-primary"><i class="fas fa-user"></i> {{ ride.driver }}</p>
+                            {% else %}
+                                <p class="card-text text-secondary"><i class="fas fa-user"></i> {{ ride.driver }}</p>
+                            {% endif %}
                             <p class="card-text"><i class="fas fa-map-marker-alt"></i> Saindo de {{ ride.origin }}</p>
                             <p class="card-text"><i class="far fa-calendar-alt"></i> {{ ride.date }} | {{ ride.work_shift }}</p>
-                            <p class="card-text"><i class="fas fa-users"></i> {{ ride.quantity_of_passengers }} vagas | {{ ride.num_passengers }} confirmados</p>
+                            <p class="card-text"><i class="fas fa-users"></i> {{ ride.quantity_of_passengers }} vagas | {{ ride.confirmed_passenger_count }} confirmados</p>
                            
                             <a href="{% url 'ride_detail' ride.pk %}" class="btn btn-outline-primary"><i class="fas fa-info-circle"></i> Ver Detalhes </a>
                         </div>
