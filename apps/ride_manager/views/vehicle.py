@@ -15,9 +15,12 @@ def create_vehicle(request):
     If there is we redirect to the success_vehicle_save page.
     """
     person = get_person(request)
-    if Vehicle.objects.filter(person=person, is_verified=False).exists() and not person.cnh_is_verified:
+    if (
+        Vehicle.objects.filter(person=person, is_verified=False).exists()
+        and not person.cnh_is_verified
+    ):
         return redirect("success_vehicle_save")
-    
+
     if request.method == "POST":
         form = VehicleForm(request.POST, request.FILES)
 

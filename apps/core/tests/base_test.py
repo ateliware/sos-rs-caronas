@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.test import Client, TestCase
 from faker import Faker
 from rest_framework.test import APIClient, override_settings
 
@@ -18,6 +18,8 @@ class BaseTest(TestCase):
         self.user = self.create_test_user()
         self.auth_client = self.create_authenticated_client()
         self.unauth_client = APIClient()
+        self.view_client = Client(user=self.user)
+        self.view_auth_client = self.view_client.force_login(self.user)
         self.fake = fake
 
     def create_test_user(self, cpf=FAKE_CPF, password="testpassword"):

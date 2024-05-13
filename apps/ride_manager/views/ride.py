@@ -1,9 +1,8 @@
 import logging
 
-from django.db.models import Q
-from django.db.models import Count
-from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count, Q
+from django.shortcuts import redirect, render
 
 from apps.address_manager.models.city import City
 from apps.ride_manager.forms.form_ride import RideForm
@@ -83,17 +82,21 @@ def my_rides(request):
         ride.has_passenger_waiting_confirmation = (
             True if passengers.exists() else False
         )
-        passengers = Passenger.objects.filter(
-            ride=ride, status="PENDING"
-        )
+        passengers = Passenger.objects.filter(ride=ride, status="PENDING")
 
     # Merge and order rides, removing duplicates
-    all_rides = Ride.objects.filter(
-        Q(uuid__in=passenger_ride_ids) | Q(uuid__in=driver_rides.values_list('uuid', flat=True))
-    ).distinct().order_by('date')
+    all_rides = (
+        Ride.objects.filter(
+            Q(uuid__in=passenger_ride_ids)
+            | Q(uuid__in=driver_rides.values_list("uuid", flat=True))
+        )
+        .distinct()
+        .order_by("date")
+    )
     for ride in all_rides:
-        ride.confirmed_passenger_count = Passenger.objects.filter(ride=ride, status="ACCEPTED").count() or 0
-        
+        ride.confirmed_passenger_count = (
+            Passenger.objects.filter(ride=ride, status="ACCEPTED").count() or 0
+        )
 
     context = {"rides": all_rides}
     return render(request, "ride/my_rides.html", context)
@@ -109,14 +112,15 @@ def open_rides(request):
             num_passengers=Count("passenger")
         )
     else:
-        rides = (
-            Ride.objects.filter(status="OPEN")
-            .exclude(driver__user=request.user)
+        rides = Ride.objects.filter(status="OPEN").exclude(
+            driver__user=request.user
         )
 
     processed_rides = []
     for ride in rides:
-        ride.confirmed_passenger_count = Passenger.objects.filter(ride=ride, status="ACCEPTED").count() or 0
+        ride.confirmed_passenger_count = (
+            Passenger.objects.filter(ride=ride, status="ACCEPTED").count() or 0
+        )
         if (ride.quantity_of_passengers - ride.confirmed_passenger_count) > 0:
             processed_rides.append(ride)
 
@@ -142,7 +146,7 @@ def ride_detail(request, ride_id, message=""):
         if passenger.person.user == request.user:
             is_waiting_confirmation = True
             break
-    
+
     context = {
         "ride": ride,
         "passengers": passengers,
@@ -166,7 +170,7 @@ def ride_passenger_confirmation(request, ride_id, passenger_id):
     if request.user != ride.driver.user:
         message = "Apenas o motosita da corrida pode aceitar passageiros."
         return ride_detail(request, ride_id=ride_id, message=message)
-    
+
     confirmed_passengers = Passenger.objects.filter(
         ride=ride, status="CONFIRMED"
     ).count()
