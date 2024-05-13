@@ -3,14 +3,14 @@
 {% block title %}SosRs|Carona - Minhas Caronas{% endblock %}
 
 {% block content %}
-    <div class="container mt-2">
+    <div class="container mt-5">
         <div class="row">
             <a href="{% url 'home' %}" class="btn btn-light">
                 <i class="material-icons">arrow_back</i>
             </a>
-            <h4 class="mb-4">Minhas Caronas</h4>
+            <h4 class="mb-2">Minhas Caronas</h4>
         </div>
-        {% if not rides %}
+        {% if not rides_as_driver and not ride_as_passenger %}
         <div class="jumbotron">
             <h1 class="display-5">Oferte uma Carona!</h1>
             {% comment %} <p class="lead">This is the home page of my Django website.</p> {% endcomment %}
@@ -19,12 +19,26 @@
             <a class="btn btn-outline-primary btn-lg" href="{% url 'create_ride' %}" role="button">Vamos lá</a>
         </div>
         {% endif %}
-        
+        <hr />
+
+        {% if message %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
         <!-- Ride Cards -->
+        <div class="row">
+            <h4 class="ml-4">
+                Caronas que você ofereceu
+            </h4>
+        </div>
         <div class="row justify-content-center">
-            {% for ride in rides %}
-                <div class="col-md-8">
-                    <div class="card mb-3">
+            {% for ride in rides_as_driver %}
+                <div class="col-md-12">
+                    <div class="card mb-2">
                         <div class="card-body">
                             <p>
                                 {% if ride.has_passenger_waiting_confirmation %}
@@ -34,16 +48,41 @@
                             <h5 class="card-title">
                                 <i class="fas fa-car"></i> 
                                 {{ ride.destination }}
-                                <span class="badge badge-primary float-right">ABERTA</span>
+                                {% if ride.quantity_of_passengers == ride.confirmed_passengers_count %}
+                                    <span class="badge badge-warning float-right">FECHADA</span>
+                                {% else %}
+                                    <span class="badge badge-primary float-right">ABERTA</span>
+                                {% endif %}
                             </h5>
-                            {% if ride.driver.user == user %}
-                                <p class="card-text text-primary"><i class="fas fa-user"></i> {{ ride.driver }}</p>
-                            {% else %}
-                                <p class="card-text text-secondary"><i class="fas fa-user"></i> {{ ride.driver }}</p>
-                            {% endif %}
+                            <p class="card-text text-primary"><i class="fas fa-user"></i> {{ ride.driver }}</p>
                             <p class="card-text"><i class="fas fa-map-marker-alt"></i> Saindo de {{ ride.origin }}</p>
                             <p class="card-text"><i class="far fa-calendar-alt"></i> {{ ride.date }} | {{ ride.work_shift }}</p>
-                            <p class="card-text"><i class="fas fa-users"></i> {{ ride.quantity_of_passengers }} vagas | {{ ride.confirmed_passenger_count }} confirmados</p>
+                            <p class="card-text"><i class="fas fa-users"></i> {{ ride.quantity_of_passengers }} vagas | {{ ride.confirmed_passengers_count }} confirmados</p>
+                           
+                            <a href="{% url 'ride_detail' ride.pk %}" class="btn btn-outline-primary"><i class="fas fa-info-circle"></i> Ver Detalhes </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <hr />
+        <div class="row">
+            <h4 class="ml-4">Caronas que você solicitou</h4>
+        </div>
+        <div class="row justify-content-center">
+            {% for ride in rides_as_passenger %}
+                <div class="col-md-12">
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-car"></i> 
+                                {{ ride.destination }}
+                                <span class="badge badge-primary float-right">ABERTA</span>
+                            </h5>
+                            <p class="card-text text-primary"><i class="fas fa-user"></i> {{ ride.driver }}</p>
+                            <p class="card-text"><i class="fas fa-map-marker-alt"></i> Saindo de {{ ride.origin }}</p>
+                            <p class="card-text"><i class="far fa-calendar-alt"></i> {{ ride.date }} | {{ ride.work_shift }}</p>
+                            <p class="card-text"><i class="fas fa-users"></i> {{ ride.quantity_of_passengers }} vagas | {{ ride.confirmed_passengers_count }} confirmados</p>
                            
                             <a href="{% url 'ride_detail' ride.pk %}" class="btn btn-outline-primary"><i class="fas fa-info-circle"></i> Ver Detalhes </a>
                         </div>
