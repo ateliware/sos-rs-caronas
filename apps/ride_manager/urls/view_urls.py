@@ -13,11 +13,10 @@ from apps.ride_manager.views.ride import (
     my_rides,
     open_rides,
     ride_detail,
-    ride_solicitation,
     ride_passenger_confirmation,
+    ride_solicitation,
 )
 from apps.ride_manager.views.vehicle import create_vehicle, created_with_success
-
 
 urlpatterns = [
     path("", public_home, name="public_home"),
