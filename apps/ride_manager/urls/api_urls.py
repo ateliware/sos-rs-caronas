@@ -4,6 +4,7 @@ from rest_framework.routers import DefaultRouter
 from apps.ride_manager.apis import (
     AffectedPlaceViewSet,
     PersonRegisterViewSet,
+    RideSearchViewSet,
     RideViewset,
     ValidatePhoneCheckCodeApiView,
     ValidatePhoneSendCodeApiView,
@@ -36,6 +37,11 @@ urlpatterns = [
         "person/register/",
         PersonRegisterViewSet.as_view({"post": "create"}),
         name="person_register",
+    ),
+    path(
+        "rides/search/",
+        RideSearchViewSet.as_view({"get": "list"}),
+        name="rides_search",
     ),
 ]
 
