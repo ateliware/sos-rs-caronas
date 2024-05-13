@@ -72,6 +72,7 @@ class Ride(BaseModel):
         max_length=11,
         choices=StatusChoices.choices,
         verbose_name="Status",
+        default=StatusChoices.OPEN,
     )
     whatsapp_group_link = models.URLField(
         verbose_name="Link do Grupo de WhatsApp",

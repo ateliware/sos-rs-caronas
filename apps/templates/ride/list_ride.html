@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}SosRs|Carona - Encontre Caronas{% endblock %}
+
+<!-- define a jenja boolean variable-->
+
+{% block content %}
+    <div class="container mt-2">
+        <div class="row">
+            <a href="{% url 'home' %}" class="btn btn-light">
+                <i class="material-icons">arrow_back</i>
+            </a>
+            <h4 class="mb-4">Encontrar Carona</h4>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="origin">Origem</label>
+                <input type="text" class="form-control" id="origin">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="destination">Destino</label>
+                <input type="text" class="form-control" id="destination">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="date">Data</label>
+                <input type="date" class="form-control" id="date">
+            </div>
+            <div class="form-group col-md-3 align-self-end">
+                <button type="submit" class="btn btn-outline-primary btn-block">Buscar</button>
+            </div>
+        </div>
+            <!-- Ride Cards -->
+            <div class="row justify-content-center">
+            {% for ride in rides %}                
+                {% if ride.driver.user != user %}
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-car"></i>
+                                <span class="badge badge-primary float-right">ABERTA</span>
+                            </h5>
+                            <p class="card-text"><i class="fas fa-user"></i> {{ ride.driver }}</p>
+                            <p class="card-text"><i class="fas fa-map-marker-alt"></i> Saindo de {{ ride.origin }}</p>
+                            <p class="card-text"><i class="far fa-calendar-alt"></i> {{ ride.date }} | {{ ride.work_shift }}</p>
+                            <p class="card-text"><i class="fas fa-users"></i> {{ ride.quantity_of_passengers }} vagas | {{ ride.confirmed_passenger_count }} confirmados</p>
+                            
+                            <a href="{% url 'ride_detail' ride.pk %}" class="btn btn-outline-primary"><i class="fas fa-info-circle"></i> Ver Detalhes </a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% if not rides %}
+        <div class="jumbotron">
+            <h4 class="display-4">:`(</h4>
+            <hr class="my-4">
+            <p class="lead">Ainda não há caronas ofertadas.</p>                
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% load static %}  <!-- Load the static tag library -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Set a light background color */
+        }
+        .login-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff; /* Set a white background for the form container */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
+            border-radius: 5px;
+            margin-top: 50px;
+        }
+        .login-heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-container">
+            <div class="login-heading">
+                <img src="{% static 'logo.png' %}" alt="Logo" style="max-width: 150px; height: auto;">
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <!-- Username Field with Bootstrap class -->
+                <div class="form-group">
+                    <label for="id_username">CPF:</label>
+                    <input type="text" name="username" id="id_username" class="form-control" placeholder="CPF apenas digitos">
+                </div>
+                <!-- Password Field with Bootstrap class -->
+                <div class="form-group">
+                    <label for="id_password">Senha:</label>
+                    <input type="password" name="password" id="id_password" class="form-control" placeholder="Informe sua senha">
+                </div>
+                <!-- Display form-level errors -->
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <span>Usuário ou senha incorretos!</span>
+                </div>
+                {% endif %}
+                <!-- Submit Button with Bootstrap class -->
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+            <!-- Registration link -->
+            <p class="text-center mt-3">Não possui uma conta?<a href="{% url 'register' %}"> Cadastre-se</a></p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

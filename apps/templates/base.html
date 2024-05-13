@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Website{% endblock %}</title>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>        
+        body {
+            padding-top: 60px; /* Ensure content doesn't go behind the fixed navbar */            
+            font-family: Arial, sans-serif;
+        }
+        
+        /* Media query for larger screens */
+        @media (min-width: 768px) {
+            .main-content {                
+                background-color: #ffffff; /* Optional: Set a background color for the main content */
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                margin: 0 auto; /* Center the div horizontally */
+            }
+        }
+
+        .navbar {
+            background-color: #152583;
+        }
+        .navbar-brand {
+            color: #fff;
+            font-weight: bold;
+        }
+        .navbar-nav .nav-link {
+            color: #fff;
+        }
+        .jumbotron {
+            background-color: rgba(0,123,255,.25);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            max-width: 1200px; /* Adjust the maximum width */
+            margin: 0 auto; /* Center the jumbotron */
+            border-radius: 10px;
+        }
+
+        .card {
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            margin-bottom: 8px;
+        }
+
+        .btn-primary {
+            border-radius: 0;
+        }
+
+        .container-fluid {
+            max-width: 1200px;
+        }
+
+        .bg-light {
+            background-color: #f8f9fa !important;
+        }
+
+        .btn-outline-primary {
+            {% comment %} background-color: #152583; {% endcomment %}
+            color: #152583;
+            border-color: #152583;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        {% if user.is_authenticated %}
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'home' %}">SosRS | Caronas</a>
+                <button class="btn" type="button">
+                    <a href="{% url 'logout' %}" style="text-decoration: none; color: white;">
+                        <span class="me-2"><i class="material-icons" style="color: white;">exit_to_app</i></span>
+                    </a>
+                </button>
+            </div>
+        </nav>
+        {% endif %}
+
+        <div class="container bg-light mt-1">
+            <div class="main-content">    
+                {% block content %}
+                <!-- The main content of the application will be displayed here -->
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (optional, for Bootstrap components) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Function to execute after jQuery is loaded
+        $(document).ready(function() {            
+            $('.alert').alert();
+        });
+    </script>
+</body>
+</html>

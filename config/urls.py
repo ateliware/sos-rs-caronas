@@ -7,6 +7,7 @@ API_VERSION = "api/v1/"
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", include("apps.ride_manager.urls.view_urls")),
     path(API_VERSION, include("apps.core.urls")),
     path(API_VERSION, include("apps.address_manager.urls")),
     path(API_VERSION, include("apps.term_manager.urls.api_urls")),

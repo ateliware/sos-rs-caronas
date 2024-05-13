@@ -43,4 +43,4 @@ class AffectedPlace(BaseModel):
     )
 
     def __str__(self):
-        return self.description
+        return self.city.name
