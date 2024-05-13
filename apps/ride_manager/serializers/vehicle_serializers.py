@@ -33,3 +33,15 @@ class VehicleRegisterSerializer(serializers.Serializer):
         default_filename="cnh_picture.jpg", required=False
     )
     cnh_number = serializers.CharField(max_length=15, required=False)
+
+
+class VehicleSimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vehicle
+        fields = [
+            "uuid",
+            "model",
+            "color",
+            "plate",
+            "is_verified",
+        ]
