@@ -21,7 +21,7 @@ class AffectedPlaceModelTests(BaseTest):
         # When
         affected_place = AffectedPlaceFactory()
         db_affected_place = AffectedPlace.objects.get(pk=affected_place.pk)
-        expected_db_affected_place_str = f"{db_affected_place.description}"
+        expected_db_affected_place_str = f"{db_affected_place.city.name}"
 
         # Then
         self.assertIsInstance(affected_place, AffectedPlace)

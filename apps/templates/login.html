@@ -37,13 +37,24 @@
                 {% csrf_token %}
                 <!-- Username Field with Bootstrap class -->
                 <div class="form-group">
-                    <label for="id_username">CPF:</label>
-                    <input type="text" name="username" id="id_username" class="form-control" placeholder="CPF apenas digitos">
+                    <label for="id_cpf">CPF:</label>
+                    <input type="text" name="cpf" id="id_cpf" class="form-control" placeholder="Informe seu CPF">
+                    
+                    {% if form.errors.cpf %}
+                        <div class="alert alert-danger mt-3">
+                            <span>{{ form.errors.cpf }}</span>
+                        </div>
+                    {% endif %}
                 </div>
                 <!-- Password Field with Bootstrap class -->
                 <div class="form-group">
                     <label for="id_password">Senha:</label>
                     <input type="password" name="password" id="id_password" class="form-control" placeholder="Informe sua senha">
+                    {% if form.errors.password %}
+                        <div class="alert alert-danger mt-3">
+                            <span>{{ form.errors.password }}</span>
+                        </div>
+                    {% endif %}
                 </div>
                 <!-- Display form-level errors -->
                 {% if form.non_field_errors %}
