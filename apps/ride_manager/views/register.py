@@ -3,16 +3,47 @@ import logging
 from django.contrib.auth import login
 from django.db import transaction
 from django.shortcuts import redirect, render
+from django.views.generic.edit import FormView
 
 from apps.address_manager.models.city import City
 from apps.address_manager.models.state import State
 from apps.core.models.custom_user import CustomUser
 from apps.core.utils.cpf_validator import CpfValidator
 from apps.core.utils.regex_utils import get_only_numbers
+from apps.ride_manager.forms import RegistrationForm
 from apps.ride_manager.forms.form_person import PersonForm
 from apps.ride_manager.services.code_validator_service import (
     CodeValidatorService,
 )
+from apps.ride_manager.services.person_register_service import (
+    PersonRegisterService,
+)
+
+
+class RegistrationFormView(FormView):
+    template_name = "register.html"
+    form_class = RegistrationForm
+    success_url = "home"
+
+    def form_valid(self, form):
+        super().form_valid(form)
+
+        service = PersonRegisterService(data=form.cleaned_data)
+        with transaction.atomic():
+            user = service.create_custom_user()
+            person = service.create_person(user)
+            person.document_picture = form.cleaned_data.get("document_picture")
+            person.save()
+            service.create_acceptance_terms(person)
+
+        login(self.request, user)
+        return redirect("home")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["states"] = State.objects.all()
+        context["cities"] = City.objects.all()
+        return context
 
 
 def register(request):
@@ -20,11 +51,14 @@ def register(request):
     The register consists os three steps, the first the person must validate
     the phone number, next create a user account and finally register the person
     """
+    """
+    TODO reactivate twillio integration
     if (
         "phone_validation" not in request.session
         or request.session["phone_validation"] is False
     ):
         return redirect("send_verify_code")
+    """
 
     states = State.objects.all()
     cities = City.objects.all()
@@ -68,7 +102,7 @@ def register(request):
     return render(
         request,
         "register.html",
-        {"form": form, "states": states, "cities": cities, "error": error},
+        {"form": form, "states": states, "cities": cities, "error": ""},
     )
 
 

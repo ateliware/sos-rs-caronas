@@ -1,10 +1,9 @@
 from django.urls import path
 
-from apps.ride_manager.views import CustomLoginView
+from apps.ride_manager.views import CustomLoginView, RegistrationFormView
 from apps.ride_manager.views.home import home_view, public_home
 from apps.ride_manager.views.logout import logout_view
 from apps.ride_manager.views.register import (
-    register,
     send_verify_code,
     validate_code,
 )
@@ -23,7 +22,7 @@ urlpatterns = [
     path("login/", CustomLoginView.as_view(), name="login"),
     path("logout/", logout_view, name="logout"),
     path("home/", home_view, name="home"),
-    path("register/", register, name="register"),
+    path("register/", RegistrationFormView.as_view(), name="register"),
     path("send_verify_code/", send_verify_code, name="send_verify_code"),
     path("validate_code/", validate_code, name="validate_code"),
     path("ride/detail/<uuid:ride_id>/", ride_detail, name="ride_detail"),
