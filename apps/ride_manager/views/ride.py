@@ -88,7 +88,7 @@ def my_rides(request):
     # checking if need confirmation in the rides that the user is the driver
     for ride in rides_as_driver:
         ride.has_passenger_waiting_confirmation = Passenger.objects.filter(
-            ride=ride, status="PENDING"
+            ride=ride, status=PassengerStatusChoices.PENDING
         ).exists()
         if ride.has_passenger_waiting_confirmation:
             message = "Você tem passageiros aguardando confirmação."
@@ -119,23 +119,36 @@ def my_rides(request):
 
 
 @login_required(login_url="/login/")
-def open_rides(request):
+def ride_list(request):
     """
     List all rides available for the logged in user
     """
     if request.user.is_anonymous:
-        rides = Ride.objects.filter(status="OPEN").annotate(
-            num_passengers=Count("passenger")
+        rides = Ride.objects.filter().annotate(
+            confirmed_passengers_count=Count(
+                "passenger",
+                filter=Q(passenger__status=PassengerStatusChoices.ACCEPTED),
+            )
         )
     else:
-        rides = Ride.objects.filter(status="OPEN").exclude(
-            driver__user=request.user
+        rides = (
+            Ride.objects.filter(status="OPEN")
+            .annotate(
+                confirmed_passengers_count=Count(
+                    "passenger",
+                    filter=Q(passenger__status=PassengerStatusChoices.ACCEPTED),
+                )
+            )
+            .exclude(driver__user=request.user)
         )
 
     processed_rides = []
     for ride in rides:
         ride.confirmed_passenger_count = (
-            Passenger.objects.filter(ride=ride, status="ACCEPTED").count() or 0
+            Passenger.objects.filter(
+                ride=ride, status=PassengerStatusChoices.ACCEPTED
+            ).count()
+            or 0
         )
         if (ride.quantity_of_passengers - ride.confirmed_passenger_count) > 0:
             processed_rides.append(ride)
@@ -152,24 +165,41 @@ def ride_detail(request, ride_id, message=""):
     ride = Ride.objects.get(uuid=ride_id)
 
     is_driver = False
-    is_waiting_confirmation = False
     if request.user == ride.driver.user:
         is_driver = True
+
     passengers = Passenger.objects.filter(ride__uuid=ride_id).order_by("status")
 
     # check if the logged in user is in the passengers list
-    for passenger in passengers:
-        if passenger.person.user == request.user:
-            is_waiting_confirmation = True
-            break
-    
+    is_passenger_in_ride = False
+    if request.user.is_authenticated:
+        is_passenger_in_ride = request.user in [
+            passenger.person.user for passenger in passengers
+        ]
+
+    is_passenger_confirmed = False
+    if is_passenger_in_ride:
+        passenger_status = [
+            passenger.status
+            for passenger in passengers
+            if passenger.person.user == request.user
+        ]
+        is_passenger_confirmed = (
+            passenger_status[0] == PassengerStatusChoices.ACCEPTED
+        )
+
     referer = request.META.get("HTTP_REFERER")
+    if "confirmation" in referer:
+        application_url = request.build_absolute_uri("/")
+        referer = application_url + "ride/my-rides"
+
     context = {
         "ride": ride,
         "passengers": passengers,
         "is_driver": is_driver,
-        "is_waiting_confirmation": is_waiting_confirmation,
         "message": message,
+        "is_passenger_in_ride": is_passenger_in_ride,
+        "is_passenger_confirmed": is_passenger_confirmed,
         "referer": referer,
     }
     return render(request, "ride/ride_detail.html", context)
@@ -190,13 +220,17 @@ def ride_passenger_confirmation(request, ride_id, passenger_id):
         return ride_detail(request, ride_id=ride_id, message=message)
 
     confirmed_passengers = Passenger.objects.filter(
-        ride=ride, status="CONFIRMED"
+        ride=ride, status=PassengerStatusChoices.ACCEPTED
     ).count()
     if confirmed_passengers == ride.quantity_of_passengers:
         message = "Infelizmente não há mais vagas disponíveis para esta carona."
+    elif Passenger.objects.filter(
+        ride=ride, person__user=request.user
+    ).exists():
+        message = "O passageiro já está confirmado nesta carona."
     else:
         passenger = Passenger.objects.get(pk=passenger_id)
-        passenger.status = "ACCEPTED"
+        passenger.status = PassengerStatusChoices.ACCEPTED
         passenger.save()
         message = "Passageiro confirmado com sucesso."
 
@@ -217,7 +251,7 @@ def ride_solicitation(request, ride_id):
         return ride_detail(request, ride_id=ride_id, message=message)
 
     confirmed_passengers = Passenger.objects.filter(
-        ride=ride, status="CONFIRMED"
+        ride=ride, status=PassengerStatusChoices.ACCEPTED
     ).count()
     if confirmed_passengers == ride.quantity_of_passengers:
         message = "Ops, a carona já atingiu sua capacidade :("

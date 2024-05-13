@@ -12,38 +12,45 @@
             </a>
             <h4 class="mb-4">Encontrar Carona</h4>
         </div>
-        <div class="form-row">
-            <div class="form-group col-md-3">
-                <label for="origin">Origem</label>
-                <input type="text" class="form-control" id="origin">
+        {% comment %} 
+        <div class="card w-100">
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="origin">Origem</label>
+                        <input type="text" class="form-control" id="origin">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="destination">Destino</label>
+                        <input type="text" class="form-control" id="destination">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="date">Data</label>
+                        <input type="date" class="form-control" id="date">
+                    </div>
+                    <div class="form-group col-md-3 align-self-end">
+                        <button type="submit" class="btn btn-outline-primary btn-block">Buscar</button>
+                    </div>
+                </div>
             </div>
-            <div class="form-group col-md-3">
-                <label for="destination">Destino</label>
-                <input type="text" class="form-control" id="destination">
-            </div>
-            <div class="form-group col-md-3">
-                <label for="date">Data</label>
-                <input type="date" class="form-control" id="date">
-            </div>
-            <div class="form-group col-md-3 align-self-end">
-                <button type="submit" class="btn btn-outline-primary btn-block">Buscar</button>
-            </div>
-        </div>
+        </div> 
+        {% endcomment %}
             <!-- Ride Cards -->
             <div class="row justify-content-center">
             {% for ride in rides %}                
                 {% if ride.driver.user != user %}
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <div class="card mb-3">
                         <div class="card-body">
                             <h5 class="card-title">
                                 <i class="fas fa-car"></i>
+                                {{ ride.destination }}
                                 <span class="badge badge-primary float-right">ABERTA</span>
                             </h5>
-                            <p class="card-text"><i class="fas fa-user"></i> {{ ride.driver }}</p>
+                            <p class="card-text"><i class="fas fa-user"></i> Motorista: {{ ride.driver }}</p>
                             <p class="card-text"><i class="fas fa-map-marker-alt"></i> Saindo de {{ ride.origin }}</p>
                             <p class="card-text"><i class="far fa-calendar-alt"></i> {{ ride.date }} | {{ ride.work_shift }}</p>
-                            <p class="card-text"><i class="fas fa-users"></i> {{ ride.quantity_of_passengers }} vagas | {{ ride.confirmed_passenger_count }} confirmados</p>
+                            <p class="card-text"><i class="fas fa-users"></i> {{ ride.quantity_of_passengers }} vagas | {{ ride.confirmed_passengers_count }} confirmados</p>
                             
                             <a href="{% url 'ride_detail' ride.pk %}" class="btn btn-outline-primary"><i class="fas fa-info-circle"></i> Ver Detalhes </a>
                         </div>

@@ -12,6 +12,7 @@ class StatusChoices(models.TextChoices):
     REJECTED = "DECLINED", "Recusado"
     PENDING = "PENDING", "Pendente"
 
+
 class Passenger(BaseModel):
     class Meta:
         verbose_name = "Passageiro"

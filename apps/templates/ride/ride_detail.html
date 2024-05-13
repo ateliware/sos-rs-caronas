@@ -22,86 +22,110 @@
                     Dados da Carona
                 </h5>
                 <hr />
-                <div class="alert alert-info">
-                    <span>Origem: {{ ride.origin }}</span> <br>
-                    <span>Destino: {{ ride.destination }}</span> <br>
-                    <span>Data: {{ ride.date }}</span> <br>
-                    <span>Turno: {{ ride.work_shift }}</span> <br>
-                    <span>Vagas ofertadas: {{ ride.quantity_of_passengers }}</span> <br>
+                <div class="alert alert-primary">
+                    <span>Origem: <strong>{{ ride.origin }} </strong></span> <br>
+                    <span>Destino: <strong>{{ ride.destination }}</strong></span> <br>
+                    <span>Data: <strong>{{ ride.date }}</strong></span> <br>
+                    <span>Turno: <strong>{{ ride.work_shift }}</strong></span> <br>
+                    <span>Vagas ofertadas: <strong>{{ ride.quantity_of_passengers }}</strong></span> <br>
+                </div>
+                <hr />
+                <div class="alert">
+                    <h6 class="card-subtitle mb-2 text-muted">Dados do Veículo</h6>
+                    <p>
+                        <span>{{ ride.vehicle.model }} - {{ ride.vehicle.color }}</span> <br>
+                        {% if is_passenger_in_ride or is_driver %}
+                            <span> Placa: {{ ride.vehicle.plate }}</span> <br>
+                        {% else %}
+                            <span> <small> *A placa do veículo será exibida para caronas confirmadas. </small></span> <br>
+                        {% endif %}
+                    </p>
                 </div>
                 <hr />
                 {% if not is_driver %}
                 <div class="alert">
-                    <h6 class="card-subtitle mb-2 text-muted">Dados do Veículo</h6>
-                    <p>
-                        <span>{{ ride.vehicle.model }} | {{ ride.vehicle.color }}</span> <br>
-                        <span> Placa: {{ ride.vehicle.plate }}</span> <br>
-                    </p>
-                </div>
-                <hr />
-                <div class="alert">
                     <h6 class="card-subtitle mb-2 text-muted">Dados do Morotista</h6>
                     <p>
                         <span>{{ ride.driver }}</span> <br />
-                        <span>
-                            {{ ride.driver.phone }}
-                            <a 
-                                href="https://wa.me/{{driver_phone}}?text=Olá, te encontrei no SosRS | Caronas, gostaria de checar algumas informações" 
-                                class="btn btn-outline-success btn-sm"
-                                target="_blank">
-                                <i class="fab fa-whatsapp"></i>
-                            </a>
-                        </span>
+                        {% if is_passenger_in_ride %}
+                            <span>
+                                {{ ride.driver.phone }}
+                                <a
+                                    href="https://wa.me/{{driver_phone}}?text=Olá, te encontrei no SosRS | Caronas, gostaria de checar algumas informações" 
+                                    class="btn btn-outline-success btn-sm"
+                                    target="_blank">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </span>
+                        {% else %}
+                            <span><small>*Os dados do motorista serão exibidos para caronas confirmadas. </small></span>
+                        {% endif %}
                     </p>
                 </div>
                 <hr />
                 {% endif %}
-                <h6 class="card-subtitle mb-2 text-muted">Passageiros</h6>
-                <div class="row">
-                    {% if not passengers %}
-                        <div class="col-md-12">
-                            <div class="alert alert-warning">Nenhum passageiro confirmado até o momento.</div>
-                        </div>
-                    {% endif %}
-                    {% for passenger in passengers %}
-                        <div class="col-md-6 mb-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <span>
-                                        {% if passenger.status == "ACCEPTED" %}
-                                            <i class="material-icons text-success">check</i>
-                                        {% elif passenger.status == "REJECTED" %}
-                                            <i class="material-icons text-danger">close</i>
-                                        {% else %}
-                                            <i class="material-icons text-warning">hourglass_empty</i>
+                {% if is_driver or is_passenger_confirmed %}
+                    <h6 class="card-subtitle mb-2 text-muted">Passageiros</h6>
+                    <div class="row">
+                        {% if not passengers %}
+                            <div class="col-md-12">
+                                <div class="alert alert-warning">Nenhum passageiro confirmado até o momento.</div>
+                            </div>
+                        {% endif %}
+                        {% for passenger in passengers %}
+                            <div class="col-md-12 mb-1">
+                                <div class="card">
+                                    <div class="card-body">
+                                        {% if passenger.status == "PENDING" %}
+                                            <p class="card-text text-warning">
+                                                <i class="fas fa-spinner fa-spin"></i>
+                                                Aguardando confirmação
+                                            </p>
+                                        {% elif passenger.status == "ACCEPTED" %}
+                                            <p class="card-text text-success">
+                                                <i class="fas fa-check"></i>
+                                                Confirmado
+                                            </p>
+                                        {% elif passenger.status == "DECLINED" %}
+                                            <p class="card-text text-danger">
+                                                <i class="fas fa-times"></i>
+                                                Rejeitado
+                                            </p>
                                         {% endif %}
-                                    </span>
-                                    <span>{{ passenger.person.name }}</span> <br>
-                                    <span>{{ passenger.person.birth_date }}</span> <br>
-                                    <span>{{ passenger.person.phone }}</span> <br>
-                                    
-                                    {% if is_driver and passenger.status == "PENDING" %}
-                                        <div class="d-flex justify-content-between align-items-center mt-3">
-                                            <a href="{% url 'ride_passenger_confirmation' ride.pk passenger.pk%}" class="btn btn-outline-primary flex-grow-1 me-2">Aceitar</a>
-                                            <a href="#" class="btn btn-outline-danger flex-grow-1">Negar</a>
-                                        </div>
-                                    {% endif %}
-                                    
-                                    {% if user.person == passenger.person %}
-                                        <!-- Button to trigger WhatsApp confirmation -->
-                                        <a href="#" onclick="sendWhatsAppConfirmation('{{ ride.driver.phone}}', '{{ ride.pk }}', '{{ passenger.pk }}')" class="btn btn-success btn-block mt-3">                           
-                                            <i class="fab fa-whatsapp"></i>
-                                            Solicitar confirmação
-                                        </a>
-                                    {% endif %}
-                                    <span class="mutted"><small>*Solicitado em {{ passenger.created_at }}</small></span>
+                                        <span>
+                                            {{ passenger.person.name }}
+                                            <a 
+                                                href="https://wa.me/{{passenger.person.phone}}?text=Olá, te encontrei no SosRS | Caronas, gostaria de checar algumas informações" 
+                                                class="btn btn-outline-success btn-sm"
+                                                target="_blank">
+                                                <i class="fab fa-whatsapp"></i>
+                                            </a>
+                                        </span> <br>
+                                        <span>{{ passenger.person.birth_date }}</span> <br>
+                                        {% if is_driver and passenger.status == "PENDING" %}
+                                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                                <a href="{% url 'ride_passenger_confirmation' ride.pk passenger.pk%}" class="btn btn-outline-primary flex-grow-1 me-2">Aceitar</a>
+                                                <a href="#" class="btn btn-outline-danger flex-grow-1">Negar</a>
+                                            </div>
+                                        {% endif %}
+                                        <span class="mutted"><small>*Solicitado em {{ passenger.created_at }}</small></span> <br />
+                                        {% if user.person == passenger.person and passenger.status == "PENDING" %}
+                                            <!-- Button to trigger WhatsApp confirmation -->
+                                            <a href="#" onclick="sendWhatsAppConfirmation('{{ ride.driver.phone}}', '{{ ride.pk }}', '{{ passenger.pk }}')" class="btn btn-outline-success btn-sm">                           
+                                                <i class="fab fa-whatsapp"></i>
+                                                Solicitar confirmação
+                                            </a>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    {% endfor %}
-                </div>
-                {% if not is_driver and not is_waiting_confirmation %}   
-                    <a href="#" id="ride_solicitation" onclick="confirmSolicitation('{{ ride.uuid }}')" class="btn btn-primary btn-block">Solicitar carona</a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning">Você poderá visualizar os dados dos demais passageiros quando estiver confirmado na carona.</div>
+                {% endif %}
+                {% if not is_driver and not is_passenger_in_ride %}   
+                    <a href="#" id="ride_solicitation" onclick="confirmSolicitation('{{ ride.uuid }}')" class="btn btn-outline-primary btn-block">Solicitar carona</a>
                 {% endif %}
             </div>
         </div>
