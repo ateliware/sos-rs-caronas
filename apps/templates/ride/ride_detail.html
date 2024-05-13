@@ -33,7 +33,7 @@
                     <span>Destino: {{ ride.destination }}</span> <br>
                     <span>Data: {{ ride.date }}</span> <br>
                     <span>Turno: {{ ride.work_shift }}</span> <br>
-                    <span>Passageiros: {{ ride.quantity_of_passengers }}</span> <br>
+                    <span>Vagas ofertadas: {{ ride.quantity_of_passengers }}</span> <br>
                 </div>
                 <hr />
                 {% if not is_driver %}
@@ -48,8 +48,16 @@
                 <div class="alert">
                     <h6 class="card-subtitle mb-2 text-muted">Dados do Morotista</h6>
                     <p>
-                        <span>{{ ride.driver }}</span> <br>
-                        <span>{{ ride.driver.phone }}</span>
+                        <span>{{ ride.driver }}</span> <br />
+                        <span>
+                            {{ ride.driver.phone }}
+                            <a 
+                                href="https://wa.me/{{driver_phone}}?text=Olá, te encontrei no SosRS | Caronas, gostaria de checar algumas informações" 
+                                class="btn btn-outline-success btn-sm"
+                                target="_blank">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                        </span>
                     </p>
                 </div>
                 <hr />
@@ -88,7 +96,8 @@
                                     {% if user.person == passenger.person %}
                                         <!-- Button to trigger WhatsApp confirmation -->
                                         <a href="#" onclick="sendWhatsAppConfirmation('{{ ride.driver.phone}}', '{{ ride.pk }}', '{{ passenger.pk }}')" class="btn btn-success btn-block mt-3">                           
-                                            Solicitar confirmação via WhatsApp
+                                            <i class="fab fa-whatsapp"></i>
+                                            Solicitar confirmação
                                         </a>
                                     {% endif %}
                                     <span class="mutted"><small>*Solicitado em {{ passenger.created_at }}</small></span>
@@ -111,10 +120,8 @@
         }
 
         function sendWhatsAppConfirmation(driver_phone, rideId, passengerId) {
-            console.log(rideId, passengerId)
-            driver_phone = '(54) 99184-9446'
-            const text = `Olá, um passageiro do SosRs Caronas está solicitando sua aprovação na carona. \n
-                          Acesse o link abaixo para confirmar: \n
+            const text = `Olá, um passageiro do SosRs Caronas está solicitando sua aprovação na carona.
+                          Acesse o link abaixo para confirmar:
                           http://localhost:8000/login`;
             
             // js regex to remove ()- for the number

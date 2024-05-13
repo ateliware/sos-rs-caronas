@@ -78,19 +78,22 @@ def my_rides(request):
     passenger_ride_ids = [passenger.ride.uuid for passenger in passenger_rides]
     # Retrieve rides where the logged-in user is the driver
     driver_rides = Ride.objects.filter(driver__user=request.user)
+    for ride in driver_rides:
+        passengers = Passenger.objects.filter(ride=ride, status="PENDING")
+        ride.has_passenger_waiting_confirmation = (
+            True if passengers.exists() else False
+        )
+        passengers = Passenger.objects.filter(
+            ride=ride, status="PENDING"
+        )
+
     # Merge and order rides, removing duplicates
     all_rides = Ride.objects.filter(
         Q(uuid__in=passenger_ride_ids) | Q(uuid__in=driver_rides.values_list('uuid', flat=True))
     ).distinct().order_by('date')
-    
     for ride in all_rides:
-        passengers = Passenger.objects.filter(
-            ride=ride, status="PENDING"
-        )
         ride.confirmed_passenger_count = Passenger.objects.filter(ride=ride, status="ACCEPTED").count() or 0
-        ride.has_passenger_waiting_confirmation = (
-            True if passengers.exists() else False
-        )
+        
 
     context = {"rides": all_rides}
     return render(request, "ride/my_rides.html", context)

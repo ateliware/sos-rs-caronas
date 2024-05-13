@@ -8,6 +8,12 @@
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
+            <!--Display error variable-->
+            {% if error %}
+            <div class="alert alert-danger">
+                <p>{{ error }}</p>  
+            </div>
+            {% endif %}
             <!-- Display form-wide errors -->
             {% if form.errors %}
             <div class="alert alert-danger">

@@ -31,9 +31,8 @@
     <div class="container">
         <div class="login-container">
             <div class="login-heading">
-                <img src="{% static 'img/logo.png' %}" alt="Logo" style="max-width: 150px; height: auto;">
+                <img src="{% static 'logo.png' %}" alt="Logo" style="max-width: 150px; height: auto;">
             </div>
-            <h2 class="text-center mb-4">Login</h2>
             <form method="post">
                 {% csrf_token %}
                 <!-- Username Field with Bootstrap class -->

@@ -69,7 +69,7 @@ def register(request):
     return render(
         request,
         "register.html",
-        {"form": form, "states": states, "cities": cities, "error": ""},
+        {"form": form, "states": states, "cities": cities, "error": error},
     )
 
 
