@@ -20,6 +20,7 @@ class BaseTest(TestCase):
         self.unauth_client = APIClient()
         self.view_client = Client(user=self.user)
         self.view_auth_client = self.view_client.force_login(self.user)
+        self.view_unauth_client = Client()
         self.fake = fake
 
     def create_test_user(self, cpf=FAKE_CPF, password="testpassword"):

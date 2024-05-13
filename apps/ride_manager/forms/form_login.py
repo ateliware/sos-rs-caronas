@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
 
-from apps.core.utils.cpf_validator import CpfValidator
 from apps.core.utils.regex_utils import get_only_numbers
 
 
@@ -23,7 +22,7 @@ class CustomLoginForm(AuthenticationForm):
             return cleaned_cpf
 
         else:
-            raise forms.ValidationError("CPF é obrigatório")
+            raise forms.ValidationError("CPF inválido")
 
     def clean(self) -> dict:
         cpf = self.cleaned_data.get("cpf")
@@ -31,13 +30,6 @@ class CustomLoginForm(AuthenticationForm):
 
         if not cpf or not password:
             raise forms.ValidationError("CPF e senha são obrigatórios")
-
-        if cpf:
-            cpf_is_valid = CpfValidator().validate_cpf(cpf)
-
-            if not cpf_is_valid:
-                self.add_error("cpf", "CPF inválido")
-                raise forms.ValidationError("CPF inválido")
 
         self.user_cache = authenticate(
             self.request,
