@@ -27,27 +27,31 @@
                     {% endif %}
                     Dados da Carona
                 </h5>
-                <hr />                
-                <p>
+                <hr />
+                <div class="alert alert-info">
                     <span>Origem: {{ ride.origin }}</span> <br>
                     <span>Destino: {{ ride.destination }}</span> <br>
                     <span>Data: {{ ride.date }}</span> <br>
                     <span>Turno: {{ ride.work_shift }}</span> <br>
                     <span>Passageiros: {{ ride.quantity_of_passengers }}</span> <br>
-                </p>
+                </div>
                 <hr />
                 {% if not is_driver %}
-                <h6 class="card-subtitle mb-2 text-muted">Dados do Veículo</h6>
-                <p>
-                    <span>{{ ride.vehicle.model }} | {{ ride.vehicle.color }}</span> <br>
-                    <span> Placa: {{ ride.vehicle.plate }}</span> <br>
-                </p>
+                <div class="alert">
+                    <h6 class="card-subtitle mb-2 text-muted">Dados do Veículo</h6>
+                    <p>
+                        <span>{{ ride.vehicle.model }} | {{ ride.vehicle.color }}</span> <br>
+                        <span> Placa: {{ ride.vehicle.plate }}</span> <br>
+                    </p>
+                </div>
                 <hr />
-                <h6 class="card-subtitle mb-2 text-muted">Dados do Morotista</h6>
-                <p>
-                    <span>{{ ride.driver }}</span> <br>
-                    <span>{{ ride.driver.phone }}</span> <br>                    
-                </p>
+                <div class="alert">
+                    <h6 class="card-subtitle mb-2 text-muted">Dados do Morotista</h6>
+                    <p>
+                        <span>{{ ride.driver }}</span> <br>
+                        <span>{{ ride.driver.phone }}</span>
+                    </p>
+                </div>
                 <hr />
                 {% endif %}
                 <h6 class="card-subtitle mb-2 text-muted">Passageiros</h6>
@@ -119,5 +123,22 @@
             const url = `https://wa.me/${driver_phone}?text=${text}`;
             window.open(url);
         }
+
+        
+        // Get references to the button and phone number container
+        const toggleButton = document.getElementById('toggleButton');
+        const phoneContainer = document.getElementById('phoneContainer');
+    
+        // Add event listener to the button
+        toggleButton.addEventListener('click', () => {
+            // Toggle the visibility of the phone number container
+            if (phoneContainer.style.display === 'none') {
+                phoneContainer.style.display = 'block';
+                toggleButton.textContent = 'Hide Phone Number';
+            } else {
+                phoneContainer.style.display = 'none';
+                toggleButton.textContent = 'Show Phone Number';
+            }
+        });
     </script>
 {% endblock  %}

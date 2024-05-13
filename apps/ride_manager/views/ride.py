@@ -12,6 +12,7 @@ from apps.ride_manager.models.person import Person
 from apps.ride_manager.models.ride import Ride
 from apps.ride_manager.models.vehicle import Vehicle
 
+
 @login_required(login_url="/login/")
 def create_ride(request):
     """
@@ -46,7 +47,8 @@ def create_ride(request):
                     "ride/create_ride.html",
                     {"form": form, "error": "Erro ao salvar dados da carona."},
                 )
-            return redirect("home")
+            message = "Carona cadastrada com sucesso."
+            return ride_detail(request, ride_id=ride.uuid, message=message)
         else:
             print(form.errors)
     else:
@@ -64,6 +66,7 @@ def create_ride(request):
         },
     )
 
+
 @login_required(login_url="/login/")
 def my_rides(request):
     """
@@ -73,11 +76,16 @@ def my_rides(request):
         num_passengers=Count("passenger")
     )
     for ride in rides:
-        passengers = Passenger.objects.filter(ride=ride, status="PENDING")        # add to dict ride the information if there is a passenger waiting for confirmation        ride["has_passenger_waiting_confirmation"] = False
-        ride.has_passenger_waiting_confirmation = True if passengers.exists() else False
+        passengers = Passenger.objects.filter(
+            ride=ride, status="PENDING"
+        )  # add to dict ride the information if there is a passenger waiting for confirmation        ride["has_passenger_waiting_confirmation"] = False
+        ride.has_passenger_waiting_confirmation = (
+            True if passengers.exists() else False
+        )
 
     context = {"rides": rides}
     return render(request, "ride/my_rides.html", context)
+
 
 @login_required(login_url="/login/")
 def open_rides(request):
@@ -89,12 +97,15 @@ def open_rides(request):
             num_passengers=Count("passenger")
         )
     else:
-        rides = Ride.objects.filter(status="OPEN").exclude(
-            driver__user=request.user
-        ).annotate(num_passengers=Count("passenger"))
+        rides = (
+            Ride.objects.filter(status="OPEN")
+            .exclude(driver__user=request.user)
+            .annotate(num_passengers=Count("passenger"))
+        )
 
     context = {"rides": rides}
     return render(request, "ride/list_ride.html", context)
+
 
 @login_required(login_url="/login/")
 def ride_detail(request, ride_id, message=""):
@@ -106,9 +117,9 @@ def ride_detail(request, ride_id, message=""):
     is_driver = False
     is_waiting_confirmation = False
     if request.user == ride.driver.user:
-        is_driver = True    
+        is_driver = True
     passengers = Passenger.objects.filter(ride__uuid=ride_id).order_by("status")
-    
+
     # check if the logged in user is in the passengers list
     for passenger in passengers:
         if passenger.person.user == request.user:
@@ -116,13 +127,14 @@ def ride_detail(request, ride_id, message=""):
             break
 
     context = {
-        "ride": ride, 
-        "passengers": passengers, 
+        "ride": ride,
+        "passengers": passengers,
         "is_driver": is_driver,
         "is_waiting_confirmation": is_waiting_confirmation,
-        "message": message
+        "message": message,
     }
     return render(request, "ride/ride_detail.html", context)
+
 
 @login_required(login_url="/login/")
 def ride_passenger_confirmation(request, ride_id, passenger_id):
@@ -138,7 +150,9 @@ def ride_passenger_confirmation(request, ride_id, passenger_id):
     if request.user != ride.driver.user:
         return redirect("home")
 
-    confirmed_passengers = Passenger.objects.filter(ride=ride, status="CONFIRMED").count()
+    confirmed_passengers = Passenger.objects.filter(
+        ride=ride, status="CONFIRMED"
+    ).count()
     if confirmed_passengers == ride.quantity_of_passengers:
         message = "Infelizmente não há mais vagas disponíveis para esta carona."
     else:
@@ -148,7 +162,8 @@ def ride_passenger_confirmation(request, ride_id, passenger_id):
         message = "Passageiro confirmado com sucesso."
 
     return ride_detail(request, ride_id=ride_id, message=message)
-    
+
+
 @login_required(login_url="/login/")
 def ride_solicitation(request, ride_id):
     """
@@ -161,18 +176,23 @@ def ride_solicitation(request, ride_id):
     if ride.status != "OPEN":
         message = "Ops, a carona não está mais disponível :("
         return ride_detail(request, ride_id=ride_id, message=message)
-        
-    confirmed_passengers = Passenger.objects.filter(ride=ride, status="CONFIRMED").count()
+
+    confirmed_passengers = Passenger.objects.filter(
+        ride=ride, status="CONFIRMED"
+    ).count()
     if confirmed_passengers == ride.quantity_of_passengers:
         message = "Ops, a carona já atingiu sua capacidade :("
         return ride_detail(request, ride_id=ride_id, message=message)
-    
+
     person = get_person(request)
     Passenger.objects.create(
         ride_id=ride_id, person=person, is_driver=False, status="PENDING"
     )
-    message = "Solicitação enviada com sucesso. Aguarde a confirmação do motosrista."
+    message = (
+        "Solicitação enviada com sucesso. Aguarde a confirmação do motorista."
+    )
     return ride_detail(request, ride_id=ride_id, message=message)
+
 
 def get_person(request) -> Person:
     person = None

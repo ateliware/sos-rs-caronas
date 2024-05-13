@@ -6,6 +6,7 @@ from django.shortcuts import redirect, render
 from apps.ride_manager.forms.form_vehicle import VehicleForm
 from apps.ride_manager.models.person import Person
 
+
 @login_required(login_url="/login/")
 def create_vehicle(request):
     if request.method == "POST":
@@ -50,11 +51,12 @@ def create_vehicle(request):
 
                 return redirect("success_vehicle_save")
         else:
-            logging.error("Invalid form data.")            
+            logging.error("Invalid form data.")
 
     else:
         form = VehicleForm()
     return render(request, "ride/create_vehicle.html", {"form": form})
+
 
 @login_required(login_url="/login/")
 def created_with_success(request):
