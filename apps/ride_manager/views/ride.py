@@ -77,8 +77,6 @@ def my_rides(request):
     """
 
     message = ""
-    need_notify_for_confirmation = False
-
     # Retrieving rides where the logged in user is the driver
     rides_as_driver = Ride.objects.filter(driver__user=request.user).annotate(
         confirmed_passengers_count=Count(
@@ -106,6 +104,11 @@ def my_rides(request):
             filter=Q(passenger__status=PassengerStatusChoices.ACCEPTED),
         )
     )
+
+    # add to rideas_as_passenger the status of the passenger in the ride
+    for ride in rides_as_passenger:
+        passenger = Passenger.objects.get(ride=ride, person__user=request.user)
+        ride.passenger_status = passenger.status
 
     context = {
         "rides_as_driver": rides_as_driver,
@@ -159,13 +162,15 @@ def ride_detail(request, ride_id, message=""):
         if passenger.person.user == request.user:
             is_waiting_confirmation = True
             break
-
+    
+    referer = request.META.get("HTTP_REFERER")
     context = {
         "ride": ride,
         "passengers": passengers,
         "is_driver": is_driver,
         "is_waiting_confirmation": is_waiting_confirmation,
         "message": message,
+        "referer": referer,
     }
     return render(request, "ride/ride_detail.html", context)
 

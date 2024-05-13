@@ -10,7 +10,7 @@ from apps.ride_manager.models.ride import Ride
 class StatusChoices(models.TextChoices):
     ACCEPTED = "ACCEPTED", "Aceito"
     REJECTED = "DECLINED", "Recusado"
-
+    PENDING = "PENDING", "Pendente"
 
 class Passenger(BaseModel):
     class Meta:
