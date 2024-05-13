@@ -16,7 +16,7 @@ def login_view(request):
                 login(request, user)
                 return redirect(
                     "home"
-                )  # Redirect to the home page after successful login
+                )
             else:
                 form.add_error(None, "Invalid username or password")
     else:
