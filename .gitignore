@@ -13,6 +13,7 @@ venv.bak/
 # files dirs
 person_files/
 vehicle_files/
+static/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

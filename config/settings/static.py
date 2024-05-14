@@ -5,7 +5,7 @@ from .environments import BASE_DIR
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "apps" / "templates"],
+        "DIRS": [os.path.join(BASE_DIR, "apps", "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -24,3 +24,4 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static", "img"),
     os.path.join(BASE_DIR, "static", "html"),
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
