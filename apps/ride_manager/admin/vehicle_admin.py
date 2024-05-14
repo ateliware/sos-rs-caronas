@@ -22,12 +22,12 @@ class VehicleAdmin(admin.ModelAdmin):
     ordering = ["model", "plate"]
     readonly_fields = [
         "uuid",
-        # "person",
-        # "model",
-        # "color",
-        # "plate",
-        # "plate_picture",
-        # "vehicle_picture",
-        # "created_at",
+        "person",
+        "model",
+        "color",
+        "plate",
+        "plate_picture",
+        "vehicle_picture",
+        "created_at",
         "updated_at",
     ]
