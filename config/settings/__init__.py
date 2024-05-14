@@ -30,7 +30,7 @@ from .security import (
     DEBUG,
     SECRET_KEY,
     CSRF_TRUSTED_ORIGINS,
-    CORS_ALLOW_CREDENTIALS
+    CORS_ALLOW_CREDENTIALS,
 )
 from .simple_jwt import SIMPLE_JWT
 from .spectacular_settings import SPECTACULAR_SETTINGS

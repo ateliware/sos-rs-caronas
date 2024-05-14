@@ -42,6 +42,13 @@
         .navbar-nav .nav-link {
             color: #fff;
         }
+        .jumbotron-custom {
+            width: 100%;
+            padding: 2rem 1rem;
+            margin: 0;
+            background-color: #e9ecef; /* Adjust the background color if necessary */
+            border-radius: .25rem;
+        }
         .jumbotron {
             background-color: rgba(0,123,255,.25);
             padding: 2rem;
@@ -97,7 +104,16 @@
                 {% if user.is_authenticated %}
                     <button class="btn" type="button">
                         <a href="{% url 'logout' %}" style="text-decoration: none; color: white;">
-                            <span class="me-2"><i class="material-icons" style="color: white;">exit_to_app</i></span>
+                            <!--fontawsome icon to exit app-->
+                            <span class="me-2">
+                                <i class="fas fa-sign-out-alt" style="color: white;"></i>
+                            </span>
+                        </a>
+                    </button>
+                {% else %}
+                    <button class="btn" type="button">
+                        <a href="{% url 'login' %}" style="text-decoration: none; color: white;">
+                            <i class="fas fa-sign-in-alt" style="color: white;"></i>
                         </a>
                     </button>
                 {% endif %}

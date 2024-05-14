@@ -5,17 +5,17 @@
 {% block content %}
     <div class="container mt-5">
         {% if user.is_authenticated %}
-        <div class="row">
-            <a href="{% url 'home' %}" class="btn btn-light">
+        <div class="d-flex align-items-center mb-4">
+            <a href="{% url 'home' %}" class="btn btn-light me-2">
                 <i class="material-icons">arrow_back</i>
             </a>
-            <h4 class="mb-4">Encontrar Carona</h4>
+            <h4 class="mb-0">Encontrar Carona</h4>
         </div>
         {% endif %}
         <div class="card">
             <div class="card-header" id="collapseHeader">
                 <h5 class="mb-0">
-                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseForm" aria-expanded="true" aria-controls="collapseForm">
+                    <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#collapseForm" aria-expanded="true" aria-controls="collapseForm">
                         Aplicar Filtros
                     </button>
                 </h5>
@@ -24,51 +24,57 @@
                 <div class="card-body">
                     <form method="get">
                         {% csrf_token %}
-                        <div class="form-row">
-                            <div class="form-group col-md-3">
-                                <label for="origin">Origem<small>*</small></label>
-                                <select class="form-control" id="origin" name="origin" required>
-                                    <option value="">Selecione a origem</option>
-                                    {% for city in cities %}
-                                        <option value="{{ city.id }}">{{ city }}</option>
-                                    {% endfor %}
-                                </select>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="origin">Origem<small>*</small></label>
+                                    <select class="form-control" id="origin" name="origin" required>
+                                        <option value="">Selecione a origem</option>
+                                        {% for city in cities %}
+                                            <option value="{{ city.id }}">{{ city }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
                             </div>
-                            <div class="form-group col-md-3">
-                                <label for="destination">Destino</label>
-                                <select class="form-control" id="destination" name="destination" required>
-                                    <option value="any_destination">Qualquer destino</option>
-                                    {% for affected_place in affected_places %}
-                                        <option value="{{ affected_place.pk }}">{{ affected_place.city }}</option>
-                                    {% endfor %}
-                                </select>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="destination">Destino</label>
+                                    <select class="form-control" id="destination" name="destination" required>
+                                        <option value="any_destination">Qualquer destino</option>
+                                        {% for affected_place in affected_places %}
+                                            <option value="{{ affected_place.pk }}">{{ affected_place.city }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
                             </div>
-                            <div class="form-group col-md-3">
-                                <label for="date">Data <small class="text-secondary">(Opcional)</small></label>
-                                <input type="date" class="form-control" id="date" name="date">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="date">Data <small class="text-secondary">(Opcional)</small></label>
+                                    <input type="date" class="form-control" id="date" name="date">
+                                </div>
                             </div>
-                            <div class="form-group col-md-3 align-self-end">
-                                <button type="submit" class="btn btn-outline-primary btn-block">Buscar</button>
+                            <div class="col-md-3 d-flex align-items-end">
+                                <button type="submit" class="btn btn-outline-primary w-100">Buscar</button>
                             </div>
                         </div>
+                        
                     </form>
                 </div>
             </div>
         </div>
-        
-            <div class="row mt-4">
-                <div class="col-md-12">
-                    <h6> Mostrando caronas encontradas ({{ rides|length }})</h6>
-                    {% if filters %}
-                        <span class="text-muted">
-                            <small>{{ filters }}</small>
-                        </span>
-                    {% endif %}
-                </div>
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h6> Mostrando caronas encontradas ({{ rides|length }})</h6>
+                {% if filters %}
+                    <span class="text-muted">
+                        <small>{{ filters }}</small>
+                    </span>
+                {% endif %}
             </div>
-            <hr />
-            <!-- Ride Cards -->
-            <div class="row justify-content-center">
+        </div>
+        <hr />
+        <!-- Ride Cards -->
+        <div class="row justify-content-center">
             {% for ride in rides %}                
                 {% if ride.driver.user != user %}
                 <div class="col-md-12">

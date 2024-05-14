@@ -4,12 +4,14 @@
 
 {% block content %}
 <div class="container mt-5">
-  <div class="jumbotron">
-      <h1 class="display-5">Olá {{ request.user }}</h1>
-      <p class="lead">Que bom te ter aqui :) </p>
-      <hr class="my-4">
-      <p>Cadastre seu veículo, agende uma viagem e deixe outros voluntários lhe encontrarem.</p>
-      <a class="btn btn-outline-primary btn-lg" href="{% url 'create_ride' %}" role="button">Vamos lá</a>
+  <div class="card w-100">
+    <div class="jumbotron-custom">
+        <h1 class="display-5">Olá {{ request.user }}</h1>
+        <p class="lead">Que bom te ter aqui :) </p>
+        <hr class="my-4">
+        <p>Cadastre seu veículo, agende uma viagem e deixe outros voluntários lhe encontrarem.</p>
+        <a class="btn btn-outline-primary btn-lg" href="{% url 'create_ride' %}" role="button">Vamos lá</a>
+    </div>
   </div>
   <div class="card w-100">
       <div class="card-body">
