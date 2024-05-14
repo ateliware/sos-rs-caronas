@@ -1,6 +1,10 @@
 import os
 
-from .environments import BASE_DIR
+from .aws_settings import (
+    AWS_STORAGE_BUCKET_NAME_MEDIA,
+    AWS_STORAGE_BUCKET_NAME_STATIC,
+)
+from .environments import BASE_DIR, USE_S3
 
 TEMPLATES = [
     {
@@ -19,10 +23,27 @@ TEMPLATES = [
 ]
 
 
-STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static", "css"),
     os.path.join(BASE_DIR, "static", "img"),
     os.path.join(BASE_DIR, "static", "html"),
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+if USE_S3:
+    MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME_MEDIA}.s3.amazonaws.com/"
+    DEFAULT_FILE_STORAGE = "apps.core.services.custom_storages.CustomS3MediaStorage"
+    MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+
+    STATIC_URL = f"https://{AWS_STORAGE_BUCKET_NAME_STATIC}.s3.amazonaws.com/"
+    STATICFILES_STORAGE = "apps.core.services.custom_storages.CustomS3StaticStorage"
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+else:
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
