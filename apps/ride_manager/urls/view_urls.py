@@ -1,7 +1,12 @@
 from django.urls import path
 
+<<<<<<< HEAD
 from apps.ride_manager.views.home import home_view
 from apps.ride_manager.views.login import login_view
+=======
+from apps.ride_manager.views import CustomLoginView
+from apps.ride_manager.views.home import home_view, public_home
+>>>>>>> main
 from apps.ride_manager.views.logout import logout_view
 from apps.ride_manager.views.register import (
     register,
@@ -20,7 +25,7 @@ from apps.ride_manager.views.vehicle import create_vehicle, created_with_success
 
 urlpatterns = [
     path("", ride_list, name="ride_list"),
-    path("login/", login_view, name="login"),
+    path("login/", CustomLoginView.as_view(), name="login"),
     path("logout/", logout_view, name="logout"),
     path("home/", home_view, name="home"),
     path("register/", register, name="register"),
