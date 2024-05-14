@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Q
@@ -119,16 +120,46 @@ def ride_list(request):
     """
     List all rides available for the logged in user
     """
+
+    filters = {"status": "OPEN"}
+    origin = request.GET.get("origin")
+    destination = request.GET.get("destination")
+    date = request.GET.get("date")
+    applyed_filters_str = "Nenhum filtro aplicado."
+
+    if origin:
+        city = City.objects.get(id=origin)
+        applyed_filters_str = f"Filtrando por: saindo de {city}"
+        filters["origin"] = origin
+    if destination:
+        if destination == "any_destination":
+            applyed_filters_str += ", para qualquer destino"
+        else:
+            destination = AffectedPlace.objects.get(uuid=destination)
+            applyed_filters_str += f", para {destination}"
+            filters["destination"] = destination
+    if date:
+        formated_data = datetime.strptime(date, "%Y-%m-%d").strftime("%d/%m/%Y")
+        applyed_filters_str += f" no dia {formated_data}."
+        filters["date"] = date
+    else:
+        filters["date__gte"] = datetime.now().date()
+
     if request.user.is_anonymous:
-        rides = Ride.objects.filter().annotate(
-            confirmed_passengers_count=Count(
-                "passenger",
-                filter=Q(passenger__status=PassengerStatusChoices.ACCEPTED),
+        # filter rides open and date >= today
+        rides = (
+            Ride.objects.filter(**filters)
+            .annotate(
+                confirmed_passengers_count=Count(
+                    "passenger",
+                    filter=Q(passenger__status=PassengerStatusChoices.ACCEPTED),
+                )
             )
+            .order_by("-date")
         )
     else:
         rides = (
-            Ride.objects.filter(status="OPEN")
+            Ride.objects.filter(**filters)
             .annotate(
                 confirmed_passengers_count=Count(
                     "passenger",
@@ -136,9 +167,16 @@ def ride_list(request):
                 )
             )
             .exclude(driver__user=request.user)
-        )
+        ).order_by("-date")
 
-    context = {"rides": rides}
+    affected_places = AffectedPlace.objects.all().order_by("city")
+    cities = City.objects.all().order_by("name")
+    context = {
+        "rides": rides,
+        "affected_places": affected_places,
+        "cities": cities,
+        "filters": applyed_filters_str,
+    }
     return render(request, "ride/list_ride.html", context)
 
 
