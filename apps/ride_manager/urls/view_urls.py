@@ -1,12 +1,7 @@
 from django.urls import path
 
-<<<<<<< HEAD
-from apps.ride_manager.views.home import home_view
-from apps.ride_manager.views.login import login_view
-=======
 from apps.ride_manager.views import CustomLoginView
-from apps.ride_manager.views.home import home_view, public_home
->>>>>>> main
+from apps.ride_manager.views.home import home_view
 from apps.ride_manager.views.logout import logout_view
 from apps.ride_manager.views.register import (
     register,
