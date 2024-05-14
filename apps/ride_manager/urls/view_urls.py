@@ -1,7 +1,12 @@
 from django.urls import path
 
+<<<<<<< HEAD
+from apps.ride_manager.views.home import home_view
+from apps.ride_manager.views.login import login_view
+=======
 from apps.ride_manager.views import CustomLoginView
 from apps.ride_manager.views.home import home_view, public_home
+>>>>>>> main
 from apps.ride_manager.views.logout import logout_view
 from apps.ride_manager.views.register import (
     register,
@@ -11,15 +16,15 @@ from apps.ride_manager.views.register import (
 from apps.ride_manager.views.ride import (
     create_ride,
     my_rides,
-    open_rides,
     ride_detail,
+    ride_list,
     ride_passenger_confirmation,
     ride_solicitation,
 )
 from apps.ride_manager.views.vehicle import create_vehicle, created_with_success
 
 urlpatterns = [
-    path("", public_home, name="public_home"),
+    path("", ride_list, name="ride_list"),
     path("login/", CustomLoginView.as_view(), name="login"),
     path("logout/", logout_view, name="logout"),
     path("home/", home_view, name="home"),
@@ -39,7 +44,7 @@ urlpatterns = [
         ride_passenger_confirmation,
         name="ride_passenger_confirmation",
     ),
-    path("rides/", open_rides, name="list_rides"),
+    path("rides/", ride_list, name="list_rides"),
     path("vehicle/add/", create_vehicle, name="add_vehicle"),
     path("vehicle/success/", created_with_success, name="success_vehicle_save"),
 ]
