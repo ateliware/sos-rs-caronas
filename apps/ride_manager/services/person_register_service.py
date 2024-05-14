@@ -69,6 +69,9 @@ class PersonRegisterService:
                 "avatar": self.data.get("avatar"),
                 "city": city.pk,
             }
+            if person_data["avatar"] is None:
+                del person_data["avatar"]
+
             person_serializer = PersonModelSerializer(data=person_data)
             person_serializer.is_valid(raise_exception=True)
             person = person_serializer.save()
