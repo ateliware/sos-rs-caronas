@@ -56,7 +56,7 @@
                             </h5>
                             <p class="card-text text-primary"><i class="fas fa-user"></i> {{ ride.driver }}</p>
                             <p class="card-text"><i class="fas fa-map-marker-alt"></i> Saindo de {{ ride.origin }}</p>
-                            <p class="card-text"><i class="far fa-calendar-alt"></i> {{ ride.date }} | {{ ride.work_shift }}</p>
+                            <p class="card-text"><i class="far fa-calendar-alt"></i> {{ ride.date }} | {{ ride.get_work_shift_display }}</p>
                             <p class="card-text"><i class="fas fa-users"></i> {{ ride.quantity_of_passengers }} vagas | {{ ride.confirmed_passengers_count }} confirmados</p>
                            
                             <a href="{% url 'ride_detail' ride.pk %}" class="btn btn-outline-primary"><i class="fas fa-info-circle"></i> Ver Detalhes </a>
@@ -79,6 +79,22 @@
                                 {{ ride.destination }}
                                 <span class="badge badge-primary float-right">ABERTA</span>
                             </h5>
+                            {% if ride.passenger_status == "PENDING" %}
+                                <p class="card-text text-warning">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    Aguardando confirmação
+                                </p>
+                            {% elif ride.passenger_status == "ACCEPTED" %}
+                                <p class="card-text text-success">
+                                    <i class="fas fa-check"></i>
+                                    Confirmado
+                                </p>
+                            {% elif ride.passenger_status == "DECLINED" %}
+                                <p class="card-text text-danger">
+                                    <i class="fas fa-times"></i>
+                                    Rejeitado
+                                </p>
+                            {% endif %}
                             <p class="card-text text-primary"><i class="fas fa-user"></i> {{ ride.driver }}</p>
                             <p class="card-text"><i class="fas fa-map-marker-alt"></i> Saindo de {{ ride.origin }}</p>
                             <p class="card-text"><i class="far fa-calendar-alt"></i> {{ ride.date }} | {{ ride.work_shift }}</p>

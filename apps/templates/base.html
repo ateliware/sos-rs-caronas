@@ -87,7 +87,6 @@
 </head>
 <body>
     <div class="row">
-        {% if user.is_authenticated %}
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
             <div class="container">
@@ -95,14 +94,16 @@
                     <img src="{% static 'mini-logo.png' %}" alt="Logo" style="max-width: 50px; height: auto;">
                     Caronas RS
                 </a>
-                <button class="btn" type="button">
-                    <a href="{% url 'logout' %}" style="text-decoration: none; color: white;">
-                        <span class="me-2"><i class="material-icons" style="color: white;">exit_to_app</i></span>
-                    </a>
-                </button>
+                {% if user.is_authenticated %}
+                    <button class="btn" type="button">
+                        <a href="{% url 'logout' %}" style="text-decoration: none; color: white;">
+                            <span class="me-2"><i class="material-icons" style="color: white;">exit_to_app</i></span>
+                        </a>
+                    </button>
+                {% endif %}
             </div>
         </nav>
-        {% endif %}
+        
 
         <div class="container bg-light mt-1">
             <div class="main-content">    

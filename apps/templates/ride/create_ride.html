@@ -15,15 +15,10 @@
                 <h4 class="mb-4">Adicionar Carona</h4>
             </div>
             <div class="row">
-                <!-- Vehicle Information Card -->
-                <div class="col-lg-12">
-                    <div class="alert alert-info">
-                        <i class="material-icons mr-3" style="font-size: 36px;">directions_car</i>
-                        <div>
-                            <h5 class="card-title">{{ vehicle.model }} - {{ vehicle.color }}</h5>
-                            <p class="card-text">{{ vehicle.plate }}</p>
-                        </div>
-                    </div>
+                <div class="alert alert-primary w-100">
+                    <h5 class="card-title"><i class="fas fa-car"></i> {{ vehicle.model }} </h5>
+                    <p class="card-text">Cor: <strong>{{ vehicle.color }}</strong></p>
+                    <p class="card-text">Placa: <strong>{{ vehicle.plate }}</srong></p>
                 </div>
             </div>
             <div class="row">
@@ -125,6 +120,7 @@
                     <div class="form-group row">
                         <div class="col-sm-10 offset-sm-2">
                             <button type="submit" class="btn btn-outline-primary btn-lg">Salvar</button>
+                            <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-lg">Cancelar</a>
                         </div>
                     </div>
                 </form>

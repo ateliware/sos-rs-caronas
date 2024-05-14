@@ -50,10 +50,8 @@ def create_ride(request):
                     "ride/create_ride.html",
                     {"form": form, "error": "Erro ao salvar dados da carona."},
                 )
-            message = "Carona cadastrada com sucesso."
-            return ride_detail(request, ride_id=ride.uuid, message=message)
-        else:
-            print(form.errors)
+            request.session["message"] = "Carona cadastrada com sucesso."
+            return redirect("ride_detail", ride_id=ride.uuid)
     else:
         form = RideForm()
 
@@ -64,7 +62,6 @@ def create_ride(request):
             "form": form,
             "vehicle": vehicle,
             "cities": cities,
-            "affected_places": affetced_places,
             "affected_places": affetced_places,
         },
     )
@@ -77,8 +74,6 @@ def my_rides(request):
     """
 
     message = ""
-    need_notify_for_confirmation = False
-
     # Retrieving rides where the logged in user is the driver
     rides_as_driver = Ride.objects.filter(driver__user=request.user).annotate(
         confirmed_passengers_count=Count(
@@ -90,7 +85,7 @@ def my_rides(request):
     # checking if need confirmation in the rides that the user is the driver
     for ride in rides_as_driver:
         ride.has_passenger_waiting_confirmation = Passenger.objects.filter(
-            ride=ride, status="PENDING"
+            ride=ride, status=PassengerStatusChoices.PENDING
         ).exists()
         if ride.has_passenger_waiting_confirmation:
             message = "Você tem passageiros aguardando confirmação."
@@ -107,6 +102,11 @@ def my_rides(request):
         )
     )
 
+    # add to rideas_as_passenger the status of the passenger in the ride
+    for ride in rides_as_passenger:
+        passenger = Passenger.objects.get(ride=ride, person__user=request.user)
+        ride.passenger_status = passenger.status
+
     context = {
         "rides_as_driver": rides_as_driver,
         "rides_as_passenger": rides_as_passenger,
@@ -115,57 +115,92 @@ def my_rides(request):
     return render(request, "ride/my_rides.html", context)
 
 
-@login_required(login_url="/login/")
-def open_rides(request):
+def ride_list(request):
     """
     List all rides available for the logged in user
     """
     if request.user.is_anonymous:
-        rides = Ride.objects.filter(status="OPEN").annotate(
-            num_passengers=Count("passenger")
+        rides = Ride.objects.filter().annotate(
+            confirmed_passengers_count=Count(
+                "passenger",
+                filter=Q(passenger__status=PassengerStatusChoices.ACCEPTED),
+            )
         )
     else:
-        rides = Ride.objects.filter(status="OPEN").exclude(
-            driver__user=request.user
+        rides = (
+            Ride.objects.filter(status="OPEN")
+            .annotate(
+                confirmed_passengers_count=Count(
+                    "passenger",
+                    filter=Q(passenger__status=PassengerStatusChoices.ACCEPTED),
+                )
+            )
+            .exclude(driver__user=request.user)
         )
 
-    processed_rides = []
-    for ride in rides:
-        ride.confirmed_passenger_count = (
-            Passenger.objects.filter(ride=ride, status="ACCEPTED").count() or 0
-        )
-        if (ride.quantity_of_passengers - ride.confirmed_passenger_count) > 0:
-            processed_rides.append(ride)
-
-    context = {"rides": processed_rides}
+    context = {"rides": rides}
     return render(request, "ride/list_ride.html", context)
 
 
 @login_required(login_url="/login/")
-def ride_detail(request, ride_id, message=""):
+def ride_detail(request, ride_id):
     """
     Show the details of a ride
+    The ride has some rule to show informations.
+    If the user logged in is the driver, we show all passengers and their status.
+    If the user logged in is a passenger confirmed in the ride, we'll show all the informations too.
+    However if the user in not the driver and is not a passenger confirmed in the ride, we'll show only the basic ride informations.
+    And if he is as a passenger in the ride, but not confirmed, we'll show the basic informations his informations.
     """
     ride = Ride.objects.get(uuid=ride_id)
-
-    is_driver = False
-    is_waiting_confirmation = False
-    if request.user == ride.driver.user:
-        is_driver = True
     passengers = Passenger.objects.filter(ride__uuid=ride_id).order_by("status")
 
+    message, referer = mount_header(request)
+    if request.user == ride.driver.user:
+        is_driver = True
+        context = {
+            "ride": ride,
+            "passengers": passengers,
+            "is_driver": is_driver,
+            "message": message,
+            "referer": referer,
+        }
+        return render(request, "ride/ride_detail.html", context)
+
+    is_driver = False
     # check if the logged in user is in the passengers list
-    for passenger in passengers:
-        if passenger.person.user == request.user:
-            is_waiting_confirmation = True
-            break
+    is_passenger_in_ride = request.user in [
+        passenger.person.user for passenger in passengers
+    ]
+
+    is_passenger_confirmed = False
+    if is_passenger_in_ride:
+        passenger_status = [
+            passenger.status
+            for passenger in passengers
+            if passenger.person.user == request.user
+        ]
+        is_passenger_confirmed = (
+            passenger_status[0] == PassengerStatusChoices.ACCEPTED
+        )
+
+    if not is_passenger_in_ride:
+        passengers = []
+    elif is_passenger_in_ride and not is_passenger_confirmed:
+        # if the user is a passenger in the ride, but not confirmed
+        # return just him as passenger
+        passengers = Passenger.objects.filter(
+            ride__uuid=ride_id, person__user=request.user
+        )
 
     context = {
         "ride": ride,
         "passengers": passengers,
         "is_driver": is_driver,
-        "is_waiting_confirmation": is_waiting_confirmation,
         "message": message,
+        "referer": referer,
+        "is_passenger_in_ride": is_passenger_in_ride,
+        "is_passenger_confirmed": is_passenger_confirmed,
     }
     return render(request, "ride/ride_detail.html", context)
 
@@ -181,21 +216,27 @@ def ride_passenger_confirmation(request, ride_id, passenger_id):
 
     ride = Ride.objects.get(uuid=ride_id)
     if request.user != ride.driver.user:
-        message = "Apenas o motosita da corrida pode aceitar passageiros."
+        message = "Somente o motorista da corrida pode aceitar passageiros."
         return ride_detail(request, ride_id=ride_id, message=message)
 
     confirmed_passengers = Passenger.objects.filter(
-        ride=ride, status="CONFIRMED"
+        ride=ride, status=PassengerStatusChoices.ACCEPTED
     ).count()
     if confirmed_passengers == ride.quantity_of_passengers:
         message = "Infelizmente não há mais vagas disponíveis para esta carona."
+    elif Passenger.objects.filter(
+        ride=ride, person__user=request.user
+    ).exists():
+        message = "O passageiro já está confirmado nesta carona."
     else:
         passenger = Passenger.objects.get(pk=passenger_id)
-        passenger.status = "ACCEPTED"
+        passenger.status = PassengerStatusChoices.ACCEPTED
         passenger.save()
         message = "Passageiro confirmado com sucesso."
 
-    return ride_detail(request, ride_id=ride_id, message=message)
+    # save message in session to show in the ride detail page
+    request.session["message"] = message
+    return redirect("ride_detail", ride_id=ride_id)
 
 
 @login_required(login_url="/login/")
@@ -212,7 +253,7 @@ def ride_solicitation(request, ride_id):
         return ride_detail(request, ride_id=ride_id, message=message)
 
     confirmed_passengers = Passenger.objects.filter(
-        ride=ride, status="CONFIRMED"
+        ride=ride, status=PassengerStatusChoices.ACCEPTED
     ).count()
     if confirmed_passengers == ride.quantity_of_passengers:
         message = "Ops, a carona já atingiu sua capacidade :("
@@ -222,10 +263,11 @@ def ride_solicitation(request, ride_id):
     Passenger.objects.create(
         ride_id=ride_id, person=person, is_driver=False, status="PENDING"
     )
-    message = (
+
+    request.session["message"] = (
         "Solicitação enviada com sucesso. Aguarde a confirmação do motorista."
     )
-    return ride_detail(request, ride_id=ride_id, message=message)
+    return redirect("ride_detail", ride_id=ride_id)
 
 
 def get_person(request) -> Person:
@@ -235,3 +277,20 @@ def get_person(request) -> Person:
     except Person.DoesNotExist:
         logging.error("Authenticated client is not a valid registered user.")
     return person
+
+
+def mount_header(request):
+    message = ""
+    # if there is a message in the session, show it
+    if "message" in request.session:
+        message = request.session["message"]
+        del request.session["message"]
+
+    # mounting back link dynamically
+    referer = request.META.get("HTTP_REFERER")
+    print(referer)
+    if referer != request.build_absolute_uri("/") + "rides/":
+        application_url = request.build_absolute_uri("/")
+        referer = application_url + "ride/my-rides"
+    print(referer)
+    return message, referer
