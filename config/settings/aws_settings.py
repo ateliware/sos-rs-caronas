@@ -1,0 +1,12 @@
+from decouple import config
+
+AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_SIGNATURE_NAME = config("AWS_S3_SIGNATURE_NAME")
+AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME")
+AWS_S3_FILE_OVERWRITE = config(
+    "AWS_S3_FILE_OVERWRITE", default=False, cast=bool
+)
+AWS_DEFAULT_ACL = config("AWS_DEFAULT_ACL", default=None)
+AWS_S3_VERIFY = config("AWS_S3_VERIFY", default=True, cast=bool)
