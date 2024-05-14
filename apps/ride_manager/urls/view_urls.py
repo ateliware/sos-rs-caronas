@@ -39,12 +39,6 @@ urlpatterns = [
         ride_passenger_confirmation,
         name="ride_passenger_confirmation",
     ),
-    # set a path for rides with filter containing the origin, destinatino and date parameters
-    path(
-        "rides/<str:origin>/<str:destination>/<str:date>/",
-        ride_list,
-        name="list_rides",
-    ),
     path("rides/", ride_list, name="list_rides"),
     path("vehicle/add/", create_vehicle, name="add_vehicle"),
     path("vehicle/success/", created_with_success, name="success_vehicle_save"),
