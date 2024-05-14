@@ -1,5 +1,5 @@
 # Use a python based image
-FROM python:3.11-alpine
+FROM public.ecr.aws/docker/library/python:3.11-alpine
 
 # environment
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -17,4 +17,5 @@ COPY . /app/
 
 # runserver
 EXPOSE 8000
-CMD python manage.py runserver 0.0.0.0:8000
+# CMD python manage.py runserver 0.0.0.0:8000
+CMD ["gunicorn", "config.wsgi:application"]
