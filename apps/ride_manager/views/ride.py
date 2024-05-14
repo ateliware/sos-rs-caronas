@@ -115,7 +115,6 @@ def my_rides(request):
     return render(request, "ride/my_rides.html", context)
 
 
-@login_required(login_url="/login/")
 def ride_list(request):
     """
     List all rides available for the logged in user
@@ -139,18 +138,7 @@ def ride_list(request):
             .exclude(driver__user=request.user)
         )
 
-    processed_rides = []
-    for ride in rides:
-        ride.confirmed_passenger_count = (
-            Passenger.objects.filter(
-                ride=ride, status=PassengerStatusChoices.ACCEPTED
-            ).count()
-            or 0
-        )
-        if (ride.quantity_of_passengers - ride.confirmed_passenger_count) > 0:
-            processed_rides.append(ride)
-
-    context = {"rides": processed_rides}
+    context = {"rides": rides}
     return render(request, "ride/list_ride.html", context)
 
 
