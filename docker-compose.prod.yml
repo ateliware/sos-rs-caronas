@@ -4,7 +4,7 @@ services:
   django-app:
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.prod
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
