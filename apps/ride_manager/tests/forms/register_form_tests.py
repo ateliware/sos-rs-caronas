@@ -6,7 +6,8 @@ from apps.ride_manager.forms import RegistrationForm
 from apps.ride_manager.tests.factories.person_register_payload_factory import (
     person_register_payload_factory,
 )
-
+import io
+# from pillow import Image
 
 class RegistrationFormTests(BaseTest):   
     def test_placeholder_and_label(self):
@@ -30,7 +31,11 @@ class RegistrationFormTests(BaseTest):
         form_data['city_id'] = city.id
         form_data['state_id'] = city.state.id
         form_data["emergency_contact"] = self.fake.name()
-        document_picture = SimpleUploadedFile("document_picture.jpg", b"file_content", content_type="image/jpeg")
+        # image = Image.new('RGB', (100, 100), 'white')
+        buffer = io.BytesIO()
+        # image.save(buffer, format='PNG')
+        document_picture = SimpleUploadedFile("document_picture.jpg", content=buffer.getvalue(), content_type="image/jpeg")
+        form_data["document_picture"] = document_picture
         form = RegistrationForm(form_data, {"document_picture": document_picture})
         form.is_valid()
         print(form.is_valid())
