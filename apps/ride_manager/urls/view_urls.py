@@ -11,8 +11,8 @@ from apps.ride_manager.views.register import (
 from apps.ride_manager.views.ride import (
     create_ride,
     my_rides,
-    ride_list,
     ride_detail,
+    ride_list,
     ride_passenger_confirmation,
     ride_solicitation,
 )

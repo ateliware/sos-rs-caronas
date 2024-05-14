@@ -50,10 +50,8 @@ def create_ride(request):
                     "ride/create_ride.html",
                     {"form": form, "error": "Erro ao salvar dados da carona."},
                 )
-            message = "Carona cadastrada com sucesso."
-            return ride_detail(request, ride_id=ride.uuid, message=message)
-        else:
-            print(form.errors)
+            request.session["message"] = "Carona cadastrada com sucesso."
+            return redirect("ride_detail", ride_id=ride.uuid)
     else:
         form = RideForm()
 
@@ -198,11 +196,10 @@ def ride_detail(request, ride_id):
             passenger_status[0] == PassengerStatusChoices.ACCEPTED
         )
 
-
     if not is_passenger_in_ride:
         passengers = []
     elif is_passenger_in_ride and not is_passenger_confirmed:
-         # if the user is a passenger in the ride, but not confirmed
+        # if the user is a passenger in the ride, but not confirmed
         # return just him as passenger
         passengers = Passenger.objects.filter(
             ride__uuid=ride_id, person__user=request.user
@@ -250,7 +247,7 @@ def ride_passenger_confirmation(request, ride_id, passenger_id):
         message = "Passageiro confirmado com sucesso."
 
     # save message in session to show in the ride detail page
-    request.session.modified["message"] = message
+    request.session["message"] = message
     return redirect("ride_detail", ride_id=ride_id)
 
 
@@ -303,11 +300,9 @@ def mount_header(request):
 
     # mounting back link dynamically
     referer = request.META.get("HTTP_REFERER")
-    if any(
-        substring in referer
-        for substring in ["confirmation", "solicitation", "detail"]
-    ):
+    print(referer)
+    if referer != request.build_absolute_uri("/") + "rides/":
         application_url = request.build_absolute_uri("/")
         referer = application_url + "ride/my-rides"
-
+    print(referer)
     return message, referer
