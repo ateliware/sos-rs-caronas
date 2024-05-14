@@ -1,5 +1,5 @@
 # Use a python based image
-FROM python:3.11-alpine
+FROM public.ecr.aws/docker/library/python:3.11-alpine
 
 # environment
 ENV PYTHONDONTWRITEBYTECODE 1
