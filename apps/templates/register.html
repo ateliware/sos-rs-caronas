@@ -8,7 +8,10 @@
         <div>
             <img src="{% static 'logo.png' %}" alt="Logo" style="max-width: 100%; height: auto;">
         </div>
-        <h2 class="mb-4">Faça o seu cadastro! </h2>
+        <div class="mb-4">
+            <h2>Faça o seu cadastro! </h2>
+            <p><small>Todos os campos são obrigatórios</small></p>
+        </div>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
@@ -23,7 +26,7 @@
             {% endif %}
             
             <!-- Name Field -->
-            <div class="form-group">
+            <div class="form-group my-2">
                 <label for="name">{{ form.name.label }}:</label>
                 <input 
                     type="text" 
@@ -40,7 +43,7 @@
             </div>
 
             <!-- Phone Field -->
-            <div class="form-group">
+            <div class="form-group my-2">
                 <label for="name">{{ form.phone.label }}:</label>
                 <input 
                     type="text" 
@@ -57,7 +60,7 @@
             </div>
 
             <!-- CPF Field -->
-            <div class="form-group">
+            <div class="form-group my-2">
                 <label for="name">{{ form.cpf.label }}:</label>
                 <input 
                     type="text" 
@@ -74,7 +77,7 @@
             </div>
 
             <!-- Birth Date Field -->
-            <div class="form-group">
+            <div class="form-group my-2">
                 <label for="name">{{ form.birth_date.label }}:</label>
                 <input 
                     type="date" 
@@ -91,9 +94,9 @@
             </div>
 
             <!-- State Field -->
-            <div class="form-group">
+            <div class="form-group my-2">
                 <label for="name">{{ form.state_id.label }}:</label>
-                <select name="state_id" id="state_id" class="form-control">
+                <select name="state_id" id="state_id" class="form-select">
                     <option value="">Selecione um estado</option>
                     {% for state in states %}
                         <option value="{{ state.id }}">{{ state }}</option>
@@ -106,9 +109,9 @@
             </div>
 
             <!-- City Field -->
-            <div class="form-group">
+            <div class="form-group my-2">
                 <label for="name">{{ form.city_id.label }}:</label>
-                <select name="city_id" id="city_id" class="form-control">
+                <select name="city_id" id="city_id" class="form-select">
                     <option value="">Selecione uma cidade</option>
                     {% for city in cities %}
                         <option value="{{ city.id }}">{{ city }}</option>
@@ -121,7 +124,7 @@
             </div>
 
             <!-- Emergency Contact Field -->
-            <div class="form-group">
+            <div class="form-group my-2">
                 <label for="emergency_contact">{{ form.emergency_contact.label }}:</label>
                 <input 
                     type="text" 
@@ -137,7 +140,7 @@
             </div>
 
             <!-- Emergency Phone Field -->
-            <div class="form-group">
+            <div class="form-group my-2">
                 <label for="emergency_phone">{{ form.emergency_phone.label }}:</label>
                 <input 
                     type="text" 
@@ -153,7 +156,7 @@
             </div>
 
             <!-- Document Picture Field -->
-            <div class="form-group">
+            <div class="form-group my-2">
                 <label for="document_picture">{{ form.document_picture.label }}:</label>
                 <input 
                     type="file" 
@@ -168,7 +171,7 @@
             </div>
 
             <!-- Password Field -->
-            <div class="form-group">
+            <div class="form-group my-2">
                 <label for="password">{{ form.password.label }}:</label>
                 <input 
                     type="password" 
@@ -184,7 +187,7 @@
             </div>
 
             <!-- Password Confirmation Field -->
-            <div class="form-group">
+            <div class="form-group my-2">
                 <label for="password_confirmation">{{ form.password_confirmation.label }}:</label>
                 <input 
                     type="password" 
@@ -200,7 +203,7 @@
             </div>
 
             <!-- LGPD acceptance Field -->
-            <div class="form-group form-check">
+            <div class="form-group form-check my-2">
                 <input 
                     type="checkbox" 
                     class="form-check-input" 
@@ -208,8 +211,8 @@
                     name="lgpd_acceptance"
                 >
                 <label class="form-check-label" for="lgpd_acceptance">
-                    Declaro estar ciente das orientações sobre voluntariado e autorizo a utilização dos dados informados para contato direto para a confirmação de caronas e disponibilidade de voluntariado.
-                    Autorizo o compartilhamento de meu número de telefone com demais interessados em realizar atividades de voluntariado cadastrados nesta plataforma.
+                    Declaro que li e estou de acordo com os 
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">termos de uso e privacidade do site.</a>
                 </label>
                 <!-- Display lgpd_acceptance field errors -->
                 {% if form.lgpd_acceptance.errors %}
@@ -224,7 +227,27 @@
                 <a href="{% url 'home' %}" class="btn btn-secondary">Cancelar</a>
             </div>
         </form>
-    </div>    
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <h5>Termos de uso | Versão {{ term_of_use.version }}</h5>
+            <p>{{ term_of_use.content }}</p>
+            <h5>Política de privacidade | Versão {{ privacy_policy.version }}</h5>
+            <p>{{ privacy_policy.content }}</p>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+        </div>
+    </div>
     <script>
         function validatePassword() {
             var password = document.getElementById('password').value;

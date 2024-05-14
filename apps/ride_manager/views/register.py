@@ -18,6 +18,8 @@ from apps.ride_manager.services.code_validator_service import (
 from apps.ride_manager.services.person_register_service import (
     PersonRegisterService,
 )
+from apps.term_manager.enums.term_choices import TermTypeChoices
+from apps.term_manager.models import Term
 
 
 class RegistrationFormView(FormView):
@@ -43,6 +45,12 @@ class RegistrationFormView(FormView):
         context = super().get_context_data(**kwargs)
         context["states"] = State.objects.all()
         context["cities"] = City.objects.all()
+        context["privacy_policy"] = Term.objects.filter(
+            type=TermTypeChoices.PRIVACY
+        ).order_by("-created_at").first()
+        context["term_of_use"] = Term.objects.filter(
+            type=TermTypeChoices.USE
+        ).order_by("-created_at").first()
         return context
 
 
