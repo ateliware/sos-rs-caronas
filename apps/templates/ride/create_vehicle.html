@@ -4,17 +4,16 @@
 
 {% block content %}
 <div class="container mt-5">
-    <div class="row">
-        <a href="{% url 'home' %}" class="btn btn-light">
+    <div class="d-flex align-items-center mb-4">
+        <a href="{% url 'home' %}" class="btn btn-light me-2">
             <i class="material-icons">arrow_back</i>
         </a>
-        <h4 class="mb-4">Adicionar Veículo</h4>
+        <h4 class="mb-0">Encontrar Carona</h4>
     </div>
-    <!-- Muted text with padding bottom -->
     <span class="text-muted pb-3 d-block">
         <small>Primeiro precisamos cadastrar sua CNH e os dados do seu veículo.</small>
     </span>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" onsubmit="return validateForm();">
         {% csrf_token %}
 
         <!-- Display form-wide errors -->
@@ -30,21 +29,23 @@
         <div class="mb-4">
             <h4>Dados da CNH</h4>
             <!-- CNH number field -->
-            <div class="form-group">
-                <label for="cnh_number">Número da CNH</label>
-                <input type="text" class="form-control" id="cnh_number" name="cnh_number" required>
-                <!-- Display cnh_number field errors -->
+            <div class="mb-3">
+                <label for="cnh_number" class="form-label">Número da CNH</label>
+                <input type="text" class="form-control" id="cnh_number" name="cnh_number" placeholder="Digite o número da CNH" required>
                 {% if form.cnh_number.errors %}
-                    <small class="text-danger">{{ form.cnh_number.errors }}</small>
+                    <div class="invalid-feedback d-block">
+                        {{ form.cnh_number.errors }}
+                    </div>
                 {% endif %}
             </div>
             <!-- CNH picture field -->
-            <div class="form-group">
-                <label for="cnh_picture">Foto da CNH</label>
-                <input type="file" class="form-control-file" id="cnh_picture" name="cnh_picture" required>
-                <!-- Display cnh_picture field errors -->
+            <div class="mb-3">
+                <label for="cnh_picture" class="form-label">Foto da CNH</label>
+                <input type="file" class="form-control" id="cnh_picture" name="cnh_picture" required>
                 {% if form.cnh_picture.errors %}
-                    <small class="text-danger">{{ form.cnh_picture.errors }}</small>
+                    <div class="invalid-feedback d-block">
+                        {{ form.cnh_picture.errors }}
+                    </div>
                 {% endif %}
             </div>
         </div>
@@ -53,48 +54,53 @@
         <div>
             <h4>Dados do Veículo</h4>
             <!-- Model field -->
-            <div class="form-group">
-                <label for="model">Modelo</label>
-                <input type="text" class="form-control" id="model" name="model" required>
-                <!-- Display model field errors -->
+            <div class="mb-3">
+                <label for="model" class="form-label">Modelo</label>
+                <input type="text" class="form-control" id="model" name="model" placeholder="Digite o modelo do veículo" required>
                 {% if form.model.errors %}
-                    <small class="text-danger">{{ form.model.errors }}</small>
+                    <div class="invalid-feedback d-block">
+                        {{ form.model.errors }}
+                    </div>
                 {% endif %}
             </div>
             <!-- Color field -->
-            <div class="form-group">
-                <label for="color">Cor</label>
-                <input type="text" class="form-control" id="color" name="color" required>
-                <!-- Display color field errors -->
+            <div class="mb-3">
+                <label for="color" class="form-label">Cor</label>
+                <input type="text" class="form-control" id="color" name="color" placeholder="Digite a cor do veículo" required>
                 {% if form.color.errors %}
-                    <small class="text-danger">{{ form.color.errors }}</small>
+                    <div class="invalid-feedback d-block">
+                        {{ form.color.errors }}
+                    </div>
                 {% endif %}
             </div>
             <!-- Plate field -->
-            <div class="form-group">
-                <label for="plate">Placa</label>
-                <input type="text" class="form-control" id="plate" name="plate" required>
-                <!-- Display plate field errors -->
+            <div class="mb-3">
+                <label for="plate" class="form-label">Placa</label>
+                <input type="text" class="form-control" id="plate" name="plate" placeholder="Digite a placa do veículo" required>
                 {% if form.plate.errors %}
-                    <small class="text-danger">{{ form.plate.errors }}</small>
+                    <div class="invalid-feedback d-block">
+                        {{ form.plate.errors }}
+                    </div>
                 {% endif %}
             </div>
             <!-- Plate picture field -->
-            <div class="form-group">
-                <label for="plate_picture">Foto da Placa</label>
-                <input type="file" class="form-control-file" id="plate_picture" name="plate_picture" required>
-                <!-- Display plate_picture field errors -->
+            <div class="mb-3">
+                <label for="plate_picture" class="form-label">Foto da Placa</label>
+                <input type="file" class="form-control" id="plate_picture" name="plate_picture" required>
                 {% if form.plate_picture.errors %}
-                    <small class="text-danger">{{ form.plate_picture.errors }}</small>
+                    <div class="invalid-feedback d-block">
+                        {{ form.plate_picture.errors }}
+                    </div>
                 {% endif %}
             </div>
             <!-- Vehicle picture field -->
-            <div class="form-group">
-                <label for="vehicle_picture">Foto do Veículo</label>
-                <input type="file" class="form-control-file" id="vehicle_picture" name="vehicle_picture" required>
-                <!-- Display vehicle_picture field errors -->
+            <div class="mb-3">
+                <label for="vehicle_picture" class="form-label">Foto do Veículo</label>
+                <input type="file" class="form-control" id="vehicle_picture" name="vehicle_picture" required>
                 {% if form.vehicle_picture.errors %}
-                    <small class="text-danger">{{ form.vehicle_picture.errors }}</small>
+                    <div class="invalid-feedback d-block">
+                        {{ form.vehicle_picture.errors }}
+                    </div>
                 {% endif %}
             </div>
         </div>

@@ -75,8 +75,7 @@
         <hr />
         <!-- Ride Cards -->
         <div class="row justify-content-center">
-            {% for ride in rides %}                
-                {% if ride.driver.user != user %}
+            {% for ride in rides %}
                 <div class="col-md-12">
                     <div class="card mb-3">
                         <div class="card-body">
@@ -100,7 +99,6 @@
                         </div>
                     </div>
                 </div>
-                {% endif %}
             {% endfor %}
         </div>
         {% if not rides %}

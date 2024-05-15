@@ -1,14 +1,15 @@
 from django.urls import reverse
+
 from apps.address_manager.tests.factories.city_factory import CityFactory
+from apps.core.models.custom_user import CustomUser
 from apps.core.tests.base_test import BaseTest
 from apps.ride_manager.forms import RegistrationForm
 from apps.ride_manager.tests.factories.person_register_payload_factory import (
-    person_register_form_data_factory,
     image_file_for_form_factory,
+    person_register_form_data_factory,
 )
-from apps.core.models.custom_user import CustomUser
-from apps.term_manager.tests.factories.term_factory import TermFactory
 from apps.term_manager.enums.term_choices import TermTypeChoices
+from apps.term_manager.tests.factories.term_factory import TermFactory
 
 
 class RegistrationFormViewTests(BaseTest):

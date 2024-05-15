@@ -1,6 +1,5 @@
 from decouple import config
 
-
 SECRET_KEY = config("SECRET_KEY", default="-")
 DEBUG = config("DEBUG", default=False, cast=bool)
 ALLOWED_HOSTS = ["*"]
