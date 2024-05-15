@@ -15,6 +15,10 @@ person_files/
 vehicle_files/
 static/
 
+# Insert static files on git igonre
+!apps/ride_manager/static/
+!apps/core/static/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

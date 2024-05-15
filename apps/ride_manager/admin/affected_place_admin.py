@@ -16,6 +16,10 @@ class AffectedPlaceAdmin(admin.ModelAdmin):
         "main_contact",
         "address",
         "informations",
+        "uuid",
+        "created_at",
+        "updated_at",
+        "is_active",
     ]
 
     ordering = ["city"]
