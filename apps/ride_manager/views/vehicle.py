@@ -59,10 +59,10 @@ def create_vehicle(request):
                             "error": "Erro ao salvar dados do veículo.",
                         },
                     )
-                return redirect("success_vehicle_save")
-        else:
-            logging.error("Invalid form data.")
 
+                request.session["is_coming_from_vehicle"] = True
+                request.session["vehicle_uuid"] = str(vehicle.pk)
+                return redirect("create_ride")
     else:
         form = VehicleForm()
     return render(request, "ride/create_vehicle.html", {"form": form})

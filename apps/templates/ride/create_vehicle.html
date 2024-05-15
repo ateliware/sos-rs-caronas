@@ -10,13 +10,12 @@
         </a>
         <h4 class="mb-0">Encontrar Carona</h4>
     </div>
-    <!-- Muted text with padding bottom -->
     <span class="text-muted pb-3 d-block">
         <small>Primeiro precisamos cadastrar sua CNH e os dados do seu veículo.</small>
     </span>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" onsubmit="return validateForm();">
         {% csrf_token %}
-    
+
         <!-- Display form-wide errors -->
         {% if form.errors %}
             <div class="alert alert-danger">
@@ -25,15 +24,14 @@
                 {% endfor %}
             </div>
         {% endif %}
-    
+
         <!-- CNH Section -->
         <div class="mb-4">
             <h4>Dados da CNH</h4>
             <!-- CNH number field -->
             <div class="mb-3">
                 <label for="cnh_number" class="form-label">Número da CNH</label>
-                <input type="text" class="form-control" id="cnh_number" name="cnh_number" required>
-                <!-- Display cnh_number field errors -->
+                <input type="text" class="form-control" id="cnh_number" name="cnh_number" placeholder="Digite o número da CNH" required>
                 {% if form.cnh_number.errors %}
                     <div class="invalid-feedback d-block">
                         {{ form.cnh_number.errors }}
@@ -44,7 +42,6 @@
             <div class="mb-3">
                 <label for="cnh_picture" class="form-label">Foto da CNH</label>
                 <input type="file" class="form-control" id="cnh_picture" name="cnh_picture" required>
-                <!-- Display cnh_picture field errors -->
                 {% if form.cnh_picture.errors %}
                     <div class="invalid-feedback d-block">
                         {{ form.cnh_picture.errors }}
@@ -52,15 +49,14 @@
                 {% endif %}
             </div>
         </div>
-    
+
         <!-- Vehicle Section -->
         <div>
             <h4>Dados do Veículo</h4>
             <!-- Model field -->
             <div class="mb-3">
                 <label for="model" class="form-label">Modelo</label>
-                <input type="text" class="form-control" id="model" name="model" required>
-                <!-- Display model field errors -->
+                <input type="text" class="form-control" id="model" name="model" placeholder="Digite o modelo do veículo" required>
                 {% if form.model.errors %}
                     <div class="invalid-feedback d-block">
                         {{ form.model.errors }}
@@ -70,8 +66,7 @@
             <!-- Color field -->
             <div class="mb-3">
                 <label for="color" class="form-label">Cor</label>
-                <input type="text" class="form-control" id="color" name="color" required>
-                <!-- Display color field errors -->
+                <input type="text" class="form-control" id="color" name="color" placeholder="Digite a cor do veículo" required>
                 {% if form.color.errors %}
                     <div class="invalid-feedback d-block">
                         {{ form.color.errors }}
@@ -81,8 +76,7 @@
             <!-- Plate field -->
             <div class="mb-3">
                 <label for="plate" class="form-label">Placa</label>
-                <input type="text" class="form-control" id="plate" name="plate" required>
-                <!-- Display plate field errors -->
+                <input type="text" class="form-control" id="plate" name="plate" placeholder="Digite a placa do veículo" required>
                 {% if form.plate.errors %}
                     <div class="invalid-feedback d-block">
                         {{ form.plate.errors }}
@@ -93,7 +87,6 @@
             <div class="mb-3">
                 <label for="plate_picture" class="form-label">Foto da Placa</label>
                 <input type="file" class="form-control" id="plate_picture" name="plate_picture" required>
-                <!-- Display plate_picture field errors -->
                 {% if form.plate_picture.errors %}
                     <div class="invalid-feedback d-block">
                         {{ form.plate_picture.errors }}
@@ -104,7 +97,6 @@
             <div class="mb-3">
                 <label for="vehicle_picture" class="form-label">Foto do Veículo</label>
                 <input type="file" class="form-control" id="vehicle_picture" name="vehicle_picture" required>
-                <!-- Display vehicle_picture field errors -->
                 {% if form.vehicle_picture.errors %}
                     <div class="invalid-feedback d-block">
                         {{ form.vehicle_picture.errors }}
@@ -112,10 +104,10 @@
                 {% endif %}
             </div>
         </div>
-    
+
         <!-- Submit button -->
         <button type="submit" class="btn btn-outline-primary">Adicionar Veículo</button>
         <a href="{% url 'home' %}" class="btn btn-outline-secondary">Cancelar</a>
-    </form>    
+    </form>
 </div>
 {% endblock %}

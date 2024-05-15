@@ -25,25 +25,32 @@ def create_ride(request):
     Otherwise, we redirect the user to the vehicle creation page.
     """
     user = request.user
-    if not Vehicle.objects.filter(is_verified=True, person__user=user).exists():
-        return redirect("add_vehicle")
-    if not Person.objects.filter(user=user, cnh_is_verified=True).exists():
-        return redirect("success_vehicle_save")
 
-    vehicle = Vehicle.objects.filter(
-        is_verified=True, person__user=user
-    ).first()
-    affetced_places = AffectedPlace.objects.all()
+    if "is_coming_from_vehicle" in request.session:
+        vehicle_uuid = request.session.get("vehicle_uuid")
+        vehicle = Vehicle.objects.get(uuid=vehicle_uuid)
+        del request.session["is_coming_from_vehicle"]
+        del request.session["vehicle_uuid"]
+    else:
+        vehicle = Vehicle.objects.filter(person__user=user).first()
+        if not vehicle:
+            return redirect("add_vehicle")
+
+    affected_places = AffectedPlace.objects.all()
     cities = City.objects.all()
 
     if request.method == "POST":
         form = RideForm(request.POST, request.FILES)
         if form.is_valid():
             ride = form.save(commit=False)
-            ride.driver = get_person(request)
+            ride.driver = (
+                user.person
+            )  # Assuming `get_person(request)` returns the related Person instance
 
             try:
                 ride.save()
+                request.session["message"] = "Carona cadastrada com sucesso."
+                return redirect("ride_detail", ride_id=ride.uuid)
             except Exception as e:
                 logging.error(f"Error saving ride data: {e}")
                 return render(
@@ -51,8 +58,6 @@ def create_ride(request):
                     "ride/create_ride.html",
                     {"form": form, "error": "Erro ao salvar dados da carona."},
                 )
-            request.session["message"] = "Carona cadastrada com sucesso."
-            return redirect("ride_detail", ride_id=ride.uuid)
     else:
         form = RideForm()
 
@@ -63,7 +68,7 @@ def create_ride(request):
             "form": form,
             "vehicle": vehicle,
             "cities": cities,
-            "affected_places": affetced_places,
+            "affected_places": affected_places,
         },
     )
 
@@ -143,6 +148,7 @@ def ride_list(request):
         applyed_filters_str += f" no dia {formated_data}."
         filters["date"] = date
     else:
+        applyed_filters_str += f" em qualquer dia."
         filters["date__gte"] = datetime.now().date()
 
     if request.user.is_anonymous:
@@ -159,14 +165,12 @@ def ride_list(request):
         )
     else:
         rides = (
-            Ride.objects.filter(**filters)
-            .annotate(
+            Ride.objects.filter(**filters).annotate(
                 confirmed_passengers_count=Count(
                     "passenger",
                     filter=Q(passenger__status=PassengerStatusChoices.ACCEPTED),
                 )
             )
-            .exclude(driver__user=request.user)
         ).order_by("-date")
 
     affected_places = AffectedPlace.objects.all().order_by("city")

@@ -1,5 +1,6 @@
 import io
 from copy import deepcopy
+from datetime import date
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from PIL import Image
@@ -8,11 +9,10 @@ from apps.address_manager.tests.factories.city_factory import CityFactory
 from apps.core.tests.base_test import BaseTest
 from apps.ride_manager.forms import RegistrationForm
 from apps.ride_manager.tests.factories.person_register_payload_factory import (
-    person_register_payload_factory,
-    person_register_form_data_factory,
     image_file_for_form_factory,
+    person_register_form_data_factory,
+    person_register_payload_factory,
 )
-from datetime import date
 
 
 class RegistrationFormTests(BaseTest):

@@ -7,19 +7,25 @@
 <div class="container mt-5">
     <div class="card w-100">
         <!-- Page Title -->
-        <dic class="card-body">    
-            <div class="row">
-                <a href="{% url 'home' %}" class="btn btn-light">
-                    <i class="material-icons">arrow_back</i>
+        <div class="card-body">    
+            <div class="d-flex align-items-center mb-4">
+                <a href="{% url 'home' %}" class="btn btn-light me-2">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
                 </a>
-                <h4 class="mb-4">Adicionar Carona</h4>
+                <h4 class="mb-0">Adicionar Carona</h4>
             </div>
-            <div class="row">
+            <div class="row">                
                 <div class="alert alert-primary w-100">
                     <h5 class="card-title"><i class="fas fa-car"></i> {{ vehicle.model }} </h5>
                     <p class="card-text">Cor: <strong>{{ vehicle.color }}</strong></p>
-                    <p class="card-text">Placa: <strong>{{ vehicle.plate }}</srong></p>
+                    <p class="card-text">Placa: <strong>{{ vehicle.plate }}</strong></p>
                 </div>
+                {% if not vehicle.is_verified %}
+                <div class="alert alert-warning alert-dismissible fade show w-100" role="alert">
+                    <span>Seu veículo ainda não foi verificado. Sua carona será disponibilizada assim que nossos apoiadores verificarem seus dados.</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                </div>
+                {% endif %}
             </div>
             <div class="row">
                 <!-- Form Section -->
@@ -34,96 +40,83 @@
                                 {% endfor %}
                             </div>
                         {% endif %}
-                        <!-- date field -->
-                        <div class="form-group row">
-                            <label for="date" class="col-sm-2 col-form-label">Data</label>
-                            <div class="col-sm-10">
-                                <input type="date" class="form-control" id="date" name="date" required>
-                                <!-- Display date field errors -->
-                                {% if form.date.errors %}
-                                    <small class="text-danger">{{ form.date.errors }}</small>
-                                {% endif %}
-                            </div>
+                        <!-- Date field -->
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Data</label>
+                            <input type="date" class="form-control" id="date" name="date" placeholder="Selecione a data" required>
+                            <!-- Display date field errors -->
+                            {% if form.date.errors %}
+                                <small class="text-danger">{{ form.date.errors }}</small>
+                            {% endif %}
                         </div>
-                        <!-- work shift opitons field -->
-                        <div class="form-group row">
-                            <label for="work_shift" class="col-sm-2 col-form-label">Turno de Trabalho</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" id="work_shift" name="work_shift" required>
-                                    <option value="MORNING">Manhã</option>
-                                    <option value="AFTERNOON">Tarde</option>
-                                </select>
-                                <!-- Display work_shift field errors -->
-                                {% if form.work_shift.errors %}
-                                    <small class="text-danger">{{ form.work_shift.errors }}</small>
-                                {% endif %}
-                            </div>
+                        <!-- Work Shift options field -->
+                        <div class="mb-3">
+                            <label for="work_shift" class="form-label">Turno de Trabalho</label>
+                            <select class="form-control" id="work_shift" name="work_shift" required>
+                                <option value="">Selecione o turno</option>
+                                <option value="MORNING">Manhã</option>
+                                <option value="AFTERNOON">Tarde</option>
+                            </select>
+                            <!-- Display work_shift field errors -->
+                            {% if form.work_shift.errors %}
+                                <small class="text-danger">{{ form.work_shift.errors }}</small>
+                            {% endif %}
                         </div>
-                        <!-- origin list field -->
-                        <div class="form-group row">
-                            <label for="origin" class="col-sm-2 col-form-label">Origem</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" id="origin" name="origin" required>
-                                    <option value="">Selecione a origem</option>
-                                    {% for city in cities %}
-                                        <option value="{{ city.id }}">{{ city }}</option>
-                                    {% endfor %}
-                                </select>
-                                <!-- Display origin field errors -->
-                                {% if form.origin.errors %}
-                                    <small class="text-danger">{{ form.origin.errors }}</small>
-                                {% endif %}
-                            </div>
+                        <!-- Origin list field -->
+                        <div class="mb-3">
+                            <label for="origin" class="form-label">Origem</label>
+                            <select class="form-control" id="origin" name="origin" required>
+                                <option value="">Selecione a origem</option>
+                                {% for city in cities %}
+                                    <option value="{{ city.id }}">{{ city }}</option>
+                                {% endfor %}
+                            </select>
+                            <!-- Display origin field errors -->
+                            {% if form.origin.errors %}
+                                <small class="text-danger">{{ form.origin.errors }}</small>
+                            {% endif %}
                         </div>
                         <!-- Destination Field -->
-                        <div class="form-group row">
-                            <label for="destination" class="col-sm-2 col-form-label">Destino</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" id="destination" name="destination" required>
-                                    <option value="">Selecione o destino</option>
-                                    {% for affected_place in affected_places %}
-                                        <option value="{{ affected_place.pk }}">{{ affected_place.city }}</option>
-                                    {% endfor %}
-                                </select>
-                                <!-- Display destination field errors -->
-                                {% if form.destination.errors %}
-                                    <small class="text-danger">{{ form.destination.errors }}</small>
-                                {% endif %}
-                            </div>
+                        <div class="mb-3">
+                            <label for="destination" class="form-label">Destino</label>
+                            <select class="form-control" id="destination" name="destination" required>
+                                <option value="">Selecione o destino</option>
+                                {% for affected_place in affected_places %}
+                                    <option value="{{ affected_place.pk }}">{{ affected_place.city }}</option>
+                                {% endfor %}
+                            </select>
+                            <!-- Display destination field errors -->
+                            {% if form.destination.errors %}
+                                <small class="text-danger">{{ form.destination.errors }}</small>
+                            {% endif %}
                         </div>
-                        <!-- vehicle field -->
+                        <!-- Vehicle field -->
                         <input type="hidden" id="vehicle" name="vehicle" value="{{ vehicle.pk }}">
-                        <!-- quantity of passengers fields -->
-                        <div class="form-group row">
-                            <label for="quantity_of_passengers" class="col-sm-2 col-form-label">Quantidade de Passageiros</label>
-                            <div class="col-sm-10">
-                                <input type="number" class="form-control" id="quantity_of_passengers" name="quantity_of_passengers" required>
-                                <!-- Display quantity_of_passengers field errors -->
-                                {% if form.quantity_of_passengers.errors %}
-                                    <small class="text-danger">{{ form.quantity_of_passengers.errors }}</small>
-                                {% endif %}
-                            </div>
+                        <!-- Quantity of passengers field -->
+                        <div class="mb-3">
+                            <label for="quantity_of_passengers" class="form-label">Quantidade de Passageiros</label>
+                            <input type="number" class="form-control" id="quantity_of_passengers" name="quantity_of_passengers" placeholder="Digite a quantidade de passageiros" required>
+                            <!-- Display quantity_of_passengers field errors -->
+                            {% if form.quantity_of_passengers.errors %}
+                                <small class="text-danger">{{ form.quantity_of_passengers.errors }}</small>
+                            {% endif %}
                         </div>
-                        <!-- notes field -->
-                        <div class="form-group row">
-                            <label for="notes" class="col-sm-2 col-form-label">Observações</label>
-                            <div class="col-sm-10">
-                                <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
-                                <!-- Display notes field errors -->
-                                {% if form.notes.errors %}
-                                    <small class="text-danger">{{ form.notes.errors }}</small>
-                                {% endif %}
-                            </div>
-
+                        <!-- Notes field -->
+                        <div class="mb-3">
+                            <label for="notes" class="form-label">Observações</label>
+                            <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Adicione observações (opcional)"></textarea>
+                            <!-- Display notes field errors -->
+                            {% if form.notes.errors %}
+                                <small class="text-danger">{{ form.notes.errors }}</small>
+                            {% endif %}
                         </div>
-                    <!-- Submit Button -->
-                    <div class="form-group row">
-                        <div class="col-sm-10 offset-sm-2">
+                        <!-- Submit Button -->
+                        <div class="mb-3">
                             <button type="submit" class="btn btn-outline-primary btn-lg">Salvar</button>
                             <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-lg">Cancelar</a>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

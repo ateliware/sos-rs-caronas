@@ -5,9 +5,7 @@ from django.db import transaction
 from faker import Faker
 
 from apps.address_manager.models import City, State
-from apps.ride_manager.models import (
-    AffectedPlace,
-)
+from apps.ride_manager.models import AffectedPlace
 
 fake = Faker("pt_BR")
 
