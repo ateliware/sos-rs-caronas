@@ -23,7 +23,7 @@ JAZZMIN_SETTINGS = {
         "address_manager",
         "core",
     ],
-    "custom_css": "styles.css",
-    "site_logo": "mini-logo.png",
-    "login_logo": "logo.png",
+    "custom_css": "ride_manager/css/styles.css",
+    "site_logo": "ride_manager/img/mini-logo.png",
+    "login_logo": "ride_manager/img/logo.png",
 }

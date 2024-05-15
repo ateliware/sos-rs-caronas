@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}My Website{% endblock %}</title>
-    <link rel="icon" href="{% static 'favicon-white.png' %}" type="image/x-icon">
-    <link rel="shortcut icon" href="{% static 'favicon-white.png' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'ride_manager/img/favicon-white.png' %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'ride_manager/img/favicon-white.png' %}" type="image/x-icon">
 
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -98,7 +98,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
             <div class="container">
                 <a class="navbar-brand" href="{% url 'ride_list' %}">
-                    <img src="{% static 'mini-logo.png' %}" alt="Logo" style="max-width: 50px; height: auto;">
+                    <img src="{% static 'ride_manager/img/mini-logo.png' %}" alt="Logo" style="max-width: 50px; height: auto;">
                     Caronas RS
                 </a>
                 {% if user.is_authenticated %}
