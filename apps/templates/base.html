@@ -90,6 +90,16 @@
             color: #152583;
             border-color: #152583;
         }
+        /* Footer styling */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #152583;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
     </style>
 </head>
 <body>
@@ -121,13 +131,23 @@
         </nav>
         
 
-        <div class="container bg-light mt-1">
+        <div class="container bg-light mt-1 pb-4">
             <div class="main-content">    
                 {% block content %}
                 <!-- The main content of the application will be displayed here -->
                 {% endblock %}
             </div>
         </div>
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                &copy; 2024. Powered by
+                <img src="{% static 'ride_manager/img/ateliware-white.png' %}" alt="Ateliware" style="max-width: 50px; height: auto;">
+                <a href="https://ateliware.com/" target="_blank" style="color: #fff; text-decoration: none;">
+                    ateliware
+                </a>
+            </div>
+        </footer>
     </div>
 
     <!-- jQuery -->
