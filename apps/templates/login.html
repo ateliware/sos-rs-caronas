@@ -64,9 +64,12 @@
                 {% endif %}
                 <!-- Submit Button with Bootstrap class -->
                 <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <p class="text-center mt-3"><a href="{% url 'ride_list' %}" class="btn btn-outline-secondary btn-block">Visualizar Caronas</a></p>
             </form>
             <!-- Registration link -->
             <p class="text-center mt-3">Não possui uma conta?<a href="{% url 'register' %}"> Cadastre-se</a></p>
+            <!-- login to admin area -->
+            <p class="text-center mt-3">Deseja acessar como administrador? <a href="{% url 'admin:index' %}">Admin</a></p>
         </div>
     </div>
 

@@ -32,8 +32,9 @@ class RegistrationFormTests(BaseTest):
         # Then
         for field_name, (label, placeholder) in form.field_labels.items():
             self.assertEqual(form.fields[field_name].label, label)
-            self.assertEqual(form.fields[field_name].widget.attrs['placeholder'], placeholder)
-
+            self.assertEqual(
+                form.fields[field_name].widget.attrs["placeholder"], placeholder
+            )
 
     def test_form_valid(self):
         # Given

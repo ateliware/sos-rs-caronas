@@ -45,12 +45,16 @@ class RegistrationFormView(FormView):
         context = super().get_context_data(**kwargs)
         context["states"] = State.objects.all()
         context["cities"] = City.objects.all()
-        context["privacy_policy"] = Term.objects.filter(
-            type=TermTypeChoices.PRIVACY
-        ).order_by("-created_at").first()
-        context["term_of_use"] = Term.objects.filter(
-            type=TermTypeChoices.USE
-        ).order_by("-created_at").first()
+        context["privacy_policy"] = (
+            Term.objects.filter(type=TermTypeChoices.PRIVACY)
+            .order_by("-created_at")
+            .first()
+        )
+        context["term_of_use"] = (
+            Term.objects.filter(type=TermTypeChoices.USE)
+            .order_by("-created_at")
+            .first()
+        )
         return context
 
 
