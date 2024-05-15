@@ -83,8 +83,6 @@ class RegistrationForm(forms.Form):
 
     def clean_birth_date(self):
         birth_date = self.cleaned_data.get("birth_date")
-        print("entrei")
-        print(self.cleaned_data.get("document_picture"))
         today = date.today()
         min_birth_date = today - timedelta(days=365 * 18)
 
@@ -97,8 +95,6 @@ class RegistrationForm(forms.Form):
 
     def clean_document_picture(self):
         document_picture = self.cleaned_data.get("document_picture")
-        print("entrei")
-        print(document_picture)
 
         if not document_picture:
             raise forms.ValidationError("Foto do documento é obrigatória")
