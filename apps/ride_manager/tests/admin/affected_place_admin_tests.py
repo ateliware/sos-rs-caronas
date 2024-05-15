@@ -68,7 +68,7 @@ class AffectedAdminTest(BaseTest):
         expected_readonly_fields = [
             "uuid",
             "created_at",
-            "updated_at",
+            "updated_at", 
         ]
 
         # When/Then
