@@ -17,8 +17,8 @@ class RegistrationFormViewTests(BaseTest):
         self.url = reverse("register")
         self.city = CityFactory()
         self.form_data = person_register_form_data_factory()
-        self.form_data['city_id'] = self.city.id
-        self.form_data['state_id'] = self.city.state.id
+        self.form_data["city_id"] = self.city.id
+        self.form_data["state_id"] = self.city.state.id
         self.document_picture = image_file_for_form_factory()
         self.form_data["document_picture"] = self.document_picture
 
@@ -39,18 +39,20 @@ class RegistrationFormViewTests(BaseTest):
         # Given
         TermFactory(type=TermTypeChoices.USE)
         TermFactory(type=TermTypeChoices.PRIVACY)
-        form = RegistrationForm(self.form_data, {"document_picture": self.document_picture})
+        form = RegistrationForm(
+            self.form_data, {"document_picture": self.document_picture}
+        )
 
         # When
         response = self.view_unauth_client.post(
-            path=self.url, 
+            path=self.url,
             data=form.data,
             files={"document_picture": self.document_picture},
-            )
+        )
         created_user = CustomUser.objects.filter(
             cpf=self.form_data["cpf"]
         ).first()
-        
+
         # Then
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("home"))
