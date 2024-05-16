@@ -47,7 +47,7 @@
                                 <i class="fas fa-car"></i> 
                                 {{ ride.destination }}
                                 
-                                {% if status == "CROWDED" %}
+                                {% if ride.status == "CROWDED" %}
                                     <span class="badge bg-info">{{ ride.get_status_display }}</span>
                                 {% elif ride.status == "UNDER_REVIEW" %}
                                     <span class="badge bg-warning">{{ ride.get_status_display }}</span>
