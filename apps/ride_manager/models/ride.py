@@ -93,7 +93,7 @@ class Ride(BaseModel):
             raise ValueError("Turno inválido")
         if not is_status_choice_valid:
             raise ValueError("Status inválido")
-        
+
         # if the driver's CNH is verified and the vehicle is verified, the ride status is set to OPEN
         if self.driver.cnh_is_verified and self.vehicle.is_verified:
             self.status = StatusChoices.OPEN

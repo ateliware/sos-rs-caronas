@@ -70,10 +70,10 @@
                             <span>
                                 {{ ride.driver.phone }}
                                 <a
-                                    href="https://wa.me/{{driver_phone}}?text=Olá, te encontrei no SosRS | Caronas, gostaria de checar algumas informações" 
-                                    class="btn btn-outline-success btn-sm"
-                                    target="_blank">
-                                    <i class="fab fa-whatsapp"></i>
+                                    href="#"
+                                    onclick="sendLinkToWhats('{{ ride.driver.phone }}', 'Olá, te encontrei no SosRS | Caronas, gostaria de checar algumas informações')"
+                                    class="btn btn-success btn-sm">
+                                    <i class="fab fa-whatsapp"></i> 
                                 </a>
                             </span>
                         {% else %}
@@ -121,10 +121,7 @@
                                         <span>
                                             {{ passenger.person.name }}
                                             {% if user.person != passenger.person %}
-                                                <a 
-                                                    href="https://wa.me/{{passenger.person.phone}}?text=Olá, te encontrei no SosRS | Caronas, gostaria de checar algumas informações" 
-                                                    class="btn btn-outline-success btn-sm"
-                                                    target="_blank">
+                                                <a href="#" onclick="sendLinkToWhats('{{ passenger.person.phone }}', 'Olá, te encontrei no SosRS | Caronas, gostaria de checar algumas informações.')" class="btn btn-outline-success btn-sm">
                                                     <i class="fab fa-whatsapp"></i>
                                                 </a>
                                             {% endif %}
@@ -133,13 +130,13 @@
                                         {% if is_driver and passenger.status == "PENDING" %}
                                             <div class="d-flex justify-content-between align-items-center mt-3">
                                                 <a href="{% url 'ride_passenger_confirmation' ride.pk passenger.pk%}" class="btn btn-outline-primary flex-grow-1 me-2">Aceitar</a>
-                                                <a href="#" class="btn btn-outline-danger flex-grow-1">Negar</a>
+                                                {% comment %} <a href="#" class="btn btn-outline-danger flex-grow-1">Negar</a> {% endcomment %}
                                             </div>
                                         {% endif %}
                                         <span class="mutted"><small>*Solicitado em {{ passenger.created_at }}</small></span> <br />
                                         {% if user.person == passenger.person and passenger.status == "PENDING" %}
                                             <!-- Button to trigger WhatsApp confirmation -->
-                                            <a href="#" onclick="sendWhatsAppConfirmation('{{ ride.driver.phone}}', '{{ ride.pk }}', '{{ passenger.pk }}')" class="btn btn-outline-success btn-sm">                           
+                                            <a href="#" onclick="sendLinkToWhats('{{ ride.driver.phone }}', 'Olá, um passageiro do SosRs Caronas está solicitando sua aprovação em uma carona, acesse a aplicação para confirmar clicando em https://www.sosrscaronas.com.br/')" class="btn btn-success btn-sm">       
                                                 <i class="fab fa-whatsapp"></i>
                                                 Solicitar confirmação
                                             </a>
@@ -163,33 +160,13 @@
             }
         }
 
-        function sendWhatsAppConfirmation(driver_phone, rideId, passengerId) {
-            const text = `Olá, um passageiro do SosRs Caronas está solicitando sua aprovação na carona.
-                          Acesse o link abaixo para confirmar:
-                          http://localhost:8000/login`;
-            
+        function sendLinkToWhats(number, text){
             // js regex to remove ()- for the number
-            driver_phone = driver_phone.replace(/\D/g, '');
+            phone = number.replace(/\D/g, '');
             
-            const url = `https://wa.me/${driver_phone}?text=${text}`;
+            const url = `https://wa.me/${phone}?text=${text}`;
+            console.log(url)
             window.open(url);
         }
-
-        
-        // Get references to the button and phone number container
-        const toggleButton = document.getElementById('toggleButton');
-        const phoneContainer = document.getElementById('phoneContainer');
-    
-        // Add event listener to the button
-        toggleButton.addEventListener('click', () => {
-            // Toggle the visibility of the phone number container
-            if (phoneContainer.style.display === 'none') {
-                phoneContainer.style.display = 'block';
-                toggleButton.textContent = 'Hide Phone Number';
-            } else {
-                phoneContainer.style.display = 'none';
-                toggleButton.textContent = 'Show Phone Number';
-            }
-        });
     </script>
 {% endblock  %}

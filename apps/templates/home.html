@@ -4,6 +4,13 @@
 
 {% block content %}
 <div class="container mt-5">
+  {% if need_evaluation %}
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <p>Você tem passageiros aguardando aprovação.
+          Clique <a href="{% url 'my_rides' %}" class="alert-link">aqui</a> para verificar. </p>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+  {% endif %}
   <div class="card w-100">
     <div class="jumbotron-custom">
         <h1 class="display-5">Olá {{ request.user }}</h1>
