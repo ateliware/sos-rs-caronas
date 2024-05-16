@@ -92,7 +92,7 @@ We also separate, for more intuitive interaction, in the folder `config`, the se
 
 ## Custom Admin Theme
 
-We included the Jazzmin Theme for customizing the Admin area in the requirements file. If you want to use this theme, you need to add it at the top of the INSTALLED_APPS variable, as shown below:
+We included the Jazzmin Theme for customizing the Admin area in the requirements file.
 
 ```
 INSTALLED_APPS = [
@@ -104,74 +104,23 @@ INSTALLED_APPS = [
 
 For more information about Jazzmin Theme, click [here](https://django-jazzmin.readthedocs.io/).
 
-## Usage and examples 
+## Usage
 
-Above some insides to start developing using this blueprint
-
-### Examples
-
-We provide some examples of how to use Django basically, in the sample app called **address_manager**.
-**WIP Section**
+Above some insides to start developing using this project
 
 ### Users and Authentication
-We modified the default behavior of Django to utilize email and password as authentication credentials. To achieve this, we introduced CustomUser and CustomGroup models. From now on, when referencing any application user, always use a foreign key (FK) pointing to the CustomUser table.
+We modified the default behavior of Django to utilize cpf and password as authentication credentials. To achieve this, we introduced CustomUser and CustomGroup models. From now on, when referencing any application user, always use a foreign key (FK) pointing to the CustomUser table.
 
-### Django for Monolithic Applications
-
-We included an example of template creation, where Django serves the data directly to the client renderer. To access this, visit [http://0.0.0.0:8000/city/](http://0.0.0.0:8000/city/). We used Class-Based Views (CBVs) to create this sample, offering a streamlined approach for common CRUD operations.
-
-To explore further, check the view file (apps/address_manager/views/city_view.py) for a closer look at this example.
-
-For enhanced control over view logic, consider overriding class methods to maintain architectural consistency.
 
 ### API use with Django Rest Framework
 
-Besides that, we demonstrate examples of how to use the REST framework for the models created in the address app.
+Besides that, we have a couple of apis developed, which can be accessed in a swagger in the follow link:
+[swagger](http://0.0.0.0/api/swagger) (must be running the application in DEBUG=True mode)
 
-We used (and recommend) CBVs to streamline the development of simple CRUD endpoints (file: apis/state_viewset.py), and override methods where greater control and logical handling were necessary (file: apis/city_viewset.py). Additionally, we've created an example where the endpoint is not associated with any specific table (file: apis/fake_cities_viewsets.py).
-
-We've built two sets of routes (api/states/ and api/cities/) that encapsulate the main REST methods used for basic applications. Both sets of routes have authenticated access via [token JWT](#django-rest-framework). The **access_token** should be sent in the request header as follows:
+To access authorized apis use the **access_token** send it in the request header as follows:
 ```
 { "Authorization": "Bearer <access_token>"}
 ```
-
-Consider the endpoint http://0.0.0.0:8000/api/states/
-
-The GET method returns a list of all registered states, along with pagination information, as shown in the following example:
-```
-{
-	"count": 2,
-	"next": null,
-	"previous": null,
-	"results": [
-		{
-			"id": 2,
-			"name": "São Paulo",
-			"code": "SP",
-			"created_at": "2024-03-06T17:15:12.688117-03:00",
-			"updated_at": "2024-03-06T17:15:12.688147-03:00",
-			"is_active": true
-		}
-	]
-}
-```
-To create a new state, simply send a POST request to the same endpoint with the following payload:
-```
-{
-	"name": "São Paulo",
-	"code": "sp"
-}
-```
-To retrieve the details of a state, update, or delete it, simply append the primary key to the end of the endpoint, like so: http://0.0.0.0:8000/api/states/2/
-
-In the endpoint for creating cities (http://0.0.0.0:8000/api/cities/), a modification was made to the default creation logic, where you must send the city name and the state code:"
-```
-{
-	"name": "Campinas",
-	"state_code": "SP"
-} 
-```
-
 
 ### Usage
 
@@ -198,4 +147,7 @@ Have a great job using our Django Application!
 
 ---
 This README is provided as a guide to assist in getting started with the Django Application Blueprint. For any further assistance or inquiries, please refer to the official Django [documentation](https://docs.djangoproject.com/en/5.0/) or consult the project's contributors.
-# sos-rs-caronas
+
+---
+
+Feito com ♥ por Ateliware.
