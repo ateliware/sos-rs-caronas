@@ -127,15 +127,17 @@ def ride_list(request):
     """
 
     filters = {"status": "OPEN"}
+    applyed_filters_str = "Nenhum filtro aplicado."
+
     origin = request.GET.get("origin")
     destination = request.GET.get("destination")
     date = request.GET.get("date")
-    applyed_filters_str = "Nenhum filtro aplicado."
 
     if origin:
         city = City.objects.get(id=origin)
         applyed_filters_str = f"Filtrando por: saindo de {city}"
         filters["origin"] = origin
+
     if destination:
         if destination == "any_destination":
             applyed_filters_str += ", para qualquer destino"
@@ -143,6 +145,7 @@ def ride_list(request):
             destination = AffectedPlace.objects.get(uuid=destination)
             applyed_filters_str += f", para {destination}"
             filters["destination"] = destination
+
     if date:
         formated_data = datetime.strptime(date, "%Y-%m-%d").strftime("%d/%m/%Y")
         applyed_filters_str += f" no dia {formated_data}."
@@ -151,7 +154,6 @@ def ride_list(request):
         filters["date__gte"] = datetime.now().date()
 
     if request.user.is_anonymous:
-        # filter rides open and date >= today
         rides = (
             Ride.objects.filter(**filters)
             .annotate(
