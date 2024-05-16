@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from apps.ride_manager.admin.vehicle_inline_admin import VehicleInlineAdmin
 from apps.ride_manager.models import Person
 
 
@@ -18,6 +19,9 @@ class PersonAdmin(admin.ModelAdmin):
         "document_is_verified",
         "profile_is_verified",
         "is_active",
+    ]
+    inlines = [
+        VehicleInlineAdmin,
     ]
     fieldsets = [
         (
