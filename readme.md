@@ -1,212 +1,53 @@
-# Django Application Blueprint
+# SOS RS Caronas
 
-Welcome to the Django Application Blueprint, a quick starter template for Django applications. This blueprint follows modularization and best practices as suggested by the acclaimed book [Two Scoops of Django 3.X](https://www.feldroy.com/books/two-scoops-of-django-3-x).
+O **SOS RS Caronas** é uma aplicação dedicada a conectar pessoas dispostas a oferecer caronas com indivíduos que buscam transporte para atuar como voluntários em áreas afetadas por enchentes no estado do Rio Grande do Sul. A aplicação foi desenvolvida em Python utilizando o framework Django e o banco de dados PostgreSQL.
 
-For comprehensive documentation about Django, visit the [Django Project Page](https://www.djangoproject.com/).
+## Propósito da Aplicação
 
-## Getting Started
+Nosso objetivo é facilitar o acesso ao transporte para aqueles que desejam ajudar como voluntários em situações de emergência causadas por enchentes.
 
-This Django Application Blueprint runs within a Docker container, utilizing a PostgreSQL database. The project includes essential Django and Python libraries installed via pip, as listed in the `requirements.txt` file. Don't forget to create a `.env` file using the provided `.env-sample` as a template.
+## Funcionalidades
 
-### Let's Work
+- **Cadastro de Usuários**: Permite o registro de usuários com informações pessoais para verificação.
+- **Verificação de Usuários**: Os usuários são verificados por voluntários da comunidade para garantir a segurança.
+- **Conexão de Caronas**: Conecta pessoas que oferecem caronas com aquelas que buscam transporte.
+- **Gerenciamento de Viagens**: Ferramentas para gerenciar e acompanhar as viagens compartilhadas.
 
-To begin, ensure Docker is installed on your system. Then, build the container using the following command and navigate into it:
+## Tecnologias Utilizadas
 
+- **Linguagem**: Python
+- **Framework**: Django
+- **Banco de Dados**: PostgreSQL
+- **Frontend**: Bootstrap, HTML, CSS, JavaScript
 
-```
-docker-compose up --build
-```
+## Coleta e Uso de Dados Pessoais
 
+Para garantir a segurança e a verificação dos usuários, coletamos informações como nome, idade, telefone e foto de perfil durante o registro na plataforma. Esses dados são utilizados exclusivamente para verificar os usuários e conectar os participantes da aplicação.
 
-Once the application is up, you can access it at: [http://0.0.0.0:8000/](http://0.0.0.0:8000/).
+## Verificação de Usuários
 
-To access the container, use the following command:
+A verificação dos usuários é realizada por voluntários da comunidade, sem compartilhamento de dados pessoais. Este processo é essencial para garantir a segurança e a confiabilidade da plataforma.
 
+## Responsabilidades dos Usuários
 
-```
-docker exec -it CONTAINER_NAME sh
-```
+Ao utilizar o SOS RS Caronas, os usuários comprometem-se a fornecer informações precisas, respeitar as leis locais e agir de maneira ética e responsável durante as viagens compartilhadas.
 
-To find the name of the container, run `docker ps`.
+## Contato
 
-## Database and Migrations
+Para mais informações ou dúvidas, entre em contato conosco pelo e-mail [victor.silva@ateliware.com](mailto:victor.silva@ateliware.com).
 
-Within the Docker container, create the tables for the database using the follow command:
+## Isenção de Responsabilidade
 
+A plataforma SOS RS Caronas destina-se exclusivamente a facilitar o contato entre pessoas que desejam realizar trabalho voluntário. Ressaltamos que a plataforma não se responsabiliza por quaisquer incidentes que possam ocorrer durante as viagens compartilhadas entre os usuários.
 
-```
-python manage.py migrate
-```
+## Como Executar o Projeto em Ambiente de Desenvolvimento
 
-## Tips and Tricks
+Para instruções detalhadas sobre como configurar e executar o projeto em um ambiente de desenvolvimento, consulte o [Guia de Configuração para Desenvolvedores](development-guide-readme.md).
 
-To create an initial user to access the application or authenticate endpoints later, run the command:
+## Licença
 
-```
-python manage.py createsuperuser
-```
-For create a set of database basic data (Brazilian States, Cities), run the command:
-```
-python manage.py seed_basic_data
-```
-
-
-## Django Administration Area
-
-Access the Django administration area at [http://0.0.0.0:8000/admin](http://0.0.0.0:8000/admin). Inside the admin area, you can manage the tables city and state created by the app *address_manager* to exemplify a Django app. The CRUDs are generated with (insignificantly) code in the *apps/address_manager/admin.py* file.
-
-**Notes**
-
-We create a basic model (apps/core/base_model.py), which contains fields extending the other tables, give a closer look.
-
-## Django Rest Framework
-
-This Blueprint is integrated with Django Rest Framework, a powerful tool for constructing APIs in Django applications. We set two basic methods as examples, using SimpleJWT lib, for requesting and refreshing JWT authentication tokens. You can access these two methods to request access tokens for the application at the following URLs:
-
-- [http://0.0.0.0:8000/api/token](http://0.0.0.0:8000/api/token)
-- [http://0.0.0.0:8000/api/token/refresh](http://0.0.0.0:8000/api/token/refresh)
-
-You'll need send email and password in payload to generate access_token and refresh_token.
-
-
-### User filtering and save customization
-We have included a class (GenericUserViewSet) that inherits from the default ModelViewset of DRF and that inserts a treatment to perform data filtering in the endpoint since there is an FK to the "user" model. Given a table of clients, for example, being this table used by various users to register their clients, as long as there is a column referencing the logged-in user, by inheriting this viewset, it will be responsible for filtering the data referring to the logged-in user, as well as when creating a new record, this viewset takes care of automatically inserting the user into the record. Use this viewset as a starting point whenever it is necessary to relate a table to its owning user.
-
-An example of their use can be observed in the TermAcceptanceViewset within the term_manager app.
-
-## Blueprint Structure
-
-The project follows a modular structure for better organization and maintainability. As Django works with the app construction idea (DRY), we create one app called 'core' which we suggest be used for common code between other apps that the project will need.
-
-We suggest modularizing the app into folders and files as the schema:
-- `admin` (folder for admin area scripts)
-- `migrations` (migrations generated for the app)
-- `models` (we suggest a file for each model in the app)
-- `tests` (we suggest a folder for each funcionallity - models, views, apis, etc)
-- `views`
-- `apis` (optional when the app contains APIs)
-
-Besides the files: `apps.py` (with information for the app) and `urls.py` (specifying the URL for views and APIs of the app).
-
-We also separate, for more intuitive interaction, in the folder `config`, the settings of the application. And inside it, the settings in files independently.
-
-## Custom Admin Theme
-
-We included the Jazzmin Theme for customizing the Admin area in the requirements file. If you want to use this theme, you need to add it at the top of the INSTALLED_APPS variable, as shown below:
-
-```
-INSTALLED_APPS = [
-    "jazzmin",
-    "django.contrib.admin",
-    [...]
-]
-```
-
-For more information about Jazzmin Theme, click [here](https://django-jazzmin.readthedocs.io/).
-
-## Usage and examples 
-
-Above some insides to start developing using this blueprint
-
-### Examples
-
-We provide some examples of how to use Django basically, in the sample app called **address_manager**.
-**WIP Section**
-
-### Users and Authentication
-We modified the default behavior of Django to utilize email and password as authentication credentials. To achieve this, we introduced CustomUser and CustomGroup models. From now on, when referencing any application user, always use a foreign key (FK) pointing to the CustomUser table.
-
-### Django for Monolithic Applications
-
-We included an example of template creation, where Django serves the data directly to the client renderer. To access this, visit [http://0.0.0.0:8000/city/](http://0.0.0.0:8000/city/). We used Class-Based Views (CBVs) to create this sample, offering a streamlined approach for common CRUD operations.
-
-To explore further, check the view file (apps/address_manager/views/city_view.py) for a closer look at this example.
-
-For enhanced control over view logic, consider overriding class methods to maintain architectural consistency.
-
-### API use with Django Rest Framework
-
-Besides that, we demonstrate examples of how to use the REST framework for the models created in the address app.
-
-We used (and recommend) CBVs to streamline the development of simple CRUD endpoints (file: apis/state_viewset.py), and override methods where greater control and logical handling were necessary (file: apis/city_viewset.py). Additionally, we've created an example where the endpoint is not associated with any specific table (file: apis/fake_cities_viewsets.py).
-
-We've built two sets of routes (api/states/ and api/cities/) that encapsulate the main REST methods used for basic applications. Both sets of routes have authenticated access via [token JWT](#django-rest-framework). The **access_token** should be sent in the request header as follows:
-```
-{ "Authorization": "Bearer <access_token>"}
-```
-
-Consider the endpoint http://0.0.0.0:8000/api/states/
-
-The GET method returns a list of all registered states, along with pagination information, as shown in the following example:
-```
-{
-	"count": 2,
-	"next": null,
-	"previous": null,
-	"results": [
-		{
-			"id": 2,
-			"name": "São Paulo",
-			"code": "SP",
-			"created_at": "2024-03-06T17:15:12.688117-03:00",
-			"updated_at": "2024-03-06T17:15:12.688147-03:00",
-			"is_active": true
-		}
-	]
-}
-```
-To create a new state, simply send a POST request to the same endpoint with the following payload:
-```
-{
-	"name": "São Paulo",
-	"code": "sp"
-}
-```
-To retrieve the details of a state, update, or delete it, simply append the primary key to the end of the endpoint, like so: http://0.0.0.0:8000/api/states/2/
-
-In the endpoint for creating cities (http://0.0.0.0:8000/api/cities/), a modification was made to the default creation logic, where you must send the city name and the state code:"
-```
-{
-	"name": "Campinas",
-	"state_code": "SP"
-} 
-```
-
-
-### Usage
-
-As we modify the default app structure of Django, to create new apps in the application run the following commands:
-
-
-```
-cd apps
-python ../manage.py NEW_APP_NAME
-```
-
-**Important**
-
-You need to change the name in the `NEW_APP/apps.py` file, adding the 'apps' directory prefix in the name variable, as the example:
-
-```
-name = "apps.NEW_APP_NAME"
-```
-
-**Notes**
-
-If the apps **address_manager** and **term_manager** does not make sense for your application, just revert its migration and drop the folders.
-To revert the specific migration, run the command:
-
-```
-python manage.py migrate address_manager zero
-python manage.py migrate term_manager zero
-```
-
-You must also remove the routes for address_manager and term_manager in the file config/urls.py and remove the app lines from the file config/settings/installed_apps.py.
-
-## Be Collaborative, My Friend!
-
-Have a great job using the Django Blueprint. Feel free to explore and modify this blueprint to fit your project requirements!
+Este projeto está licenciado sob os termos da licença MIT. Veja o arquivo LICENSE para mais detalhes.
 
 ---
-This README is provided as a guide to assist in getting started with the Django Application Blueprint. For any further assistance or inquiries, please refer to the official Django [documentation](https://docs.djangoproject.com/en/5.0/) or consult the project's contributors.
-# sos-rs-caronas
+
+Feito com ♥ por Ateliware.
