@@ -13,7 +13,10 @@ from apps.ride_manager.models.passenger import (
     StatusChoices as PassengerStatusChoices,
 )
 from apps.ride_manager.models.person import Person
-from apps.ride_manager.models.ride import Ride
+from apps.ride_manager.models.ride import (
+    Ride,
+    StatusChoices as RideStatusChoices,
+)
 from apps.ride_manager.models.vehicle import Vehicle
 
 
@@ -36,7 +39,9 @@ def create_ride(request):
         if not vehicle:
             return redirect("add_vehicle")
 
-    affected_places = AffectedPlace.objects.all()
+    affected_places = AffectedPlace.objects.filter(is_active=True).order_by(
+        "city"
+    )
     cities = City.objects.all()
 
     if request.method == "POST":
@@ -127,15 +132,17 @@ def ride_list(request):
     """
 
     filters = {"status": "OPEN"}
+    applyed_filters_str = "Nenhum filtro aplicado."
+
     origin = request.GET.get("origin")
     destination = request.GET.get("destination")
     date = request.GET.get("date")
-    applyed_filters_str = "Nenhum filtro aplicado."
 
     if origin:
         city = City.objects.get(id=origin)
         applyed_filters_str = f"Filtrando por: saindo de {city}"
         filters["origin"] = origin
+
     if destination:
         if destination == "any_destination":
             applyed_filters_str += ", para qualquer destino"
@@ -143,16 +150,15 @@ def ride_list(request):
             destination = AffectedPlace.objects.get(uuid=destination)
             applyed_filters_str += f", para {destination}"
             filters["destination"] = destination
+
     if date:
         formated_data = datetime.strptime(date, "%Y-%m-%d").strftime("%d/%m/%Y")
         applyed_filters_str += f" no dia {formated_data}."
         filters["date"] = date
     else:
-        applyed_filters_str += f" em qualquer dia."
         filters["date__gte"] = datetime.now().date()
 
     if request.user.is_anonymous:
-        # filter rides open and date >= today
         rides = (
             Ride.objects.filter(**filters)
             .annotate(
@@ -173,7 +179,9 @@ def ride_list(request):
             )
         ).order_by("-date")
 
-    affected_places = AffectedPlace.objects.all().order_by("city")
+    affected_places = AffectedPlace.objects.filter(is_active=True).order_by(
+        "city"
+    )
     cities = City.objects.all().order_by("name")
     context = {
         "rides": rides,
@@ -264,7 +272,10 @@ def ride_passenger_confirmation(request, ride_id, passenger_id):
     confirmed_passengers = Passenger.objects.filter(
         ride=ride, status=PassengerStatusChoices.ACCEPTED
     ).count()
-    if confirmed_passengers == ride.quantity_of_passengers:
+    if (
+        confirmed_passengers == ride.quantity_of_passengers
+        or ride.status == RideStatusChoices.CROWDED
+    ):
         message = "Infelizmente não há mais vagas disponíveis para esta carona."
     elif Passenger.objects.filter(
         ride=ride, person__user=request.user
@@ -274,7 +285,12 @@ def ride_passenger_confirmation(request, ride_id, passenger_id):
         passenger = Passenger.objects.get(pk=passenger_id)
         passenger.status = PassengerStatusChoices.ACCEPTED
         passenger.save()
-        message = "Passageiro confirmado com sucesso."
+
+        if confirmed_passengers + 1 == ride.quantity_of_passengers:
+            ride.status = RideStatusChoices.CROWDED
+            ride.save()
+
+        message = "Passageiro confirmado com sucesso. Avise ele via whatsapp clicando no link abaixo ;)"
 
     # save message in session to show in the ride detail page
     request.session["message"] = message
@@ -290,14 +306,17 @@ def ride_solicitation(request, ride_id):
     """
 
     ride = Ride.objects.get(uuid=ride_id)
-    if ride.status != "OPEN":
+    if ride.status != RideStatusChoices.OPEN:
         message = "Ops, a carona não está mais disponível :("
         return ride_detail(request, ride_id=ride_id, message=message)
 
     confirmed_passengers = Passenger.objects.filter(
         ride=ride, status=PassengerStatusChoices.ACCEPTED
     ).count()
-    if confirmed_passengers == ride.quantity_of_passengers:
+    if (
+        confirmed_passengers == ride.quantity_of_passengers
+        or ride.status == RideStatusChoices.CROWDED
+    ):
         message = "Ops, a carona já atingiu sua capacidade :("
         return ride_detail(request, ride_id=ride_id, message=message)
 
@@ -307,7 +326,7 @@ def ride_solicitation(request, ride_id):
     )
 
     request.session["message"] = (
-        "Solicitação enviada com sucesso. Aguarde a confirmação do motorista."
+        "Solicitação enviada com sucesso. Entre em contato com o motorista via whatsapp no link abaixo. Lembre de pedir para ele confirmar na alicação sua carona ;)"
     )
     return redirect("ride_detail", ride_id=ride_id)
 

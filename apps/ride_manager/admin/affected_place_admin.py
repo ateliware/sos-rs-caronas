@@ -9,6 +9,7 @@ class AffectedPlaceAdmin(admin.ModelAdmin):
         "city",
         "main_person",
         "main_contact",
+        "is_active",
     ]
     fields = [
         "city",

@@ -24,9 +24,7 @@
         {% if message %}
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                 {{ message }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         {% endif %}
         <!-- Ride Cards -->
@@ -48,10 +46,13 @@
                             <h5 class="card-title">
                                 <i class="fas fa-car"></i> 
                                 {{ ride.destination }}
-                                {% if ride.quantity_of_passengers == ride.confirmed_passengers_count %}
-                                    <span class="badge badge-warning float-right">FECHADA</span>
+                                
+                                {% if status == "CROWDED" %}
+                                    <span class="badge bg-info">{{ ride.get_status_display }}</span>
+                                {% elif ride.status == "UNDER_REVIEW" %}
+                                    <span class="badge bg-warning">{{ ride.get_status_display }}</span>
                                 {% else %}
-                                    <span class="badge badge-primary float-right">ABERTA</span>
+                                    <span class="badge bg-success">{{ ride.get_status_display }}</span>
                                 {% endif %}
                             </h5>
                             <p class="card-text text-primary"><i class="fas fa-user"></i> {{ ride.driver }}</p>

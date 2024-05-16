@@ -16,7 +16,8 @@ class ShiftChoices(models.TextChoices):
 
 class StatusChoices(models.TextChoices):
     OPEN = "OPEN", "Aberta"
-    IN_PROGRESS = "IN_PROGRESS", "Em Andamento"
+    UNDER_REVIEW = "UNDER_REVIEW", "Em análise"
+    CROWDED = "CROWDED", "Lotada"
     FINISHED = "FINISHED", "Concluída"
 
 
@@ -69,10 +70,10 @@ class Ride(BaseModel):
         blank=True,
     )
     status = models.CharField(
-        max_length=11,
+        max_length=15,
         choices=StatusChoices.choices,
         verbose_name="Status",
-        default=StatusChoices.OPEN,
+        default=StatusChoices.UNDER_REVIEW,
     )
     whatsapp_group_link = models.URLField(
         verbose_name="Link do Grupo de WhatsApp",
@@ -92,6 +93,11 @@ class Ride(BaseModel):
             raise ValueError("Turno inválido")
         if not is_status_choice_valid:
             raise ValueError("Status inválido")
+
+        # if the driver's CNH is verified and the vehicle is verified, the ride status is set to OPEN
+        if self.driver.cnh_is_verified and self.vehicle.is_verified:
+            self.status = StatusChoices.OPEN
+
         super().save(*args, **kwargs)
 
     def __str__(self):
