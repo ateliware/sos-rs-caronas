@@ -33,6 +33,11 @@ class Ride(BaseModel):
         choices=ShiftChoices.choices,
         verbose_name="Turno",
     )
+    goal_of_the_ride = models.CharField(
+        max_length=255,
+        verbose_name="Objetivo da Carona",
+        default="Limpeza",
+    )
     origin = models.ForeignKey(
         City,
         on_delete=models.PROTECT,

@@ -32,14 +32,6 @@
                 <div class="col-lg-12">
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <!-- Display form-wide errors -->
-                        {% if form.errors %}
-                            <div class="alert alert-danger">
-                                {% for error in form.errors %}
-                                    <p>{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
                         <!-- Date field -->
                         <div class="mb-3">
                             <label for="date" class="form-label">Data</label>
@@ -47,6 +39,15 @@
                             <!-- Display date field errors -->
                             {% if form.date.errors %}
                                 <small class="text-danger">{{ form.date.errors }}</small>
+                            {% endif %}
+                        </div>
+                        <!-- goal of the ride -->
+                        <div class="mb-3">
+                            <label for="goal_of_the_ride" class="form-label">Objetivo da Carona</label>
+                            <input type="text" class="form-control" id="goal_of_the_ride" name="goal_of_the_ride" placeholder="Ex: Limpeza, alimentação, outro" required>
+                            <!-- Display goal_of_the_ride field errors -->
+                            {% if form.goal_of_the_ride.errors %}
+                                <small class="text-danger">{{ form.goal_of_the_ride.errors }}</small>
                             {% endif %}
                         </div>
                         <!-- Work Shift options field -->
@@ -94,7 +95,7 @@
                         <input type="hidden" id="vehicle" name="vehicle" value="{{ vehicle.pk }}">
                         <!-- Quantity of passengers field -->
                         <div class="mb-3">
-                            <label for="quantity_of_passengers" class="form-label">Quantidade de Passageiros</label>
+                            <label for="quantity_of_passengers" class="form-label">Vagas ofertadas</label>
                             <input type="number" class="form-control" id="quantity_of_passengers" name="quantity_of_passengers" placeholder="Digite a quantidade de passageiros" required>
                             <!-- Display quantity_of_passengers field errors -->
                             {% if form.quantity_of_passengers.errors %}
