@@ -1,11 +1,12 @@
 {% load static %}  <!-- Load the static tag library -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>SOS RS Caronas | Login</title>
+    <link rel="icon" href="{% static 'ride_manager/img/favicon-white.png' %}" type="image/x-icon">
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -25,13 +26,26 @@
             text-align: center;
             margin-bottom: 30px;
         }
+        .login-heading img {
+            width: 100%;
+            max-width: 350px;
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #152583;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="login-container">
             <div class="login-heading">
-                <img src="{% static 'ride_manager/img/logo.png' %}" alt="Logo" style="max-width: 350px; height: auto;">
+                <img src="{% static 'ride_manager/img/logo.png' %}" alt="Logo">
             </div>
             <form method="post">
                 {% csrf_token %}
@@ -64,7 +78,7 @@
                 {% endif %}
                 <!-- Submit Button with Bootstrap class -->
                 <button type="submit" class="btn btn-primary btn-block">Login</button>
-                <p class="text-center mt-3"><a href="{% url 'ride_list' %}" class="btn btn-outline-secondary btn-block">Visualizar Caronas</a></p>
+                <p class="text-center mt-3"><a href="{% url 'ride_list' %}" class="btn btn-secondary btn-block">Visualizar Caronas</a></p>
             </form>
             <!-- Registration link -->
             <p class="text-center mt-3">Não possui uma conta?<a href="{% url 'register' %}"> Cadastre-se</a></p>
@@ -72,6 +86,16 @@
             <p class="text-center mt-3">Deseja acessar como administrador? <a href="{% url 'admin:index' %}">Admin</a></p>
         </div>
     </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            &copy; 2024. Powered by
+            <img src="{% static 'ride_manager/img/ateliware-white.png' %}" alt="Ateliware" style="max-width: 50px; height: auto;">
+            <a href="https://ateliware.com/" target="_blank" style="color: #fff; text-decoration: none;">
+                ateliware
+            </a>
+        </div>
+    </footer>
 
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

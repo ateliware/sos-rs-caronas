@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,8 +26,6 @@
             .main-content {                
                 background-color: #ffffff; /* Optional: Set a background color for the main content */
                 padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
                 margin: 0 auto; /* Center the div horizontally */
             }
         }
@@ -90,6 +88,16 @@
             color: #152583;
             border-color: #152583;
         }
+        /* Footer styling */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #152583;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
     </style>
 </head>
 <body>
@@ -121,13 +129,23 @@
         </nav>
         
 
-        <div class="container bg-light mt-1">
+        <div class="container mt-1 pb-4">
             <div class="main-content">    
                 {% block content %}
                 <!-- The main content of the application will be displayed here -->
                 {% endblock %}
             </div>
         </div>
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                &copy; 2024. Powered by
+                <img src="{% static 'ride_manager/img/ateliware-white.png' %}" alt="Ateliware" style="max-width: 50px; height: auto;">
+                <a href="https://ateliware.com/" target="_blank" style="color: #fff; text-decoration: none;">
+                    ateliware
+                </a>
+            </div>
+        </footer>
     </div>
 
     <!-- jQuery -->
