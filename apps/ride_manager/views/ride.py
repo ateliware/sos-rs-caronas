@@ -36,7 +36,7 @@ def create_ride(request):
         if not vehicle:
             return redirect("add_vehicle")
 
-    affected_places = AffectedPlace.objects.all()
+    affected_places = AffectedPlace.objects.filter(is_active=True).order_by("city")
     cities = City.objects.all()
 
     if request.method == "POST":
@@ -148,7 +148,6 @@ def ride_list(request):
         applyed_filters_str += f" no dia {formated_data}."
         filters["date"] = date
     else:
-        applyed_filters_str += f" em qualquer dia."
         filters["date__gte"] = datetime.now().date()
 
     if request.user.is_anonymous:
@@ -173,7 +172,7 @@ def ride_list(request):
             )
         ).order_by("-date")
 
-    affected_places = AffectedPlace.objects.all().order_by("city")
+    affected_places = AffectedPlace.objects.filter(is_active=True).order_by("city")
     cities = City.objects.all().order_by("name")
     context = {
         "rides": rides,
