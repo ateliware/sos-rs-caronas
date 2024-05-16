@@ -24,5 +24,5 @@ def home_view(request):
     return render(request, "home.html", {"need_evaluation": need_evaluation})
 
 
-def public_home(request):
-    return render(request, "public/home.html")
+def about(request):
+    return render(request, "about.html")
