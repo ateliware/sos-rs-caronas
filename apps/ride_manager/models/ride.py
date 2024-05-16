@@ -4,21 +4,13 @@ from django.db import models
 
 from apps.address_manager.models.city import City
 from apps.core.models.base_model import BaseModel
+from apps.ride_manager.enums.ride_status_choices import (
+    ShiftChoices,
+    StatusChoices,
+)
 from apps.ride_manager.models.affected_place import AffectedPlace
 from apps.ride_manager.models.person import Person
 from apps.ride_manager.models.vehicle import Vehicle
-
-
-class ShiftChoices(models.TextChoices):
-    MORNING = "MORNING", "Manhã"
-    AFTERNOON = "AFTERNOON", "Tarde"
-
-
-class StatusChoices(models.TextChoices):
-    OPEN = "OPEN", "Aberta"
-    UNDER_REVIEW = "UNDER_REVIEW", "Em análise"
-    CROWDED = "CROWDED", "Lotada"
-    FINISHED = "FINISHED", "Concluída"
 
 
 class Ride(BaseModel):
