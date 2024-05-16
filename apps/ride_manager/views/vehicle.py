@@ -25,7 +25,7 @@ def create_vehicle(request):
         form = VehicleForm(request.POST, request.FILES)
 
         if form.is_valid():
-            cnh_number = form.cleaned_data.get("cnh_number")
+            cnh_number = request.POST.get("cnh_number")
             cnh_picture = request.FILES.get("cnh_picture")
 
             if person:

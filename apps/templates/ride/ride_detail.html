@@ -62,7 +62,7 @@
                 <div class="alert">
                     <h6 class="card-subtitle mb-2 text-muted">
                         <i class="fas fa-user"></i>
-                        Dados do Morotista
+                        Dados do Motorista
                     </h6>
                     <p>
                         <span>{{ ride.driver }}</span> <br />
@@ -136,7 +136,7 @@
                                         <span class="mutted"><small>*Solicitado em {{ passenger.created_at }}</small></span> <br />
                                         {% if user.person == passenger.person and passenger.status == "PENDING" %}
                                             <!-- Button to trigger WhatsApp confirmation -->
-                                            <a href="#" onclick="sendLinkToWhats('{{ ride.driver.phone }}', 'Olá, um passageiro do SosRs Caronas está solicitando sua aprovação em uma carona, acesse a aplicação para confirmar clicando em https://www.sosrscaronas.com.br/')" class="btn btn-success btn-sm">       
+                                            <a href="#" onclick="sendLinkToWhats('{{ ride.driver.phone }}', 'Olá, um passageiro do SosRs Caronas está solicitando sua aprovação em uma carona, acesse a aplicação para confirmar clicando em https://sosrscaronas.com.br/')" class="btn btn-success btn-sm">       
                                                 <i class="fab fa-whatsapp"></i>
                                                 Solicitar confirmação
                                             </a>
