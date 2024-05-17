@@ -6,7 +6,8 @@
 
 <div class="container mt-1">
     <div class="jumbotron-custom">
-        <p class="">
+        <h4>Sobre a Aplicação</h4>
+        <p>
             <strong>SOS RS Caronas</strong> é uma aplicação dedicada a conectar pessoas dispostas a oferecer caronas com indivíduos que buscam transporte para atuar como voluntários em áreas afetadas por enchentes no estado do Rio Grande do Sul.
         </p>
         <hr class="my-4">
@@ -30,6 +31,17 @@
         <p>
             A plataforma SOS RS Caronas destina-se exclusivamente a facilitar o contato entre pessoas que desejam realizar trabalho voluntário. Ressaltamos que a plataforma não se responsabiliza por quaisquer incidentes que possam ocorrer durante as viagens compartilhadas entre os usuários.
         </p>
+        <hr />
+        <p>
+            Leia <a href="#term_of_use">aqui</a> os termos de uso da aplicação
+        </p>
+    </div>
+    <br />
+    <div id="term_of_use">
+        <h5>Termos de uso | Versão {{ term_of_use.version }}</h5>
+        <p>{{ term_of_use.content }}</p>
+        <h5>Política de privacidade | Versão {{ privacy_policy.version }}</h5>
+        <p>{{ privacy_policy.content }}</p>
     </div>
 </div>
 

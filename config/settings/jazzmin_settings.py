@@ -17,7 +17,7 @@ JAZZMIN_SETTINGS = {
         "term_manager.TermAcceptance": "fas fa-file-signature",
     },
     "welcome_sign": "SOSRS-Caronas | Acesso Administrativo",
-    "copyright": "Ateliware",
+    "copyright": "SOSRS-Caronas",
     "order_with_respect_to": [
         "ride_manager",
         "address_manager",

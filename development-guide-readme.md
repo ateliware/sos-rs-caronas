@@ -1,6 +1,6 @@
 # Guide for developers
 
-This application was developed using a Django Application Blueprint powered by [ateliware](https://ateliware.com), our quick starter template for Django applications. This blueprint follows modularization and best practices as suggested by the acclaimed book [Two Scoops of Django 3.X](https://www.feldroy.com/books/two-scoops-of-django-3-x).
+This application was developed using a Django Application follows modularization and best practices as suggested by the acclaimed book [Two Scoops of Django 3.X](https://www.feldroy.com/books/two-scoops-of-django-3-x).
 
 For comprehensive documentation about Django, visit the [Django Project Page](https://www.djangoproject.com/).
 
@@ -150,4 +150,4 @@ This README is provided as a guide to assist in getting started with the Django 
 
 ---
 
-Feito com ♥ por Ateliware.
+Feito com ♥

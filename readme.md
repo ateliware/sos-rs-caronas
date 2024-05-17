@@ -50,4 +50,4 @@ Este projeto está licenciado sob os termos da licença MIT. Veja o arquivo LICE
 
 ---
 
-Feito com ♥ por Ateliware.
+Feito com ♥
