@@ -83,16 +83,6 @@
                     </div>
                 {% endif %}
             </div>
-            <!-- Plate picture field -->
-            <div class="mb-3">
-                <label for="plate_picture" class="form-label">Foto da Placa</label>
-                <input type="file" class="form-control" id="plate_picture" name="plate_picture" required>
-                {% if form.plate_picture.errors %}
-                    <div class="invalid-feedback d-block">
-                        {{ form.plate_picture.errors }}
-                    </div>
-                {% endif %}
-            </div>
             <!-- Vehicle picture field -->
             <div class="mb-3">
                 <label for="vehicle_picture" class="form-label">Foto do Veículo</label>

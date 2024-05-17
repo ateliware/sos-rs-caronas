@@ -34,7 +34,7 @@ Ao utilizar o SOS RS Caronas, os usuários comprometem-se a fornecer informaçõ
 
 ## Contato
 
-Para mais informações ou dúvidas, entre em contato conosco pelo e-mail [victor.silva@ateliware.com](mailto:victor.silva@ateliware.com).
+Para mais informações ou dúvidas, entre em contato conosco pelo e-mail [sosrscaronas@gmail.com](mailto:sosrscaronas@gmail.com).
 
 ## Isenção de Responsabilidade
 
