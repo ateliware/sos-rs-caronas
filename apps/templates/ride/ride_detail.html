@@ -151,19 +151,36 @@
                         {% endfor %}
                     </div>
                 </div>
-                {% if not is_driver and not is_passenger_in_ride %}   
-                    <a href="#" id="ride_solicitation" onclick="confirmSolicitation('{{ ride.uuid }}')" class="btn btn-outline-primary btn-block">Solicitar carona</a>
+                {% if not is_driver and not is_passenger_in_ride %}
+                    <button onclick="confirmSolicitation('{{ ride.uuid }}')" class="btn btn-outline-primary">Solicitar Carona</button>
                 {% endif %}
             </div>
         </div>
     </div>
-    <script>
-        function confirmSolicitation(rideUuid) {
-            if (confirm("Tem certeza de que deseja enviar a solicitação?")) {
-                window.location.href = `/ride/solicitation/${rideUuid}`;
-            }
-        }
+    <!-- Modal -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Confirmação de Solicitação</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <strong>Atenção</strong><br>
+                        Ao oferecer ou aceitar caronas por meio desta aplicação, é essencial seguir orientações básicas de segurança para garantir uma experiência segura e positiva para todos os participantes. Clique <a href="{% url 'about' %}">aqui</a> para mais informações.
+                    </p>
+                    <p>Tem certeza de que deseja enviar a solicitação?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="confirmButton">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <script>
         function sendLinkToWhats(number, text){
             // js regex to remove ()- for the number
             phone = number.replace(/\D/g, '');
@@ -173,4 +190,22 @@
             window.open(url);
         }
     </script>
+
+    {% block scripts %}
+        <script>
+            function confirmSolicitation(rideUuid) {
+                // Store the ride UUID in a data attribute of the confirm button
+                $('#confirmButton').data('rideUuid', rideUuid);
+
+                // Show the modal
+                $('#confirmationModal').modal('show');
+            }
+
+            // Handle the confirm button click event
+            $('#confirmButton').on('click', function() {
+                var rideUuid = $(this).data('rideUuid');
+                window.location.href = `/ride/solicitation/${rideUuid}`;
+            });
+        </script>
+    {% endblock %}
 {% endblock  %}
