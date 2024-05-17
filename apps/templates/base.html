@@ -177,6 +177,11 @@
         $(document).ready(function() {            
             $('.alert').alert();
         });
+        {% if user.is_authenticated and show_caution_modal %}
+            $(document).ready(function() {
+                $('#homeCautionModal').modal('show');
+            });
+        {% endif %}
     </script>
 </body>
 </html>

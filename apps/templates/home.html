@@ -35,4 +35,26 @@
       </div>
   </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="homeCautionModal" tabindex="-1" aria-labelledby="cautionModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="cautionModalLabel">Mensagem de Caução</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <h4>Atenção aos Usuários do SOS RS Caronas</h4>
+              <p>O SOS RS Caronas atua apenas como uma plataforma gratuita, desenvolvida por voluntário, para conectar motoristas e passageiros. Embora nos esforcemos para verificar a autenticidade dos perfis, não nos responsabilizamos por incidentes que possam ocorrer durante as viagens. A segurança e o comportamento responsável são de responsabilidade dos próprios usuários.</p>
+              <p>Ao oferecer ou aceitar caronas por meio desta aplicação, é essencial seguir orientações básicas de segurança para garantir uma experiência segura e positiva para todos os participantes:</p>
+              <p>Agradecemos pela sua colaboração e desejamos uma viagem segura e agradável!</p>
+              <p>Saiba mais dicas de segurança clicando <a href="{% url 'about' %}">aqui</a>.</p>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ciente</button>
+          </div>
+      </div>
+  </div>
+</div>
 {% endblock %}
