@@ -111,6 +111,14 @@
                                 <small class="text-danger">{{ form.notes.errors }}</small>
                             {% endif %}
                         </div>
+                        <div class="alert alert-warning alert-dismissible fade show w-100" role="alert">
+                            <p>
+                                <strong>Atenção</strong>
+                                Ao oferecer ou aceitar caronas por meio desta aplicação, é essencial seguir orientações básicas de segurança para garantir uma experiência segura e positiva para todos os participantes:
+                                Clique <a href="{% url 'about' %}">aqui</a> para mais informações.
+                            </p>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                        </div>
                         <!-- Submit Button -->
                         <div class="mb-3">
                             <button type="submit" class="btn btn-outline-primary btn-lg">Salvar</button>
