@@ -6,6 +6,8 @@ from apps.ride_manager.models.passenger import (
     StatusChoices as PassengerStatusChoices,
 )
 from apps.ride_manager.models.ride import Ride
+from apps.term_manager.models.term import Term
+from apps.term_manager.enums.term_choices import TermTypeChoices
 
 
 @login_required(login_url="/login/")
@@ -25,4 +27,15 @@ def home_view(request):
 
 
 def about(request):
-    return render(request, "about.html")
+    context = {}
+    context["privacy_policy"] = (
+        Term.objects.filter(type=TermTypeChoices.PRIVACY)
+        .order_by("-created_at")
+        .first()
+    )
+    context["term_of_use"] = (
+        Term.objects.filter(type=TermTypeChoices.USE)
+        .order_by("-created_at")
+        .first()
+    )
+    return render(request, "about.html", context)
