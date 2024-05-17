@@ -7,7 +7,7 @@
 <div class="container mt-1">
     <div class="my-4">
         <h2>Faça o seu cadastro!</h2>
-        <p><small>Todos os campos são obrigatórios</small></p>
+        <p><small>Campos obrigatórios são marcados com *</small></p>
     </div>
     <form method="post" enctype="multipart/form-data" onsubmit="return validatePassword();">
         {% csrf_token %}
@@ -21,7 +21,7 @@
 
         <!-- Name Field -->
         <div class="mb-3">
-            <label for="name" class="form-label">{{ form.name.label }}:</label>
+            <label for="name" class="form-label">* {{ form.name.label }}:</label>
             <input type="text" class="form-control" id="name" name="name" placeholder="{{ form.name.field.widget.attrs.placeholder }}" required>
             {% if form.name.errors %}
                 <small class="text-danger">{{ form.name.errors }}</small>
@@ -30,7 +30,7 @@
 
         <!-- Phone Field -->
         <div class="mb-3">
-            <label for="phone" class="form-label">{{ form.phone.label }}:</label>
+            <label for="phone" class="form-label">* {{ form.phone.label }}:</label>
             <input type="text" class="form-control" id="phone" name="phone" placeholder="{{ form.phone.field.widget.attrs.placeholder }}" required>
             {% if form.phone.errors %}
                 <small class="text-danger">{{ form.phone.errors }}</small>
@@ -39,7 +39,7 @@
 
         <!-- CPF Field -->
         <div class="mb-3">
-            <label for="cpf" class="form-label">{{ form.cpf.label }}:</label>
+            <label for="cpf" class="form-label">* {{ form.cpf.label }}:</label>
             <input type="text" class="form-control" id="cpf" name="cpf" placeholder="{{ form.cpf.field.widget.attrs.placeholder }}" required>
             {% if form.cpf.errors %}
                 <small class="text-danger">{{ form.cpf.errors }}</small>
@@ -48,7 +48,7 @@
 
         <!-- Birth Date Field -->
         <div class="mb-3">
-            <label for="birth_date" class="form-label">{{ form.birth_date.label }}:</label>
+            <label for="birth_date" class="form-label">* {{ form.birth_date.label }}:</label>
             <input type="date" class="form-control" id="birth_date" name="birth_date" placeholder="{{ form.birth_date.field.widget.attrs.placeholder }}" required>
             {% if form.birth_date.errors %}
                 <small class="text-danger">{{ form.birth_date.errors }}</small>
@@ -57,7 +57,7 @@
 
         <!-- State Field -->
         <div class="mb-3">
-            <label for="state_id" class="form-label">{{ form.state_id.label }}:</label>
+            <label for="state_id" class="form-label">* {{ form.state_id.label }}:</label>
             <select name="state_id" id="state_id" class="form-select" required>
                 <option value="">Selecione um estado</option>
                 {% for state in states %}
@@ -71,7 +71,7 @@
 
         <!-- City Field -->
         <div class="mb-3">
-            <label for="city_id" class="form-label">{{ form.city_id.label }}:</label>
+            <label for="city_id" class="form-label">* {{ form.city_id.label }}:</label>
             <select name="city_id" id="city_id" class="form-select" required>
                 <option value="">Selecione uma cidade</option>
                 {% for city in cities %}
@@ -85,7 +85,7 @@
 
         <!-- Emergency Contact Field -->
         <div class="mb-3">
-            <label for="emergency_contact" class="form-label">{{ form.emergency_contact.label }}:</label>
+            <label for="emergency_contact" class="form-label">* {{ form.emergency_contact.label }}:</label>
             <input type="text" class="form-control" id="emergency_contact" name="emergency_contact" placeholder="{{ form.emergency_contact.field.widget.attrs.placeholder }}" required>
             {% if form.emergency_contact.errors %}
                 <small class="text-danger">{{ form.emergency_contact.errors }}</small>
@@ -94,7 +94,7 @@
 
         <!-- Emergency Phone Field -->
         <div class="mb-3">
-            <label for="emergency_phone" class="form-label">{{ form.emergency_phone.label }}:</label>
+            <label for="emergency_phone" class="form-label">* {{ form.emergency_phone.label }}:</label>
             <input type="text" class="form-control" id="emergency_phone" name="emergency_phone" placeholder="{{ form.emergency_phone.field.widget.attrs.placeholder }}" required>
             {% if form.emergency_phone.errors %}
                 <small class="text-danger">{{ form.emergency_phone.errors }}</small>
@@ -104,15 +104,24 @@
         <!-- Document Picture Field -->
         <div class="mb-3">
             <label for="document_picture" class="form-label">{{ form.document_picture.label }}:</label>
-            <input type="file" class="form-control" id="document_picture" name="document_picture" required>
+            <input type="file" class="form-control" id="document_picture" name="document_picture">
             {% if form.document_picture.errors %}
                 <small class="text-danger">{{ form.document_picture.errors }}</small>
             {% endif %}
         </div>
 
+        <!-- Avatar Field -->
+        <div class="mb-3">
+            <label for="avatar" class="form-label">* {{ form.avatar.label }}:</label>
+            <input type="file" class="form-control" id="avatar" name="avatar" required>
+            {% if form.avatar.errors %}
+                <small class="text-danger">{{ form.avatar.errors }}</small>
+            {% endif %}
+        </div>
+
         <!-- Password Field -->
         <div class="mb-3">
-            <label for="password" class="form-label">{{ form.password.label }}:</label>
+            <label for="password" class="form-label">* {{ form.password.label }}:</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="{{ form.password.field.widget.attrs.placeholder }}" required>
             {% if form.password.errors %}
                 <small class="text-danger">{{ form.password.errors }}</small>
@@ -121,7 +130,7 @@
 
         <!-- Password Confirmation Field -->
         <div class="mb-3">
-            <label for="password_confirmation" class="form-label">{{ form.password_confirmation.label }}:</label>
+            <label for="password_confirmation" class="form-label">* {{ form.password_confirmation.label }}:</label>
             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="{{ form.password_confirmation.field.widget.attrs.placeholder }}" required>
             {% if form.password_confirmation.errors %}
                 <small class="text-danger">{{ form.password_confirmation.errors }}</small>

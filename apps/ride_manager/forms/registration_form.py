@@ -16,7 +16,8 @@ class RegistrationForm(forms.Form):
     city_id = forms.IntegerField(required=True)
     emergency_phone = forms.CharField(max_length=15, required=True)
     emergency_contact = forms.CharField(max_length=255, required=True)
-    document_picture = forms.ImageField(required=True)
+    document_picture = forms.ImageField(required=False)
+    avatar = forms.ImageField(required=True)
     password = forms.CharField(max_length=100, required=True)
     password_confirmation = forms.CharField(max_length=100, required=True)
     lgpd_acceptance = forms.BooleanField(required=True)
@@ -34,6 +35,7 @@ class RegistrationForm(forms.Form):
             "Nome do contato de emergência",
         ),
         "document_picture": ("Foto do Documento", ""),
+        "avatar": ("Foto de Perfil", ""),
         "password": ("Senha", ""),
         "password_confirmation": ("Confirmação de Senha", ""),
         "lgpd_acceptance": ("Aceite dos Termos de Uso", ""),
@@ -93,10 +95,10 @@ class RegistrationForm(forms.Form):
 
         return birth_date
 
-    def clean_document_picture(self):
-        document_picture = self.cleaned_data.get("document_picture")
+    def clean_avatar(self):
+        avatar = self.cleaned_data.get("avatar")
 
-        if not document_picture:
-            raise forms.ValidationError("Foto do documento é obrigatória")
+        if not avatar:
+            raise forms.ValidationError("Foto de perfil é obrigatória")
 
-        return document_picture
+        return avatar

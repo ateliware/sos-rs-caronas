@@ -54,6 +54,8 @@ class Vehicle(BaseModel):
     plate_picture = models.ImageField(
         upload_to=upload_path,
         verbose_name="Imagem da placa",
+        blank=True,
+        null=True,
     )
     vehicle_picture = models.ImageField(
         upload_to=upload_path,
