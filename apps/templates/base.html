@@ -140,6 +140,11 @@
                             </li>
                         {% else %}
                             <li class="nav-item">
+                                <a class="nav-link" href="{% url 'register' %}">
+                                    <i class="fas fa-user-plus" style="color: white;"></i> Cadastro
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{% url 'login' %}">
                                     <i class="fas fa-sign-in-alt" style="color: white;"></i> Login
                                 </a>
@@ -160,10 +165,8 @@
         <!-- Footer -->
         <footer class="footer">
             <div class="container">
-                &copy; 2024.
-                <a href="{% url 'about' %}" style="color: #fff;">
-                    Sobre o projeto
-                </a>
+                &copy; 2024
+                <a href="{% url 'about' %}" style="color: #fff;">Sobre</a> | <a href="{% url 'register' %}" style="color: #fff;">Cadastro</a>
             </div>
         </footer>
     </div>
