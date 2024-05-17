@@ -29,12 +29,22 @@ class RegistrationFormView(FormView):
 
     def form_valid(self, form):
         super().form_valid(form)
+        avatar = form.cleaned_data.get("avatar")
+        document_picture = form.cleaned_data.get("document_picture")
+        del form.cleaned_data["avatar"]
+        del form.cleaned_data["document_picture"]
 
         service = PersonRegisterService(data=form.cleaned_data)
         with transaction.atomic():
             user = service.create_custom_user()
             person = service.create_person(user)
-            person.document_picture = form.cleaned_data.get("document_picture")
+
+            if avatar:
+                person.avatar = avatar
+
+            if document_picture:
+                person.document_picture = document_picture
+
             person.save()
             service.create_acceptance_terms(person)
 

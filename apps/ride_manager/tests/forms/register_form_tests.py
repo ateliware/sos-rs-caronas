@@ -23,7 +23,9 @@ class RegistrationFormTests(BaseTest):
         self.form_data["city_id"] = self.city.id
         self.form_data["state_id"] = self.city.state.id
         self.document_picture = image_file_for_form_factory()
+        self.avatar = image_file_for_form_factory()
         self.form_data["document_picture"] = self.document_picture
+        self.form_data["avatar"] = self.avatar
 
     def test_placeholder_and_label(self):
         # Given
@@ -39,7 +41,11 @@ class RegistrationFormTests(BaseTest):
     def test_form_valid(self):
         # Given
         form = RegistrationForm(
-            self.form_data, {"document_picture": self.document_picture}
+            self.form_data,
+            {
+                "document_picture": self.document_picture,
+                "avatar": self.avatar,
+            },
         )
 
         # When
@@ -146,7 +152,7 @@ class RegistrationFormTests(BaseTest):
         self.assertFalse(is_valid)
         self.assertIn(expected_error, form.errors.get("birth_date")[0])
 
-    def test_form_invalid_when_document_picture_is_empty(self):
+    def test_form_invalid_when_avatar_is_empty(self):
         # Given
         form_data = deepcopy(self.form_data)
         form = RegistrationForm(form_data)
@@ -157,4 +163,4 @@ class RegistrationFormTests(BaseTest):
 
         # Then
         self.assertFalse(is_valid)
-        self.assertIn(expected_error, form.errors.get("document_picture")[0])
+        self.assertIn(expected_error, form.errors.get("avatar")[0])

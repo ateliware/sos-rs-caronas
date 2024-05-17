@@ -21,7 +21,9 @@ class RegistrationFormViewTests(BaseTest):
         self.form_data["city_id"] = self.city.id
         self.form_data["state_id"] = self.city.state.id
         self.document_picture = image_file_for_form_factory()
+        self.avatar = image_file_for_form_factory()
         self.form_data["document_picture"] = self.document_picture
+        self.form_data["avatar"] = self.avatar
 
     def test_get_context_data(self):
         # Given in setUp
@@ -41,14 +43,21 @@ class RegistrationFormViewTests(BaseTest):
         TermFactory(type=TermTypeChoices.USE)
         TermFactory(type=TermTypeChoices.PRIVACY)
         form = RegistrationForm(
-            self.form_data, {"document_picture": self.document_picture}
+            self.form_data,
+            {
+                "document_picture": self.document_picture,
+                self.avatar: self.avatar,
+            },
         )
 
         # When
         response = self.view_unauth_client.post(
             path=self.url,
             data=form.data,
-            files={"document_picture": self.document_picture},
+            files={
+                "document_picture": self.document_picture,
+                "avatar": self.avatar,
+            },
         )
         created_user = CustomUser.objects.filter(
             cpf=self.form_data["cpf"]
