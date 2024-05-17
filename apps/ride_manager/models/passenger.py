@@ -3,14 +3,9 @@ from uuid import uuid4
 from django.db import models
 
 from apps.core.models.base_model import BaseModel
+from apps.ride_manager.enums import PassengerStatusChoices
 from apps.ride_manager.models.person import Person
 from apps.ride_manager.models.ride import Ride
-
-
-class StatusChoices(models.TextChoices):
-    ACCEPTED = "ACCEPTED", "Aceito"
-    REJECTED = "DECLINED", "Recusado"
-    PENDING = "PENDING", "Pendente"
 
 
 class Passenger(BaseModel):
@@ -41,7 +36,7 @@ class Passenger(BaseModel):
     status = models.CharField(
         max_length=255,
         verbose_name="Status",
-        choices=StatusChoices.choices,
+        choices=PassengerStatusChoices.choices,
     )
 
     def __str__(self):
