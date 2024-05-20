@@ -5,7 +5,7 @@ from apps.ride_manager.views import (
     HomeView,
     RegistrationFormView,
 )
-from apps.ride_manager.views.home import about, home_view
+from apps.ride_manager.views.home import about
 from apps.ride_manager.views.logout import logout_view
 from apps.ride_manager.views.register import send_verify_code, validate_code
 from apps.ride_manager.views.ride import (
