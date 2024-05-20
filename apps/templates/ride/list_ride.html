@@ -30,8 +30,8 @@
                                     <label for="origin">Origem<small>*</small></label>
                                     <select class="form-control" id="origin" name="origin" required>
                                         <option value="">Selecione a origem</option>
-                                        {% for city in cities %}
-                                            <option value="{{ city.id }}">{{ city }}</option>
+                                        {% for origin in origins %}
+                                            <option value="{{ origin.id }}">{{ origin }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
