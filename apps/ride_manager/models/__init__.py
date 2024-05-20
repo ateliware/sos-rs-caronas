@@ -4,5 +4,6 @@ from .passenger import Passenger
 from .person import Person
 from .phone_validation import PhoneValidation
 from .ride import Ride
+from .ride_origin import RideOrigin
 from .vehicle import Vehicle
 from .voluntary import Voluntary
