@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import AccessMixin
-from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 class CustomLoginRequiredMixin(AccessMixin):

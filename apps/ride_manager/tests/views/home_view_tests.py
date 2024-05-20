@@ -2,12 +2,12 @@ from django.test import RequestFactory
 from django.urls import reverse
 
 from apps.core.tests.base_test import BaseTest
-from apps.ride_manager.tests.factories.passenger_factory import PassengerFactory
-from apps.ride_manager.tests.factories.person_factory import PersonFactory
-from apps.ride_manager.tests.factories.ride_factory import RideFactory
 from apps.ride_manager.enums.passenger_status_choices import (
     PassengerStatusChoices,
 )
+from apps.ride_manager.tests.factories.passenger_factory import PassengerFactory
+from apps.ride_manager.tests.factories.person_factory import PersonFactory
+from apps.ride_manager.tests.factories.ride_factory import RideFactory
 
 
 class HomeViewTests(BaseTest):
