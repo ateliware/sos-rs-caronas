@@ -17,6 +17,7 @@ from apps.ride_manager.models.ride import (
     Ride,
     StatusChoices as RideStatusChoices,
 )
+from apps.ride_manager.models.ride_origin import RideOrigin
 from apps.ride_manager.models.vehicle import Vehicle
 
 
@@ -42,7 +43,7 @@ def create_ride(request):
     affected_places = AffectedPlace.objects.filter(is_active=True).order_by(
         "city"
     )
-    cities = City.objects.all()
+    origins = RideOrigin.objects.all()
 
     if request.method == "POST":
         form = RideForm(request.POST, request.FILES)
@@ -72,7 +73,7 @@ def create_ride(request):
         {
             "form": form,
             "vehicle": vehicle,
-            "cities": cities,
+            "origins": origins,
             "affected_places": affected_places,
         },
     )
@@ -139,8 +140,8 @@ def ride_list(request):
     date = request.GET.get("date")
 
     if origin:
-        city = City.objects.get(id=origin)
-        applyed_filters_str = f"Filtrando por: saindo de {city}"
+        origin_city = RideOrigin.objects.get(id=origin)
+        applyed_filters_str = f"Filtrando por: saindo de {origin_city}"
         filters["origin"] = origin
 
     if destination:
@@ -182,11 +183,11 @@ def ride_list(request):
     affected_places = AffectedPlace.objects.filter(is_active=True).order_by(
         "city"
     )
-    cities = City.objects.all().order_by("name")
+    origins = RideOrigin.objects.filter(enabled=True).order_by("city__name")
     context = {
         "rides": rides,
         "affected_places": affected_places,
-        "cities": cities,
+        "origins": origins,
         "filters": applyed_filters_str,
     }
     return render(request, "ride/list_ride.html", context)
