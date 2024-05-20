@@ -19,7 +19,7 @@ class BaseTest(TestCase):
         self.auth_client = self.create_authenticated_client()
         self.unauth_client = APIClient()
         self.view_client = Client(user=self.user)
-        self.view_auth_client = self.view_client.force_login(self.user)
+        self.view_client.login(username=FAKE_CPF, password="testpassword")
         self.view_unauth_client = Client()
         self.fake = fake
 

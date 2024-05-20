@@ -1,6 +1,10 @@
 from django.urls import path
 
-from apps.ride_manager.views import CustomLoginView, RegistrationFormView
+from apps.ride_manager.views import (
+    CustomLoginView,
+    HomeView,
+    RegistrationFormView,
+)
 from apps.ride_manager.views.home import about, home_view
 from apps.ride_manager.views.logout import logout_view
 from apps.ride_manager.views.register import send_verify_code, validate_code
@@ -32,7 +36,7 @@ urlpatterns = [
     ),
     path(
         "home/",
-        home_view,
+        HomeView.as_view(),
         name="home",
     ),
     path(

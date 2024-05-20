@@ -6,12 +6,12 @@ from django.db.models import Count, Q
 from django.shortcuts import redirect, render
 
 from apps.address_manager.models.city import City
+from apps.ride_manager.enums.passenger_status_choices import (
+    PassengerStatusChoices,
+)
 from apps.ride_manager.forms.form_ride import RideForm
 from apps.ride_manager.models.affected_place import AffectedPlace
-from apps.ride_manager.models.passenger import (
-    Passenger,
-    StatusChoices as PassengerStatusChoices,
-)
+from apps.ride_manager.models.passenger import Passenger
 from apps.ride_manager.models.person import Person
 from apps.ride_manager.models.ride import (
     Ride,

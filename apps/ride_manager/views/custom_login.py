@@ -9,5 +9,5 @@ class CustomLoginView(LoginView):
     authentication_form = CustomLoginForm
 
     def get_success_url(self):
-        self.request.session['show_caution_modal'] = True
+        self.request.session["show_caution_modal"] = True
         return reverse_lazy("home")
