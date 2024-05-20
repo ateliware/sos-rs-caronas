@@ -25,6 +25,20 @@ class CustomLoginViewTests(BaseTest):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, reverse("home"))
 
+    def test_session_has_show_caution_modal_is_set_to_true(self):
+        # Given
+        cpf = FAKE_CPF
+        password = "testpassword"
+
+        # When
+        response = self.view_unauth_client.post(
+            self.url,
+            data={"cpf": cpf, "password": password},
+        )
+        request_session = self.view_unauth_client.session
+        # Then
+        self.assertTrue(request_session.get("show_caution_modal"))
+
     def test_login_invalid_cpf(self):
         # Given
         cpf = "12345678901"
