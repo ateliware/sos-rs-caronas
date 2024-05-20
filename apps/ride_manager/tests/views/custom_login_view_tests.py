@@ -2,6 +2,8 @@ from django.test import RequestFactory
 from django.urls import reverse
 
 from apps.core.tests.base_test import FAKE_CPF, BaseTest
+from apps.ride_manager.tests.factories.person_factory import PersonFactory
+from apps.ride_manager.tests.factories.ride_factory import RideFactory
 
 
 class CustomLoginViewTests(BaseTest):
@@ -70,3 +72,54 @@ class CustomLoginViewTests(BaseTest):
         # Then
         self.assertEqual(response.status_code, 200)
         self.assertIn(expected_message, response.content.decode())
+
+    def test_login_redirects_to_next(self):
+        # Given
+        cpf = FAKE_CPF
+        password = "testpassword"
+        next_url = reverse("my_rides")
+        url = f"{self.url}?next={next_url}"
+
+        # When
+        response = self.view_unauth_client.post(
+            url,
+            data={"cpf": cpf, "password": password},
+        )
+
+        # Then
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, next_url)
+
+    def test_login_redirects_to_home(self):
+        # Given
+        cpf = FAKE_CPF
+        password = "testpassword"
+
+        # When
+        response = self.view_unauth_client.post(
+            self.url,
+            data={"cpf": cpf, "password": password},
+        )
+
+        # Then
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse("home"))
+
+    def test_login_redirects_to_detail_ride_view(self):
+        # Given
+        person = PersonFactory(user=self.user)
+        ride = RideFactory(driver=person)
+        cpf = FAKE_CPF
+        password = "testpassword"
+        next_url = reverse("ride_detail", args=[ride.uuid])
+        url = f"{self.url}?next={next_url}"
+
+        # When
+        response = self.view_unauth_client.post(
+            url,
+            data={"cpf": cpf, "password": password},
+        )
+
+        # Then
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, next_url)

@@ -349,9 +349,7 @@ def mount_header(request):
 
     # mounting back link dynamically
     referer = request.META.get("HTTP_REFERER")
-    print(referer)
     if referer != request.build_absolute_uri("/") + "rides/":
         application_url = request.build_absolute_uri("/")
         referer = application_url + "ride/my-rides"
-    print(referer)
     return message, referer
