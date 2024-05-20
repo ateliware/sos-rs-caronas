@@ -2,8 +2,8 @@ from rest_framework import status
 
 from apps.address_manager.tests.factories.city_factory import CityFactory
 from apps.core.tests.base_test import BaseTest
-from apps.ride_manager.models.passenger import (
-    StatusChoices as PassengerStatusChoices,
+from apps.ride_manager.enums.passenger_status_choices import (
+    PassengerStatusChoices,
 )
 from apps.ride_manager.tests.factories.affected_place_factory import (
     AffectedPlaceFactory,
