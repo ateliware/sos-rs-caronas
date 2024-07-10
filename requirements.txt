@@ -12,7 +12,7 @@ charset-normalizer==3.3.2
 click==8.1.7
 coverage==7.4.3
 dill==0.3.8
-Django==4.2.11
+Django==4.2.14
 django-cors-headers==4.3.1
 django-filter==24.1
 django-jazzmin==2.6.0
